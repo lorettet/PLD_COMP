@@ -4,11 +4,11 @@ On va faire un compilo, en C++, c'est trop bien ...
 
 ---
 
-## Tuto antlr :
+# Tuto antlr :
 
-### Antlr
+## Antlr
 
-#### Installation
+### Installation
 
 0. Install Java (version 1.6 or higher)
 1. Download
@@ -31,7 +31,7 @@ It's also a good idea to put this in your `~/.bashrc` or whatever your startup s
 $ alias antlr4='java -Xmx500M -cp "/usr/local/lib/antlr-4.7.2-complete.jar:$CLASSPATH" org.antlr.v4.Tool'
 ```
 
-#### Testing the installation
+### Testing the installation
 
 Either launch org.antlr.v4.Tool directly:
 
@@ -55,13 +55,13 @@ ANTLR Parser Generator Version 4.7.2
 
 
 
-### Antlr Runtime
+## Antlr Runtime
 
-#### Download
+### Download
 
 Download the runtime zip on [https://www.antlr.org/download.html](https://www.antlr.org/download.html).
 
-#### Compiling on Linux
+### Compiling on Linux
 ```bash
 - cd <antlr4-dir>
 - mkdir build && mkdir run && cd build
@@ -70,7 +70,7 @@ Download the runtime zip on [https://www.antlr.org/download.html](https://www.an
 - make install
 ```
 
-### Test
+## Test
 
 ```bash
 cd <gitPLD-dir>/exemple/
