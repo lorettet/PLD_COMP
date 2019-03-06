@@ -30,3 +30,18 @@
 *.exe
 *.out
 *.app
+
+# Exemple generated files
+exemple/exprVisitor.h
+exemple/exe
+exemple/expr.interp
+exemple/expr.tokens
+exemple/exprBaseVisitor.cpp
+exemple/exprBaseVisitor.h
+exemple/exprLexer.cpp
+exemple/exprLexer.h
+exemple/exprLexer.interp
+exemple/exprLexer.tokens
+exemple/exprParser.cpp
+exemple/exprParser.h
+exemple/exprVisitor.cpp
