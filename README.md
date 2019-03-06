@@ -1,0 +1,3 @@
+# PLD_COMP
+
+On va faire un compilo, en C++, c'est trop bien ...
