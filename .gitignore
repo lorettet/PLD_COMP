@@ -30,3 +30,21 @@
 *.exe
 *.out
 *.app
+
+# Fichiers generes par make
+exe
+exprBaseVisitor.cpp
+exprBaseVisitor.h
+expr.interp
+exprLexer.cpp
+exprLexer.h
+exprLexer.interp
+exprLexer.tokens
+exprParser.cpp
+exprParser.h
+expr.tokens
+exprVisitor.cpp
+exprVisitor.h
+
+# Fichiers generes par le main
+main.s
