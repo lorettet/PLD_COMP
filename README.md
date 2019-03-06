@@ -11,6 +11,14 @@ On va faire un compilo, en C++, et c'est trop bien ...
 
 ## Antlr
 
+### Prerequisites
+
+```bash
+$ apt install -y cmake
+$ apt install -y clang
+$ apt install -y curl
+```
+
 ### Installation
 
 0. Install Java (version 1.6 or higher)
@@ -66,16 +74,42 @@ Download the runtime zip on [https://www.antlr.org/download.html](https://www.an
 
 ### Compiling on Linux
 ```bash
-- cd <antlr4-dir>
-- mkdir build && mkdir run && cd build
-- cmake .. -DANTLR_JAR_LOCATION=/usr/local/lib/antlr-4.7.2-complete.jar -DWITH_DEMO=True
-- make
-- make install
+$ cd <antlr4-dir>
+$ mkdir build && mkdir run && cd build
+$ cmake .. -DANTLR_JAR_LOCATION=/usr/local/lib/antlr-4.7.2-complete.jar -DWITH_DEMO=True
+$ make
+$ make install
 ```
 
 ## Test
 
 ```bash
-cd <gitPLD-dir>/exemple/
-make local
+$ cd <gitPLD-dir>/exemple/
+$ make local
+```
+
+
+## Ubuntu script to use antlr4 command in makefile (in case the repo provided command is outdated)
+
+May need to use sudo to execute following commands.
+
+```bash
+$ touch /usr/local/bin/antlr4
+$ chmod +x /usr/local/bin/antlr4
+$ nano /usr/local/bin/antlr4
+```
+
+Write the following in the antlr4 file :
+```bash
+#!/bin/bash
+java -jar /usr/local/lib/antlr-4.7.2-complete.jar $@
+```
+
+If it isn't already added, add path to `/usr/local/bin` to the `PATH`.
+```bash
+$ nano ~/.bashrc
+```
+Add following line to the `.bashrc` :
+```bash
+export $PATH=/usr/local/bin:$PATH
 ```
