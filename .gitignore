@@ -31,7 +31,7 @@
 *.out
 *.app
 
-#Fichiers generes par make
+# Fichiers generes par make
 exe
 exprBaseVisitor.cpp
 exprBaseVisitor.h
@@ -46,3 +46,5 @@ expr.tokens
 exprVisitor.cpp
 exprVisitor.h
 
+# Fichiers generes par le main
+main.s
