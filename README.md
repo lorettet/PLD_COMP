@@ -1,8 +1,11 @@
 # PLD_COMP
 
-On va faire un compilo, en C++, c'est trop bien ...
+On va faire un compilo, en C++, et c'est trop bien ...
+
 
 ---
+---
+
 
 # Tuto antlr :
 
