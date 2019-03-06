@@ -32,19 +32,7 @@
 *.app
 
 # Fichiers generes par make
-exe
-exprBaseVisitor.cpp
-exprBaseVisitor.h
-expr.interp
-exprLexer.cpp
-exprLexer.h
-exprLexer.interp
-exprLexer.tokens
-exprParser.cpp
-exprParser.h
-expr.tokens
-exprVisitor.cpp
-exprVisitor.h
+bin/*
 
-# Fichiers generes par le main
-main.s
+# Fichiers genere par antlr
+antlr/*
