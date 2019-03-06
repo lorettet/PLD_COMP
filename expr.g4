@@ -11,5 +11,3 @@ instructions : 'return' INT';';
 ESPACE : [ \n\t\r] -> skip;
 
 INT : [0-9]+ ;
-
-
