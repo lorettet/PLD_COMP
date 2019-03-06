@@ -1,7 +1,7 @@
 ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4
 ANTLRRUNTIME=/shares/public/tp/ANTLR4-CPP
 
-ANTLRLOCAL=java -jar /usr/local/lib/antlr-4.7.2-complete.jar
+ANTLRLOCAL=antlr4
 ANTLRRUNTIMELOCAL=/usr/local
 
 default:
