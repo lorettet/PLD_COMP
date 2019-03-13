@@ -1,27 +1,13 @@
 #include <iostream>
 
-#include "antlr4-runtime.h"
-#include "exprLexer.h"
-#include "exprParser.h"
-#include "myVisitor.h" 
-
 #include <fstream>
-#include <string>
+#include <string.h>
+#include "ASMWriter.h"
 
 using namespace std;
 
-using namespace antlr4;
-
-string lireFichier(string nomFichier);
 
 int main (int argc, char *argv[]) {
-	assert(argc == 2);
-	string programme = lireFichier(argv[1]);
-
-	ANTLRInputStream input(programme);
-  	exprLexer lexer(&input);
-  	CommonTokenStream tokens(&lexer);
-
     exprParser parser(&tokens);
     tree::ParseTree* tree = parser.axiome();
     assert(tree);
@@ -36,21 +22,6 @@ int main (int argc, char *argv[]) {
 	ret" << endl;
 	assembleur.close();
 
-	return 0;
-}
 
-string lireFichier(string nomFichier) {
-	string programme;
-	string line;
-	ifstream fichierProgramme (nomFichier);
-	if (fichierProgramme.is_open())
-	{
-		while ( getline (fichierProgramme,line) )
-		{
-			programme += line;
-		}
-		fichierProgramme.close();
-	}
-	  else cout << "Unable to open file";
-	  return programme;
+	return 0;
 }
