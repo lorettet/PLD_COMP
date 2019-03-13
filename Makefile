@@ -38,7 +38,7 @@ COMPFLAG=-g -std=c++11 $(DEBUGFLAG)
 #	$(ANTLR) -visitor -no-listener -Dlanguage=Cpp  expr.g4
 #	clang++ -DTRACE -g -std=c++11   -I $(ANTLRRUNTIME)/antlr4-runtime/ *.cpp -o exe $(ANTLRRUNTIME)/lib/libantlr4-runtime.a
 
-.PHONY: g4 clean
+.PHONY: g4 clean exe
 
 all: $(EXEDIR)$(EXE)
 	@echo $(GREEN)Done$(CANCELCOLOR)
@@ -63,6 +63,9 @@ $(BINDIR)binsrc/%.o: $(SRCDIR)%.cpp
 	$(ECHO) $(GREEN)Compilation : $<$(CANCELCOLOR)
 	$(COMP) -o $@ -c $< $(COMPFLAG) -I antlr/ -I $(ANTLRRUNTIMEHEADERPATH)
 
+exe:
+	as -o main.o main.s
+	gcc main.o
 
 clean:
-	rm antlr/* bin/bin*/*
+	rm antlr/* bin/bin*/* a.out main.s main.o bin/exe
