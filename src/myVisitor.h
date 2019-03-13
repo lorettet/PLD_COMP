@@ -72,15 +72,15 @@ public:
   }
 
   virtual antlrcpp::Any visitSimple(exprParser::SimpleContext *ctx) override {
-    return (Declaration*) new DeclarationSimple(new Variable(ctx->VARIABLE()->getText().c_str()));
+    return (Declaration*) new DeclarationSimple(new Variable(ctx->VARIABLE()->getText()));
   }
 
   virtual antlrcpp::Any visitAvecAffectation(exprParser::AvecAffectationContext *ctx) override {
-    return (Declaration*) new DeclarationAvecAffectation(new Variable(ctx->VARIABLE()->getText().c_str()), new Expression(visit(ctx->expression())));
+    return (Declaration*) new DeclarationAvecAffectation(new Variable(ctx->VARIABLE()->getText()), (Expression*) visit(ctx->expression()));
   }
 
   virtual antlrcpp::Any visitAffectation(exprParser::AffectationContext *ctx) override {
-	  return (Instruction*) new Affectation(new Variable(ctx->VARIABLE()->getText().c_str()), (Expression*) visit(ctx->expression()));
+	  return (Instruction*) new Affectation(new Variable(ctx->VARIABLE()->getText()), (Expression*) visit(ctx->expression()));
   }
 
   virtual antlrcpp::Any visitReturn(exprParser::ReturnContext *ctx) override {
@@ -88,7 +88,7 @@ public:
   }
 
   virtual antlrcpp::Any visitVariable(exprParser::VariableContext *ctx) override {
-	  return (Expression*) new Variable(ctx->VARIABLE()->getText().c_str());
+	  return (Expression*) new Variable(ctx->VARIABLE()->getText());
   }
 
   virtual antlrcpp::Any visitInt(exprParser::IntContext *ctx) override {
