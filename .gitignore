@@ -6,6 +6,7 @@
 *.lo
 *.o
 *.obj
+*.s
 
 # Precompiled Headers
 *.gch
@@ -38,24 +39,7 @@ bin/*
 antlr/*
 
 # Exemple directory generated files
-exemple/exe
-exemple/expr.interp
-exemple/expr.tokens
-exemple/exprBaseVisitor.cpp
-exemple/exprBaseVisitor.h
-exemple/exprLexer.cpp
-exemple/exprLexer.h
-exemple/exprLexer.interp
-exemple/exprLexer.tokens
-exemple/exprParser.cpp
-exemple/exprParser.h
-exemple/exprVisitor.cpp
-exemple/exprVisitor.h
-exemple/out.pdf
-exemple/tmp.dot
-exemple/.antlr/expr.interp
-exemple/.antlr/expr.tokens
-exemple/.antlr/exprLexer.interp
-exemple/.antlr/exprLexer.java
-exemple/.antlr/exprLexer.tokens
-exemple/.antlr/exprParser.java
+exemple/*
+
+# VSCode
+.vscode/settings.json
