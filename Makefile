@@ -1,6 +1,6 @@
-ANTLR=antlr4#/shares/public/tp/ANTLR4-CPP/bin/antlr4
-ANTLRRUNTIMEHEADERPATH=/usr/local/include/antlr4-runtime/#/shares/public/tp/ANTLR4-CPP/antlr4-runtime/
-ANTLRRUNTIMELIB=/usr/local/lib/libantlr4-runtime.a#/shares/public/tp/ANTLR4-CPP/lib/libantr4-runtime.a
+ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4
+ANTLRRUNTIMEHEADERPATH=/shares/public/tp/ANTLR4-CPP/antlr4-runtime/
+ANTLRRUNTIMELIB=/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a
 
 COMP=g++
 EDL=g++
@@ -32,7 +32,7 @@ else
 	DEBUGFLAG=
 endif
 
-COMPFLAG=-g -std=c++11 $(DEBUGFLAG)
+COMPFLAG=-g -std=c++11 $(DEBUGFLAG) -Wno-attributes
 
 #default:
 #	$(ANTLR) -visitor -no-listener -Dlanguage=Cpp  expr.g4
@@ -65,4 +65,4 @@ $(BINDIR)binsrc/%.o: $(SRCDIR)%.cpp
 
 
 clean:
-	rm antlr/* bin/bin*/*
+	-rm antlr/* bin/bin*/* a.out main.s main.o bin/exe
