@@ -27,7 +27,7 @@ int main (int argc, char *argv[]) {
     assert(tree);
     MyVisitor visitor;
     int i = visitor.visit(tree);
-
+    
     ofstream assembleur;
 	assembleur.open ("main.s");
 	assembleur << ".text\n \
