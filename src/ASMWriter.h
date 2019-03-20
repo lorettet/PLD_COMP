@@ -29,6 +29,18 @@ public:
 
   void addDeclarationAndAffectation(string dest, string src, uint size = 4);
 
+  void addAddition(int value1, int value2);
+
+  void addAddition(string name, int value);
+
+  void addAddition(string name1, string name2);
+
+  void addAdditionAndAffectation(string dest, int value1, int value2);
+  
+  void addAdditionAndAffectation(string dest, string nameAdd, int value);
+
+  void addAdditionAndAffectation(string dest, string nameAdd1, string nameAdd2);
+
   void writeASM();
 
 private:
@@ -44,7 +56,7 @@ private:
 
   void addInstrMov(string src, string dest, uint size = 4);
 
-  void addInstrMov(int value, string dest);
+  void addInstrAdd(string src, string dest, uint size = 4);
 
   ofstream fileStream;
   string fileName;

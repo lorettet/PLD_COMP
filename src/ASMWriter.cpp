@@ -30,11 +30,18 @@ void ASMWriter::addInstrMov(string src, string dest, uint size)
 
 }
 
-void ASMWriter::addInstrMov(int value, string dest)
+void ASMWriter::addInstrAdd(string src, string dest, uint size)
 {
-    addInstr("movl $"+to_string(value)+", "+dest);
-}
+  switch (size) {
+    case 4:
+      addInstr("addl "+src+", "+dest);
+      break;
+    case 8:
+      addInstr("addq "+src+", "+dest);
+      break;
+  }
 
+}
 
 void ASMWriter::initDoc()
 {
@@ -83,6 +90,46 @@ void ASMWriter::addDeclarationAndAffectation(string dest, string src, uint size)
 {
   addDeclaration(dest);
   addAffectation(dest, src);
+}
+
+void ASMWriter::addAddition(int value1, int value2){
+  int temp = value1 + value2;
+  addInstrMov(string("$")+to_string(temp),string("%eax"));
+  //return registre ?
+}
+
+void ASMWriter::addAddition(string nameAdd, int value){
+  addInstrMov(to_string(symTab[nameAdd])+string("(%rbp)"),string("%eax"));
+  addInstrAdd(string("$")+to_string(value),string("%eax"));
+  //return registre ?
+}
+
+void ASMWriter::addAddition(string nameAdd1, string nameAdd2){
+  addInstrMov(to_string(symTab[nameAdd1])+string("(%rbp)"),string("%edx"));
+  addInstrMov(to_string(symTab[nameAdd2])+string("(%rbp)"),string("%eax"));
+  addInstrAdd(string("%edx"),string("%eax"));
+  //return registre ?
+}
+
+void ASMWriter::addAdditionAndAffectation(string dest, int value1, int value2){
+  int temp = value1 + value2;
+  addInstrMov(string("$")+to_string(temp),to_string(symTab[dest])+string("(%rbp)"));
+  //return registre ?
+}
+
+void ASMWriter::addAdditionAndAffectation(string dest, string nameAdd, int value){
+  addInstrMov(to_string(symTab[nameAdd])+string("(%rbp)"),string("%eax"));
+  addInstrAdd(string("$")+to_string(value),string("%eax"));
+  addInstrMov(string("%eax"),to_string(symTab[dest])+string("(%rbp)"));
+  //return registre ?
+}
+
+void ASMWriter::addAdditionAndAffectation(string dest, string nameAdd1, string nameAdd2){
+  addInstrMov(to_string(symTab[nameAdd1])+string("(%rbp)"),string("%edx"));
+  addInstrMov(to_string(symTab[nameAdd2])+string("(%rbp)"),string("%eax"));
+  addInstrAdd(string("%edx"),string("%eax"));
+  addInstrMov(string("%eax"),to_string(symTab[dest])+string("(%rbp)"));
+  //return registre ?
 }
 
 void ASMWriter::addReturn(string name)
