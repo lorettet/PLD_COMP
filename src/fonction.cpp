@@ -1,6 +1,10 @@
+#include <assert.h> 
 #include "symboles.h"
 
+using namespace std;
+
 void Fonction::ajouterDeclaration(Declaration* dec) {
+	assert(variables.find(dec->getNomVariable()) == variables.end());
 	declarations.push_back(dec);
 	variables[dec->getNomVariable()] = index;
 	index += 4;

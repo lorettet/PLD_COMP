@@ -7,18 +7,25 @@ nomFonction : 'main';
 parametres : 
 		| 'void';
 declarations : 
-			type VARIABLE';' 					#simple
-			| type VARIABLE '=' expression';'	#avecAffectation;
+			type VARIABLE';' 					#declarationSimple
+			| type VARIABLE '=' expression';'	#declarationAvecAffectation;
 
 instructions : 
 			VARIABLE '=' expression';'		#affectation
 			| 'return' expression';'		#return;
+			
+expression : expression MULTDIV expression		#expressionMultDiv
+			| expression ADDSOUS expression		#expressionAddSous
+			| '('expression')'					#parenthese
+			| valeur 							#val;
 		
-expression : 
-			VARIABLE 	#variable
-			| INT		#int;
+valeur : VARIABLE 	#variable
+		| INT		#int;
 
 ESPACE : [ \n\t\r] -> skip;
+
+MULTDIV : [*/];
+ADDSOUS : [+-];
 
 VARIABLE : [a-zA-Z]+;
 INT : [0-9]+ ;

@@ -6,14 +6,71 @@
 #include "ASMWriter.h"
 
 using namespace std;
+
 class Expression {
 	public:
-		Expression() { }
+		Expression(){}
 		virtual ~Expression(){}
+};
+
+class Addition : public Expression {
+	public:
+		Addition(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
+		~Addition(){}
+	
+	protected:
+		Expression* exp1;
+		Expression* exp2;
+};
+
+class Soustraction : public Expression {
+	public:
+		Soustraction(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
+		~Soustraction(){}
+	
+	protected:
+		Expression* exp1;
+		Expression* exp2;
+};
+
+class Multiplication : public Expression {
+	public:
+		Multiplication(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
+		~Multiplication(){}
+	
+	protected:
+		Expression* exp1;
+		Expression* exp2;
+};
+
+class Division : public Expression {
+	public:
+		Division(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
+		~Division(){}
+	
+	protected:
+		Expression* exp1;
+		Expression* exp2;
+};
+
+		
+class Parenthese : public Expression {
+	public:
+		Parenthese(Expression* e) : exp(e) {}
+		~Parenthese(){}
+	
+	protected:
+		Expression* exp;
+};
+
+class Valeur : public Expression {
+	public:
+		Valeur() { }
+		virtual ~Valeur(){}
 		int virtual getValue(){};
 };
 
-class Int : public Expression{
+class Int : public Valeur{
 	public:
 		Int(int val) : valeur(val) { }
 		~Int() { }
@@ -22,7 +79,7 @@ class Int : public Expression{
 		int valeur;
 };
 
-class Variable : public Expression {
+class Variable : public Valeur {
 	public:
 		Variable(string s) : nom(s) { }
 		~Variable() { }
