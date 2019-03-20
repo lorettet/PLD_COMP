@@ -10,7 +10,7 @@ class Expression {
 	public:
 		Expression() { }
 		virtual ~Expression(){}
-		int virtual getValue(){};
+		int virtual getValue(){}
 };
 
 class Int : public Expression{
@@ -34,14 +34,14 @@ class Variable : public Expression {
 class Instruction {
 	public:
 		virtual ~Instruction(){}
-		void virtual getASM(ASMWriter & asmb){}
+		void virtual getASM(ASMWriter & asmb, map<string,int> var){}
 };
 
 class Affectation : public Instruction {
 	public:
 		Affectation(Variable* var, Expression* expr) : variable(var), expression(expr) { }
 		~Affectation() { }
-		void getASM(ASMWriter & asmb);
+		void getASM(ASMWriter & asmb, map<string,int> var);
 	protected:
 		Variable* variable;
 		Expression* expression;
@@ -51,7 +51,7 @@ class Return : public Instruction {
 	public:
 		Return(Expression* expr) : expression(expr) { }
 		~Return() { }
-		void getASM(ASMWriter & asmb);
+		void getASM(ASMWriter & asmb, map<string,int> var);
 	protected:
 		Expression* expression;
 };
@@ -60,7 +60,7 @@ class Declaration {
 	public:
 		~Declaration();
 		string getNomVariable();
-		void virtual getASM(ASMWriter & asmb){};
+		void virtual getASM(ASMWriter & asmb, map<string,int> var){};
 	protected:
 		Variable* variable;
 };
@@ -68,13 +68,13 @@ class Declaration {
 class DeclarationSimple : public Declaration {
 	public:
 		DeclarationSimple(Variable* v) { variable = v; }
-		void getASM(ASMWriter & asmb);
+		void getASM(ASMWriter & asmb, map<string,int> var);
 };
 
 class DeclarationAvecAffectation : public Declaration {
 	public:
 		DeclarationAvecAffectation(Variable* v, Expression* expr): expression(expr) { variable = v; }
-		void getASM(ASMWriter & asmb);
+		void getASM(ASMWriter & asmb, map<string,int> var);
 	protected:
 		Expression* expression;
 };

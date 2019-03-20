@@ -14,10 +14,10 @@ void Fonction::getASM(ASMWriter & asmb)
 {
 	for(auto dec : declarations)
 	{
-		dec->getASM(asmb);
+		dec->getASM(asmb, variables);
 	}
 	for(auto instr : instructions)
 	{
-		instr->getASM(asmb);
+		instr->getASM(asmb, variables);
 	}
 }

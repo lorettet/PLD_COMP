@@ -56,42 +56,25 @@ void ASMWriter::addEpilogue()
   addInstr("ret");
 }
 
-void ASMWriter::addDeclaration(string name, uint size)
+
+void ASMWriter::addAffectationInt(int addr, int value)
 {
-  symTab[name] = lastSymOffset-size;
-  lastSymOffset -= size;
+  addInstrMov(string("$")+to_string(value),to_string(addr)+string("(%rbp)"));
 }
 
-void ASMWriter::addAffectation(string name, int value)
+void ASMWriter::addAffectationVar(int dest, int src)
 {
-  addInstrMov(string("$")+to_string(value),to_string(symTab[name])+string("(%rbp)"));
+  addInstrMov(to_string(src)+string("(%rbp)"),string("%edx"));
+  addInstrMov(string("%edx"),to_string(dest)+string("(%rbp)"));
 }
 
-void ASMWriter::addAffectation(string dest, string src)
+void ASMWriter::addReturnVar(int addr)
 {
-  addInstrMov(to_string(symTab[src])+string("(%rbp)"),string("%edx"));
-  addInstrMov(string("%edx"),to_string(symTab[dest])+string("(%rbp)"));
-}
-
-void ASMWriter::addDeclarationAndAffectation(string name, int value, uint size)
-{
-  addDeclaration(name);
-  addAffectation(name, value);
-}
-
-void ASMWriter::addDeclarationAndAffectation(string dest, string src, uint size)
-{
-  addDeclaration(dest);
-  addAffectation(dest, src);
-}
-
-void ASMWriter::addReturn(string name)
-{
-  addInstrMov(to_string(symTab[name])+string("(%rbp)"),"%eax");
+  addInstrMov(to_string(addr)+string("(%rbp)"),"%eax");
   addEpilogue();
 }
 
-void ASMWriter::addReturn(int value)
+void ASMWriter::addReturnInt(int value)
 {
   addInstrMov(value,"%eax");
   addEpilogue();

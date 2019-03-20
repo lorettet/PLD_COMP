@@ -15,19 +15,13 @@ public:
 
   ~ASMWriter(){}
 
-  void addReturn(string name);
+  void addReturnVar(int addr);
 
-  void addReturn(int value);
+  void addReturnInt(int value);
 
-  void addAffectation(string name, int value);
+  void addAffectationInt(int addr, int value);
 
-  void addAffectation(string dest, string src);
-
-  void addDeclaration(string name, uint size = 4);
-
-  void addDeclarationAndAffectation(string name, int value, uint size = 4);
-
-  void addDeclarationAndAffectation(string dest, string src, uint size = 4);
+  void addAffectationVar(int dest, int src);
 
   void writeASM();
 
