@@ -44,6 +44,5 @@ private:
   string fileName;
   vector<string> lines;
 
-  map<string, int> symTab;
-  int lastSymOffset = 0;
+
 };

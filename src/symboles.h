@@ -89,5 +89,5 @@ class Fonction {
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
 		map<string,int> variables;
-		int index = 0;
+		int index = -4;
 };
