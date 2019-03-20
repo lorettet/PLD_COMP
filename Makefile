@@ -1,6 +1,6 @@
-ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4
-ANTLRRUNTIMEHEADERPATH=/shares/public/tp/ANTLR4-CPP/antlr4-runtime/
-ANTLRRUNTIMELIB=/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a
+ANTLR=ANTLR4-CPP/bin/antlr4
+ANTLRRUNTIMEHEADERPATH=ANTLR4-CPP/antlr4-runtime/
+ANTLRRUNTIMELIB=ANTLR4-CPP/lib/libantlr4-runtime.a
 
 COMP=g++
 EDL=g++
@@ -52,7 +52,7 @@ g4:$(G4)
 
 $(EXEDIR)$(EXE):$(OBJ) $(OBJANTLR)
 	$(ECHO) $(GREEN)Edition des liens$(CANCELCOLOR)
-	$(EDL) -o $@ $^ $(ANTLRRUNTIMELIB)
+	$(EDL) -o $@ $^ $(ANTLRRUNTIMELIB) -no-pie
 
 
 $(BINDIR)binantlr/%.o: $(ANTLRDIR)%.cpp
@@ -68,5 +68,5 @@ exe:
 	gcc main.o
 
 clean:
-	-rm antlr/* bin/bin*/* a.out main.s main.o bin/exe
+	-rm -f antlr/* bin/bin*/* a.out main.s main.o bin/exe
 

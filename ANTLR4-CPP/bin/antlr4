@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export CLASSPATH=".:ANTLR4-CPP/bin/antlr-4.7.1-complete.jar:$CLASSPATH"
+java -Xmx500M -cp "ANTLR4-CPP/bin/antlr-4.7.1-complete.jar:$CLASSPATH" org.antlr.v4.Tool $@
