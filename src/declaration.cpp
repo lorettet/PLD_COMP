@@ -7,24 +7,26 @@ string Declaration::getNomVariable() {
 	return variable->getNomVariable();
 }
 
-void DeclarationSimple::getASM(ASMWriter & asmb)
+void DeclarationSimple::getASM(ASMWriter & asmb, map<string,int> var)
 {
 	cout << "DeclarationSimple" << endl;
-	asmb.addDeclaration(variable->getNomVariable());
 }
 
 //TODO : revoir un autre moyen
-void DeclarationAvecAffectation::getASM(ASMWriter & asmb)
+void DeclarationAvecAffectation::getASM(ASMWriter & asmb, map<string,int> var)
 {
 	if(dynamic_cast<Int*>(expression))
 	{
 		cout << "Declaration + Affectation : int" << endl;
-		asmb.addDeclarationAndAffectation(variable->getNomVariable(),((Int*)expression)->getValue());
+		int addr = var[variable->getNomVariable()];
+		asmb.addAffectationInt(addr,((Int*)expression)->getValue());
 	}
 	else if(dynamic_cast<Variable*>(expression))
 	{
 		cout << "Declaration + Affectationtion : var" << endl;
-		asmb.addDeclarationAndAffectation(variable->getNomVariable(),((Variable*)expression)->getNomVariable());
+		int dest = var[variable->getNomVariable()];
+		int src = var[((Variable*)expression)->getNomVariable()];
+		asmb.addAffectationVar(dest,src);
 	}
 
 }
