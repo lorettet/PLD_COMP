@@ -1,5 +1,6 @@
 #include "ASMWriter.h"
 #include <sstream>
+#include <iostream>
 
 ASMWriter::ASMWriter(string name): fileName(name)
 {
@@ -27,6 +28,11 @@ void ASMWriter::addInstrMov(string src, string dest, uint size)
       break;
   }
 
+}
+
+void ASMWriter::addInstrMov(int value, string dest)
+{
+    addInstr("movl $"+to_string(value)+", "+dest);
 }
 
 
@@ -82,6 +88,12 @@ void ASMWriter::addDeclarationAndAffectation(string dest, string src, uint size)
 void ASMWriter::addReturn(string name)
 {
   addInstrMov(to_string(symTab[name])+string("(%rbp)"),"%eax");
+  addEpilogue();
+}
+
+void ASMWriter::addReturn(int value)
+{
+  addInstrMov(value,"%eax");
   addEpilogue();
 }
 

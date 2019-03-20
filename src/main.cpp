@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "antlr4-runtime.h"
-#include "exprLexer.h"
-#include "exprParser.h"
+#include "../antlr/exprLexer.h"
+#include "../antlr/exprParser.h"
 #include "myVisitor.h"
 #include "ASMWriter.h"
 
@@ -18,7 +18,7 @@ string lireFichier(string nomFichier);
 int main (int argc, char *argv[]) {
 	assert(argc == 2);
 	string programme = lireFichier(argv[1]);
-	
+
 	ANTLRInputStream input(programme);
   	exprLexer lexer(&input);
   	CommonTokenStream tokens(&lexer);
@@ -28,7 +28,10 @@ int main (int argc, char *argv[]) {
     assert(tree);
     MyVisitor visitor;
     Fonction* f = visitor.visit(tree);
-    
+		ASMWriter asmb("main.s");
+		f->getASM(asmb);
+		asmb.writeASM();
+
 	return 0;
 }
 
@@ -44,6 +47,6 @@ string lireFichier(string nomFichier) {
 		}
 		fichierProgramme.close();
 	}
-	  else cout << "Unable to open file"; 
+	  else cout << "Unable to open file";
 	  return programme;
 }

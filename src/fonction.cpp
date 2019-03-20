@@ -9,3 +9,15 @@ void Fonction::ajouterDeclaration(Declaration* dec) {
 void Fonction::ajouterInstruction(Instruction* inst) {
 	instructions.push_back(inst);
 }
+
+void Fonction::getASM(ASMWriter & asmb)
+{
+	for(auto dec : declarations)
+	{
+		dec->getASM(asmb);
+	}
+	for(auto instr : instructions)
+	{
+		instr->getASM(asmb);
+	}
+}

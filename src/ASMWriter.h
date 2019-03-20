@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -14,6 +16,8 @@ public:
   ~ASMWriter(){}
 
   void addReturn(string name);
+
+  void addReturn(int value);
 
   void addAffectation(string name, int value);
 
@@ -39,6 +43,8 @@ private:
   void addInstr(string instr);
 
   void addInstrMov(string src, string dest, uint size = 4);
+
+  void addInstrMov(int value, string dest);
 
   ofstream fileStream;
   string fileName;
