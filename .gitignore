@@ -44,5 +44,5 @@ exemple/*
 # VSCode
 .vscode/settings.json
 
-# makefile
+# Makefile
 Makefile
