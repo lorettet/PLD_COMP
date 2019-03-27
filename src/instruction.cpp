@@ -15,19 +15,15 @@ void Return::getASM(ASMWriter & asmb, map<string,int> var)
 	}
 }
 
-void Affectation::getASM(ASMWriter & asmb, map<string,int> var)
+string Affectation::buildIR(CFG & cfg)
 {
-  if(dynamic_cast<Int*>(expression))
-  {
-    cout << "Return int" << endl;
-    int addr = var[variable->getNomVariable()];
-    asmb.addAffectationInt(addr,((Int*)expression)->getValue());
-  }
-  else if(dynamic_cast<Variable*>(expression))
-  {
-    cout << "Return var" << endl;
-    int dest = var[variable->getNomVariable()];
-    int src = var[((Variable*)expression)->getNomVariable()];
-    asmb.addAffectationVar(dest,src);
-  }
+  string right = expression->buildIR(cfg);
+  string left = variable->buildIR(cfg);
+  IRInstr_wmem instr = new IRInstr_wmem(left,right);
+  return right;
+}
+
+string Return::buildIR(CFG & cfg)
+{
+  
 }

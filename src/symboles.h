@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "ASMWriter.h"
+#include "IR.h"
 
 using namespace std;
 
@@ -11,13 +12,15 @@ class Expression {
 	public:
 		Expression(){}
 		virtual ~Expression(){}
+		string virtual buildIR(CFG & cfg);
 };
 
 class Addition : public Expression {
 	public:
 		Addition(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Addition(){}
-	
+		string buildIR(CFG & cfg);
+
 	protected:
 		Expression* exp1;
 		Expression* exp2;
@@ -27,7 +30,7 @@ class Soustraction : public Expression {
 	public:
 		Soustraction(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Soustraction(){}
-	
+
 	protected:
 		Expression* exp1;
 		Expression* exp2;
@@ -37,7 +40,7 @@ class Multiplication : public Expression {
 	public:
 		Multiplication(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Multiplication(){}
-	
+
 	protected:
 		Expression* exp1;
 		Expression* exp2;
@@ -47,18 +50,18 @@ class Division : public Expression {
 	public:
 		Division(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Division(){}
-	
+
 	protected:
 		Expression* exp1;
 		Expression* exp2;
 };
 
-		
+
 class Parenthese : public Expression {
 	public:
 		Parenthese(Expression* e) : exp(e) {}
 		~Parenthese(){}
-	
+
 	protected:
 		Expression* exp;
 };
@@ -75,6 +78,7 @@ class Int : public Valeur{
 		Int(int val) : valeur(val) { }
 		~Int() { }
 		int getValue() {return valeur;}
+		string buildIR(CFG & cfg);
 	protected:
 		int valeur;
 };
@@ -84,6 +88,7 @@ class Variable : public Valeur {
 		Variable(string s) : nom(s) { }
 		~Variable() { }
 		string getNomVariable();
+		string buildIR(CFG & cfg);
 	protected:
 		string nom;
 };
@@ -91,14 +96,14 @@ class Variable : public Valeur {
 class Instruction {
 	public:
 		virtual ~Instruction(){}
-		void virtual getASM(ASMWriter & asmb, map<string,int> var){}
+		string virtual buildIR(CFG & cfg){}
 };
 
 class Affectation : public Instruction {
 	public:
 		Affectation(Variable* var, Expression* expr) : variable(var), expression(expr) { }
 		~Affectation() { }
-		void getASM(ASMWriter & asmb, map<string,int> var);
+		string buildIR(CFG * cfg);
 	protected:
 		Variable* variable;
 		Expression* expression;
@@ -107,8 +112,8 @@ class Affectation : public Instruction {
 class Return : public Instruction {
 	public:
 		Return(Expression* expr) : expression(expr) { }
+		string buildIR(CFG & cfg);
 		~Return() { }
-		void getASM(ASMWriter & asmb, map<string,int> var);
 	protected:
 		Expression* expression;
 };
@@ -117,7 +122,7 @@ class Declaration {
 	public:
 		~Declaration();
 		string getNomVariable();
-		void virtual getASM(ASMWriter & asmb, map<string,int> var){};
+		string virtual buildIR(CFG & cfg);
 	protected:
 		Variable* variable;
 };
@@ -125,13 +130,13 @@ class Declaration {
 class DeclarationSimple : public Declaration {
 	public:
 		DeclarationSimple(Variable* v) { variable = v; }
-		void getASM(ASMWriter & asmb, map<string,int> var);
+		string buildIR(CFG & cfg);
 };
 
 class DeclarationAvecAffectation : public Declaration {
 	public:
 		DeclarationAvecAffectation(Variable* v, Expression* expr): expression(expr) { variable = v; }
-		void getASM(ASMWriter & asmb, map<string,int> var);
+		string buildIR(CFG & cfg);
 	protected:
 		Expression* expression;
 };
@@ -141,7 +146,6 @@ class Fonction {
 		Fonction() {}
 		void ajouterDeclaration(Declaration* dec);
 		void ajouterInstruction(Instruction* inst);
-		void getASM(ASMWriter & asmb);
 	protected:
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;

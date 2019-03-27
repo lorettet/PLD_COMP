@@ -1,4 +1,4 @@
-#include <assert.h> 
+#include <assert.h>
 #include "symboles.h"
 
 using namespace std;
@@ -12,16 +12,4 @@ void Fonction::ajouterDeclaration(Declaration* dec) {
 
 void Fonction::ajouterInstruction(Instruction* inst) {
 	instructions.push_back(inst);
-}
-
-void Fonction::getASM(ASMWriter & asmb)
-{
-	for(auto dec : declarations)
-	{
-		dec->getASM(asmb, variables);
-	}
-	for(auto instr : instructions)
-	{
-		instr->getASM(asmb, variables);
-	}
 }

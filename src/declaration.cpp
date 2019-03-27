@@ -7,26 +7,15 @@ string Declaration::getNomVariable() {
 	return variable->getNomVariable();
 }
 
-void DeclarationSimple::getASM(ASMWriter & asmb, map<string,int> var)
+void DeclarationSimple::buildIR(ASMWriter & asmb)
 {
-	cout << "DeclarationSimple" << endl;
+
 }
 
-//TODO : revoir un autre moyen
-void DeclarationAvecAffectation::getASM(ASMWriter & asmb, map<string,int> var)
+void DeclarationAvecAffectation::buildIR(ASMWriter & asmb)
 {
-	if(dynamic_cast<Int*>(expression))
-	{
-		cout << "Declaration + Affectation : int" << endl;
-		int addr = var[variable->getNomVariable()];
-		asmb.addAffectationInt(addr,((Int*)expression)->getValue());
-	}
-	else if(dynamic_cast<Variable*>(expression))
-	{
-		cout << "Declaration + Affectationtion : var" << endl;
-		int dest = var[variable->getNomVariable()];
-		int src = var[((Variable*)expression)->getNomVariable()];
-		asmb.addAffectationVar(dest,src);
-	}
-
+	string right = expression->buildIR(cfg);
+	string left = variable->buildIR(cfg);
+	IRInstr_wmem instr = new IRInstr_wmem(left,right);
+	return right;
 }

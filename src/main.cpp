@@ -29,7 +29,9 @@ int main (int argc, char *argv[]) {
     MyVisitor visitor;
     Fonction* f = visitor.visit(tree);
 		ASMWriter asmb("main.s");
-		f->getASM(asmb);
+		CFG cfg(f);
+		cfg.buildIR();
+		cfg.gen_asm(asmb);
 		asmb.writeASM();
 
 	return 0;
