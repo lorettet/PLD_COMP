@@ -37,7 +37,7 @@ do
 	  fi
 	    rm a.out main.s
 	fi
-  rm temperr.txt
+  rm temperr.txt temp.txt
   ((TESTCOUNT++))
 
 done

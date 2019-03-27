@@ -72,5 +72,5 @@ test:
 	cat resultatsTests.txt
 
 clean:
-	-rm antlr/* bin/bin*/* a.out main.s main.o bin/exe
+	-rm -f antlr/* bin/bin*/* a.out main.s main.o bin/exe
 
