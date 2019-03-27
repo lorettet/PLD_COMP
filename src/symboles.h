@@ -12,7 +12,7 @@ class Expression {
 	public:
 		Expression(){}
 		virtual ~Expression(){}
-		string virtual buildIR(CFG & cfg);
+		string virtual buildIR(CFG & cfg){}
 };
 
 class Addition : public Expression {
@@ -30,6 +30,7 @@ class Soustraction : public Expression {
 	public:
 		Soustraction(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Soustraction(){}
+		string buildIR(CFG & cfg){}
 
 	protected:
 		Expression* exp1;
@@ -40,6 +41,7 @@ class Multiplication : public Expression {
 	public:
 		Multiplication(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Multiplication(){}
+		string buildIR(CFG & cfg){}
 
 	protected:
 		Expression* exp1;
@@ -50,6 +52,7 @@ class Division : public Expression {
 	public:
 		Division(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Division(){}
+		string buildIR(CFG & cfg){}
 
 	protected:
 		Expression* exp1;
@@ -61,6 +64,7 @@ class Parenthese : public Expression {
 	public:
 		Parenthese(Expression* e) : exp(e) {}
 		~Parenthese(){}
+		string buildIR(CFG & cfg){}
 
 	protected:
 		Expression* exp;
@@ -103,7 +107,7 @@ class Affectation : public Instruction {
 	public:
 		Affectation(Variable* var, Expression* expr) : variable(var), expression(expr) { }
 		~Affectation() { }
-		string buildIR(CFG * cfg);
+		string buildIR(CFG & cfg);
 	protected:
 		Variable* variable;
 		Expression* expression;
@@ -122,7 +126,7 @@ class Declaration {
 	public:
 		~Declaration();
 		string getNomVariable();
-		string virtual buildIR(CFG & cfg);
+		string virtual buildIR(CFG & cfg){}
 	protected:
 		Variable* variable;
 };
@@ -146,7 +150,7 @@ class Fonction {
 		Fonction() {}
 		void ajouterDeclaration(Declaration* dec);
 		void ajouterInstruction(Instruction* inst);
-	protected:
+	//protected:
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
 		map<string,int> variables;

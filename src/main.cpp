@@ -31,6 +31,7 @@ int main (int argc, char *argv[]) {
 		ASMWriter asmb("main.s");
 		CFG cfg(f);
 		cfg.buildIR();
+		cout << "CFG IR done" << endl;
 		cfg.gen_asm(asmb);
 		asmb.writeASM();
 
