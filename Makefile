@@ -66,6 +66,9 @@ $(BINDIR)binsrc/%.o: $(SRCDIR)%.cpp
 exe:
 	as -o main.o main.s
 	gcc main.o
+	
+test:
+	./tests.sh
 
 clean:
 	-rm antlr/* bin/bin*/* a.out main.s main.o bin/exe
