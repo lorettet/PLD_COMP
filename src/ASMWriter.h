@@ -15,19 +15,25 @@ public:
 
   ~ASMWriter(){}
 
-  void addReturn(string name);
+  void addReturnVar(int addr);
 
-  void addReturn(int value);
+  void addReturnInt(int value);
 
-  void addAffectation(string name, int value);
+  void addAffectationInt(int addr, int value);
 
-  void addAffectation(string dest, string src);
+  void addAffectationVar(int dest, int src);
 
-  void addDeclaration(string name, uint size = 4);
+  void addAddition(int value1, int value2);
 
-  void addDeclarationAndAffectation(string name, int value, uint size = 4);
+  void addAddition(string name, int value);
 
-  void addDeclarationAndAffectation(string dest, string src, uint size = 4);
+  void addAddition(string name1, string name2);
+
+  void addAdditionAndAffectation(string dest, int value1, int value2);
+  
+  void addAdditionAndAffectation(string dest, string nameAdd, int value);
+
+  void addAdditionAndAffectation(string dest, string nameAdd1, string nameAdd2);
 
   void writeASM();
 
@@ -44,7 +50,7 @@ private:
 
   void addInstrMov(string src, string dest, uint size = 4);
 
-  void addInstrMov(int value, string dest);
+  void addInstrAdd(string src, string dest, uint size = 4);
 
   ofstream fileStream;
   string fileName;
