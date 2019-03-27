@@ -46,3 +46,7 @@ exemple/*
 
 # Makefile
 Makefile
+
+#Tests
+resultatsTests.txt
+errTestScript.txt
