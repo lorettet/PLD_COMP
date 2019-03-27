@@ -1,6 +1,6 @@
-ANTLR=antlr4
-ANTLRRUNTIMEHEADERPATH=/usr/local/include/antlr4-runtime/
-ANTLRRUNTIMELIB=/usr/local/lib/libantlr4-runtime.a
+ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4
+ANTLRRUNTIMEHEADERPATH=/shares/public/tp/ANTLR4-CPP/antlr4-runtime/
+ANTLRRUNTIMELIB=/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a
 
 COMP=g++
 EDL=g++
@@ -68,7 +68,8 @@ exe:
 	gcc main.o
 	
 test:
-	./tests.sh
+	./tests.sh 2> errTestScript.txt
+	cat resultatsTests.txt
 
 clean:
 	-rm antlr/* bin/bin*/* a.out main.s main.o bin/exe
