@@ -107,7 +107,7 @@ int ASMWriter::addSubstraction(int addrRes, int addr1, int addr2, uint size){
   addInstrMov(to_string(addr2)+string("(%rbp)"),string("%edx"),size);
   // ici on fait addr1 - addr2 a priori
   // => mettre addr1 dans edx et addr2 dans eax au dessus pour inverser
-  addInstrAdd(string("%edx"),string("%eax"),size);
+  addInstrSub(string("%edx"),string("%eax"),size);
   addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
   return addrRes;
   //return adresse ?

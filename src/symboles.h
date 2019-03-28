@@ -30,7 +30,7 @@ class Soustraction : public Expression {
 	public:
 		Soustraction(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Soustraction(){}
-		string buildIR(CFG & cfg){}
+		string buildIR(CFG & cfg);
 
 	protected:
 		Expression* exp1;

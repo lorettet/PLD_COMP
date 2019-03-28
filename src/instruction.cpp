@@ -15,5 +15,11 @@ string Affectation::buildIR(CFG & cfg)
 
 string Return::buildIR(CFG & cfg)
 {
-  cout << "Building Return" << endl;
+  cout << "Building IR Return" << endl;
+  cout << "Getting right" << endl;
+  string var = expression->buildIR(cfg);
+  IRInstr_ret* instr = new IRInstr_ret(cfg.current_bb,Type::Int32,var);
+  cout << "Adding IR Return" << endl;
+  cfg.current_bb->add_IRInstr(instr);
+  return var;
 }
