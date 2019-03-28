@@ -9,10 +9,13 @@ CFG::CFG(Fonction * ast_) : ast(ast_)
   BasicBlock* firstBB = new BasicBlock(this,"_block");
   add_bb(firstBB);
   current_bb = firstBB;
-  for(auto dec : ast->declarations)
+}
+
+CFG::~CFG()
+{
+  for(auto bb : bbs)
   {
-    add_to_symbol_table(dec->getNomVariable(), Type::Int32);
-    dec->buildIR(*this);
+    delete bb;
   }
 }
 
@@ -65,6 +68,14 @@ void CFG::gen_asm(ASMWriter & asmb)
 void CFG::buildIR()
 {
   cout << "Building IR CFG" << endl;
+  for(vector<Declaration*>::iterator pObj = ast->declarations.begin(); pObj != ast->declarations.end(); ++pObj)
+  {
+    add_to_symbol_table((*pObj)->getNomVariable(), Type::Int32);
+    if (dynamic_cast<DeclarationAvecAffectation*>(*pObj)) {
+      (*pObj)->buildIR(*this);
+    }
+
+  }
   for(vector<Instruction*>::iterator pObj = ast->instructions.begin(); pObj != ast->instructions.end(); ++pObj)
   {
     cout << "Building instr" << endl;

@@ -124,7 +124,7 @@ class Return : public Instruction {
 
 class Declaration {
 	public:
-		~Declaration();
+		virtual ~Declaration() {cout << "== DESTRUCTING DECLARATION ==" << endl;}
 		string getNomVariable();
 		string virtual buildIR(CFG & cfg){}
 	protected:
@@ -134,12 +134,14 @@ class Declaration {
 class DeclarationSimple : public Declaration {
 	public:
 		DeclarationSimple(Variable* v) { variable = v; }
+		virtual ~DeclarationSimple() {cout << "== DESTRUCTING DECLARATION SIMPLE ==" << endl;}
 		string buildIR(CFG & cfg);
 };
 
 class DeclarationAvecAffectation : public Declaration {
 	public:
 		DeclarationAvecAffectation(Variable* v, Expression* expr): expression(expr) { variable = v; }
+		virtual ~DeclarationAvecAffectation() {cout << "== DESTRUCTING DECLARATION AVEC AFF ==" << endl;}
 		string buildIR(CFG & cfg);
 	protected:
 		Expression* expression;

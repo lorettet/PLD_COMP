@@ -63,6 +63,7 @@ class BasicBlock {
 class CFG {
  public:
 	CFG(Fonction* ast_);
+  virtual ~CFG();
 
 	Fonction* ast; /**< The AST this CFG comes from */
 
