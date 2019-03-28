@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <fstream>
 #include <string.h>
@@ -13,26 +15,43 @@ public:
 
   ~ASMWriter(){}
 
-  void addReturn(string name);
+  void addReturnVar(int addr, uint size = 4);
 
-  void addAffectation(string name, int value);
+  void addReturnInt(int value);
 
-  void addAffectation(string dest, string src);
+  void addAffectationInt(int addr, int value, uint size = 4);
 
-  void addDeclaration(string name, uint size = 4);
+  void addAffectationVar(int dest, int src, uint size = 4);
 
-  void addDeclarationAndAffectation(string name, int value, uint size = 4);
+  // void addAddition(int value1, int value2);
 
-  void addDeclarationAndAffectation(string dest, string src, uint size = 4);
+  int addAddition(int addrRes, int addr1, int addr2, uint size = 4);
 
+  // void addAddition(string name, int value);
+
+  // void addAddition(string name1, string name2);
+
+  // void addAdditionAndAffectation(string dest, int value1, int value2);
+
+  // void addAdditionAndAffectation(string dest, string nameAdd, int value);
+
+  // void addAdditionAndAffectation(string dest, string nameAdd1, string nameAdd2);
+
+  int addSubstraction(int addrRes, int addr1, int addr2, uint size = 4);
+
+  int addReadMem(int addrDest, int addrMem, uint size = 4);
+
+  int addWriteMem(int addrMem, int addrSrc, uint size = 4);
+  
   void writeASM();
-
-private:
-  void initDoc();
 
   void addPrologue();
 
   void addEpilogue();
+
+private:
+  void initDoc();
+
 
   void addLabel(string name);
 
@@ -40,10 +59,13 @@ private:
 
   void addInstrMov(string src, string dest, uint size = 4);
 
+  void addInstrAdd(string src, string dest, uint size = 4);
+
+  void addInstrSub(string src, string dest, uint size = 4);
+
   ofstream fileStream;
   string fileName;
   vector<string> lines;
 
-  map<string, int> symTab;
-  int lastSymOffset = 0;
+
 };

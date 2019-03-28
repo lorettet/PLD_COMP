@@ -42,4 +42,7 @@ antlr/*
 exemple/*
 
 # VSCode
-.vscode/settings.json
+.vscode/*
+
+# Makefile
+Makefile
