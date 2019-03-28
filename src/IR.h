@@ -235,4 +235,15 @@ class IRInstr_wmem : public IRInstr {
         string var;
 };
 
+class IRInstr_ret : public IRInstr {
+
+    public:
+        IRInstr_ret(BasicBlock* bb_, Type t, string var);
+        virtual ~IRInstr_ret(){}
+        void gen_asm(ASMWriter& asmw);
+
+    private:
+        string var;
+};
+
 #endif

@@ -209,3 +209,13 @@ void IRInstr_wmem::gen_asm(ASMWriter& asmb)
 
     asmb.addInstrWriteMem(addr, addrVar, t);
 }
+
+IRInstr_ret::IRInstr_ret(BasicBlock* bb_, Type t, string var) : IRInstr(bb_,t),var(var)
+{}
+
+void IRInstr_ret::gen_asm(ASMWriter& asmb)
+{
+    int addrVar = bb->cfg->get_var_index(var);
+
+    asmb.addReturnVar(var,t);
+}

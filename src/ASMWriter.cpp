@@ -113,12 +113,12 @@ int ASMWriter::addSubstraction(int addrRes, int addr1, int addr2, uint size){
   //return adresse ?
 }
 
-int ASMWriter::addInstrReadMem(int addrDest, int addrMem, uint size){
+int ASMWriter::addReadMem(int addrDest, int addrMem, uint size){
   addInstrMov(to_string(addrMem)+string("(%rbp)"),string("%edx"),size);
   addInstrMov(string("%edx"),to_string(addrDest)+string("(%rbp)"),size);
 }
 
-int ASMWriter::addInstrWriteMem(int addrMem, int addrSrc, uint size){
+int ASMWriter::addWriteMem(int addrMem, int addrSrc, uint size){
   addInstrMov(to_string(addrSrc)+string("(%rbp)"),string("%edx"),size);
   addInstrMov(string("%edx"),to_string(addrMem)+string("(%rbp)"),size);
 }
@@ -157,9 +157,9 @@ int ASMWriter::addInstrWriteMem(int addrMem, int addrSrc, uint size){
 //   //return registre ?
 // }
 
-void ASMWriter::addReturnVar(int addr)
+void ASMWriter::addReturnVar(int addr, uint size)
 {
-  addInstrMov(to_string(addr)+string("(%rbp)"),"%eax");
+  addInstrMov(to_string(addr)+string("(%rbp)"),string("%eax"),size);
 }
 
 void ASMWriter::addReturnInt(int value)

@@ -15,7 +15,7 @@ public:
 
   ~ASMWriter(){}
 
-  void addReturnVar(int addr);
+  void addReturnVar(int addr, uint size = 4);
 
   void addReturnInt(int value);
 
@@ -39,9 +39,9 @@ public:
 
   int addSubstraction(int addrRes, int addr1, int addr2, uint size = 4);
 
-  int addInstrReadMem(int addrDest, int addrMem, uint size = 4);
+  int addReadMem(int addrDest, int addrMem, uint size = 4);
 
-  int addInstrWriteMem(int addrMem, int addrSrc, uint size = 4);
+  int addWriteMem(int addrMem, int addrSrc, uint size = 4);
   
   void writeASM();
 
