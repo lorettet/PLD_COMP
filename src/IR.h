@@ -99,10 +99,8 @@ class CFG {
 class IRInstr {
 
     public:
-        /**  constructor */
         IRInstr(BasicBlock* bb_, Type t_);
         virtual ~IRInstr(){}
-        /** Actual code generation */
         virtual void gen_asm(ASMWriter& asmw) = 0; /**< x86 assembly code generation for this IR instruction */
 
     protected:

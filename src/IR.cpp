@@ -195,7 +195,9 @@ IRInstr_rmem::IRInstr_rmem(BasicBlock* bb_, Type t, string dest, int addr) : IRI
 
 void IRInstr_rmem::gen_asm(ASMWriter& asmb)
 {
-    // A FAIRE
+    int addrDest = bb->cfg->get_var_index(dest);
+
+    asmb.addInstrReadMem(addrDest, addr, t);
 }
 
 IRInstr_wmem::IRInstr_wmem(BasicBlock* bb_, Type t, int addr, string var) : IRInstr(bb_,t),addr(addr),var(var)
@@ -203,5 +205,7 @@ IRInstr_wmem::IRInstr_wmem(BasicBlock* bb_, Type t, int addr, string var) : IRIn
 
 void IRInstr_wmem::gen_asm(ASMWriter& asmb)
 {
-    // A FAIRE
+    int addrVar = bb->cfg->get_var_index(var);
+
+    asmb.addInstrWriteMem(addr, addrVar, t);
 }

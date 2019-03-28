@@ -81,11 +81,11 @@ void ASMWriter::addAffectationInt(int addr, int value, uint size)
   addInstrMov(string("$")+to_string(value),to_string(addr)+string("(%rbp)"),size);
 }
 
-void ASMWriter::addAffectationVar(int dest, int src, uint size)
-{
-  addInstrMov(to_string(src)+string("(%rbp)"),string("%edx"),size);
-  addInstrMov(string("%edx"),to_string(dest)+string("(%rbp)"),size);
-}
+// void ASMWriter::addAffectationVar(int dest, int src, uint size)
+// {
+//   addInstrMov(to_string(src)+string("(%rbp)"),string("%edx"),size);
+//   addInstrMov(string("%edx"),to_string(dest)+string("(%rbp)"),size);
+// }
 
 // void ASMWriter::addAddition(int value1, int value2){
 //   int temp = value1 + value2;
@@ -111,6 +111,16 @@ int ASMWriter::addSubstraction(int addrRes, int addr1, int addr2, uint size){
   addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
   return addrRes;
   //return adresse ?
+}
+
+int ASMWriter::addInstrReadMem(int addrDest, int addrMem, uint size){
+  addInstrMov(to_string(addrMem)+string("(%rbp)"),string("%edx"),size);
+  addInstrMov(string("%edx"),to_string(addrDest)+string("(%rbp)"),size);
+}
+
+int ASMWriter::addInstrWriteMem(int addrMem, int addrSrc, uint size){
+  addInstrMov(to_string(addrSrc)+string("(%rbp)"),string("%edx"),size);
+  addInstrMov(string("%edx"),to_string(addrMem)+string("(%rbp)"),size);
 }
 
 // void ASMWriter::addAddition(string nameAdd, int value){

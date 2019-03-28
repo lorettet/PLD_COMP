@@ -39,6 +39,10 @@ public:
 
   int addSubstraction(int addrRes, int addr1, int addr2, uint size = 4);
 
+  int addInstrReadMem(int addrDest, int addrMem, uint size = 4);
+
+  int addInstrWriteMem(int addrMem, int addrSrc, uint size = 4);
+  
   void writeASM();
 
   void addPrologue();
