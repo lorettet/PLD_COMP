@@ -19,9 +19,9 @@ OBJ2:=$(SRCANTLR:.cpp=.o)
 OBJ:=$(subst src,bin/binsrc,$(OBJ1))
 OBJANTLR:=$(subst antlr,bin/binantlr,$(OBJ2))
 
-ECHO=@echo
-GREEN="\033[32m"
-CANCELCOLOR="\033[0m"
+ECHO=@echo -e
+GREEN='\033[0;32m'
+CANCELCOLOR='\033[0m'
 
 
 ifeq ($(DEBUG),yes)
