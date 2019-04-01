@@ -113,6 +113,10 @@ int ASMWriter::addSubstraction(int addrRes, int addr1, int addr2, uint size){
   //return adresse ?
 }
 
+int ASMWriter::addMultiplication(int addrRes, int addr1, int addr2, uint size){
+  // TODO
+}
+
 int ASMWriter::addReadMem(int addrDest, int addrMem, uint size){
   addInstrMov(to_string(addrMem)+string("(%rbp)"),string("%edx"),size);
   addInstrMov(string("%edx"),to_string(addrDest)+string("(%rbp)"),size);
