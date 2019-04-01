@@ -52,6 +52,10 @@ protected:
 
   virtual void addInstrSub(string src, string dest, uint size = 4) = 0;
 
+  virtual void addInstrDiv(string src) = 0;
+
+  virtual void addInstrMult(string src) = 0;
+
   ofstream fileStream;
   string fileName;
   vector<string> lines;

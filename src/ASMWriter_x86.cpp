@@ -45,6 +45,17 @@ void ASMWriter_x86::addInstrSub(string src, string dest, uint size)
 
 }
 
+void ASMWriter_x86::addInstrMult(string src)
+{
+      addInstr("imul "+src);
+}
+
+void ASMWriter_x86::addInstrDiv(string src)
+{
+	  addInstr("cltd");
+      addInstr("idivl "+src);
+}
+
 void ASMWriter_x86::addPrologue()
 {
   addInstr("pushq %rbp");
@@ -84,11 +95,19 @@ int ASMWriter_x86::addSubstraction(int addrRes, int addr1, int addr2, uint size)
 }
 
 int ASMWriter_x86::addMultiplication(int addrRes, int addr1, int addr2, uint size){
-  // TODO
+  addInstrMov(to_string(addr1)+string("(%rbp)"),string("%eax"),size);
+  addInstrMov(to_string(addr2)+string("(%rbp)"),string("%edx"),size);
+  addInstrMult(string("%edx"));
+  addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
+  return addrRes;
 }
 
 int ASMWriter_x86::addDivision(int addrRes, int addr1, int addr2, uint size){
-  // TODO
+  addInstrMov(to_string(addr1)+string("(%rbp)"),string("%eax"),size);
+  addInstrMov(to_string(addr2)+string("(%rbp)"),string("%ebx"),size);
+  addInstrDiv(string("%ebx"));
+  addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
+  return addrRes;
 }
 
 int ASMWriter_x86::addReadMem(int addrDest, int addrMem, uint size){

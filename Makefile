@@ -1,6 +1,6 @@
-ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4
-ANTLRRUNTIMEHEADERPATH=/shares/public/tp/ANTLR4-CPP/antlr4-runtime/
-ANTLRRUNTIMELIB=/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a
+ANTLR=antlr4#/shares/public/tp/ANTLR4-CPP/bin/antlr4
+ANTLRRUNTIMEHEADERPATH=/usr/local/include/antlr4-runtime/#/shares/public/tp/ANTLR4-CPP/antlr4-runtime/
+ANTLRRUNTIMELIB=/usr/local/lib/libantlr4-runtime.a#/shares/public/tp/ANTLR4-CPP/lib/libantr4-runtime.a
 
 COMP=g++
 EDL=g++
@@ -66,7 +66,7 @@ $(BINDIR)binsrc/%.o: $(SRCDIR)%.cpp
 exe:
 	as -o main.o main.s
 	gcc main.o
-	
+
 test:
 	make clean
 	make g4
@@ -74,10 +74,10 @@ test:
 	./tests.sh 2> errTestScript.txt
 	cat resultatsTests.txt
 
-clean:
-<<<<<<< HEAD
-	-rm antlr/* bin/bin*/* a.out main.s main.o bin/exe
-=======
-	-rm -f antlr/* bin/bin*/* a.out main.s main.o bin/exe
+quicktest:
+	make
+	./tests.sh 2> errTestScript.txt
+	cat resultatsTests.txt
 
->>>>>>> 2812b920b20cfe9865221e2f0b3a515cfb15a214
+clean:
+	-rm -f antlr/* bin/bin*/* a.out main.s main.o bin/exe

@@ -44,4 +44,8 @@ protected:
   virtual void addInstrAdd(string src, string dest, uint size = 4);
 
   virtual void addInstrSub(string src, string dest, uint size = 4);
+
+  virtual void addInstrDiv(string src);
+
+  virtual void addInstrMult(string src);
 };
