@@ -168,7 +168,7 @@ void IRInstr_mul::gen_asm(ASMWriter& asmb)
 {
     int addrRes = bb->cfg->get_var_index(dest);
     int addrx = bb->cfg->get_var_index(x);
-    int addr = bb->cfg->get_var_index(y);
+    int addry = bb->cfg->get_var_index(y);
 
     asmb.addMultiplication(addrRes, addrx, addry, t);
 }
