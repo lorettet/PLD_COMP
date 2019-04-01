@@ -97,10 +97,36 @@ class Variable : public Valeur {
 		string nom;
 };
 
+class ParametresFormels {
+	public:
+		ParametresFormels(){}
+		virtual ~ParametresFormels(){}
+		map<string, string> listParams;		
+};
+
+class ParametresEffectifs {
+	public:
+		ParametresEffectifs(){}
+		virtual ~ParametresEffectifs(){}
+		void ajouterExpression(Expression* e){listExpr.push_back(e);}
+		
+		vector<Expression*> listExpr;		
+};
+
 class Instruction {
 	public:
 		virtual ~Instruction(){}
 		string virtual buildIR(CFG & cfg){}
+};
+
+class Appel : public Instruction {
+	public:
+		Appel(string nomFct, ParametresEffectifs* pe) : nomFonction(nomFct), params(pe) { }
+		string buildIR(CFG & cfg);
+		~Appel() { }
+	protected:
+		string nomFonction;
+		ParametresEffectifs* params;
 };
 
 class Affectation : public Instruction {
@@ -150,11 +176,22 @@ class DeclarationAvecAffectation : public Declaration {
 class Fonction {
 	public:
 		Fonction() {}
+		virtual ~Fonction() {}
 		void ajouterDeclaration(Declaration* dec);
 		void ajouterInstruction(Instruction* inst);
-	//protected:
+		
+		string nom;
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
 		map<string,int> variables;
 		int index = -4;
+};
+
+class Programme {
+	public:
+		Programme(){}
+		void ajouterFonction(Fonction* fct){fonctions.push_back(fct);}
+		
+		vector<Fonction*> fonctions;
+		
 };

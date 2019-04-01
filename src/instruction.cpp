@@ -23,3 +23,8 @@ string Return::buildIR(CFG & cfg)
   cfg.current_bb->add_IRInstr(instr);
   return var;
 }
+
+string Appel::buildIR(CFG & cfg)
+{
+  return "TODO";
+}
