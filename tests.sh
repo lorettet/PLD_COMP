@@ -28,7 +28,7 @@ do
 			  echo -e $GREENCOLOR"                  ${BOLDFONT}PASSED${RESETFONT}$GREENCOLOR : ${testFile}"$RESETCOLOR
 			else
 				echo -e $REDCOLOR"                  ${BOLDFONT}FAILED${RESETFONT}$REDCOLOR : ${testFile}"$RESETCOLOR
-				echo -e $REDCOLOR"Echec test ${testFile}. Attendu ${RESATTENDU}, obtenu "$RESETCOLOR >> resultatsTests.txt
+				echo -e $REDCOLOR"${BOLDFONT}Echec test ${RESETFONT}$REDCOLOR${testFile}.$RESETCOLOR Attendu ${RESATTENDU}, obtenu " >> resultatsTests.txt
 				cat temperr.txt >> resultatsTests.txt
 	    		((ERRORCOUNT++))
 	    		((errorCountCategory++))
@@ -41,7 +41,7 @@ do
 			then
 			  ((ERRORCOUNT++))
 			  echo -e $REDCOLOR"                  ${BOLDFONT}FAILED${RESETFONT}$REDCOLOR : ${testFile}"$RESETCOLOR
-			  echo -e $REDCOLOR"Echec test ${testFile}. Attendu ${RESATTENDU}, obtenu ${RESPROG}"$RESETCOLOR >> resultatsTests.txt
+			  echo -e $REDCOLOR"${BOLDFONT}Echec test ${RESETFONT}$REDCOLOR$${testFile}. Attendu ${RESATTENDU}, obtenu ${RESPROG}" >> resultatsTests.txt
 			  ((errorCountCategory++))
 			else
 			    echo -e $GREENCOLOR"                  ${BOLDFONT}PASSED${RESETFONT}$GREENCOLOR : ${testFile}"$RESETCOLOR
