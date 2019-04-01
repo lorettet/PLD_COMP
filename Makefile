@@ -1,6 +1,6 @@
-ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4
-ANTLRRUNTIMEHEADERPATH=/shares/public/tp/ANTLR4-CPP/antlr4-runtime/
-ANTLRRUNTIMELIB=/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a
+ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4#antlr4
+ANTLRRUNTIMEHEADERPATH=/shares/public/tp/ANTLR4-CPP/antlr4-runtime/#/usr/local/include/antlr4-runtime/
+ANTLRRUNTIMELIB=/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a#/usr/local/lib/libantlr4-runtime.a
 
 COMP=g++
 EDL=g++
@@ -73,7 +73,7 @@ test:
 	make
 	./tests.sh 2> errTestScript.txt
 	cat resultatsTests.txt
-	
+
 quicktest:
 	make
 	./tests.sh 2> errTestScript.txt
