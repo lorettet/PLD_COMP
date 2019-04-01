@@ -68,6 +68,8 @@ private:
   void addInstrSub(string src, string dest, uint size = 4);
   
   void addInstrMult(string src);
+  
+  void addInstrDiv(string src);
 
   ofstream fileStream;
   string fileName;

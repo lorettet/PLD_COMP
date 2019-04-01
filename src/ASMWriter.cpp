@@ -61,6 +61,12 @@ void ASMWriter::addInstrMult(string src)
       addInstr("imul "+src);
 }
 
+void ASMWriter::addInstrDiv(string src)
+{
+	  addInstr("cltd");
+      addInstr("idivl "+src);
+}
+
 void ASMWriter::initDoc()
 {
   addInstr(".text");
@@ -119,19 +125,19 @@ int ASMWriter::addSubstraction(int addrRes, int addr1, int addr2, uint size){
 }
 
 int ASMWriter::addMultiplication(int addrRes, int addr1, int addr2, uint size){
-  // TODO
   addInstrMov(to_string(addr1)+string("(%rbp)"),string("%eax"),size);
   addInstrMov(to_string(addr2)+string("(%rbp)"),string("%edx"),size);
-  // ici on fait addr1 - addr2 a priori
-  // => mettre addr1 dans edx et addr2 dans eax au dessus pour inverser
   addInstrMult(string("%edx"));
   addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
   return addrRes;
-  //return adresse ?
 }
 
 int ASMWriter::addDivision(int addrRes, int addr1, int addr2, uint size){
-  // TODO
+  addInstrMov(to_string(addr1)+string("(%rbp)"),string("%eax"),size);
+  addInstrMov(to_string(addr2)+string("(%rbp)"),string("%ebx"),size);
+  addInstrDiv(string("%ebx"));
+  addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
+  return addrRes;
 }
 
 int ASMWriter::addReadMem(int addrDest, int addrMem, uint size){
