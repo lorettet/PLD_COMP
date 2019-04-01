@@ -6,5 +6,5 @@ int main(){
 	int a = 3;
 	int b = 3 + a;
 	somme(a,b);
-	return 0;
+	return -6;
 }
