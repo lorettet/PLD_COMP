@@ -4,7 +4,7 @@
 #include "../antlr/exprLexer.h"
 #include "../antlr/exprParser.h"
 #include "myVisitor.h"
-#include "ASMWriter.h"
+#include "ASMWriter_x86.h"
 
 #include <fstream>
 #include <string>
@@ -28,7 +28,7 @@ int main (int argc, char *argv[]) {
     assert(tree);
     MyVisitor visitor;
     Fonction* f = visitor.visit(tree);
-		ASMWriter asmb("main.s");
+		ASMWriter_x86 asmb("main.s");
 		CFG cfg(f);
 		cfg.buildIR();
 		cout << "CFG IR done" << endl;

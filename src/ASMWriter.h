@@ -13,55 +13,48 @@ class ASMWriter
 public:
   ASMWriter(string name);
 
-  ~ASMWriter(){}
+  virtual ~ASMWriter(){}
 
-  void addReturnVar(int addr, uint size = 4);
+  virtual void addReturnVar(int addr, uint size = 4) = 0;
 
-  void addReturnInt(int value);
+  virtual void addReturnInt(int value) = 0;
 
-  void addAffectationInt(int addr, int value, uint size = 4);
+  virtual void addAffectationInt(int addr, int value, uint size = 4) = 0;
 
-  void addAffectationVar(int dest, int src, uint size = 4);
+  virtual int addAddition(int addrRes, int addr1, int addr2, uint size = 4) = 0;
 
-  // void addAddition(int value1, int value2);
+  virtual int addSubstraction(int addrRes, int addr1, int addr2, uint size = 4) = 0;
 
-  int addAddition(int addrRes, int addr1, int addr2, uint size = 4);
+  virtual int addMultiplication(int addrRes, int addr1, int addr2, uint size = 4) = 0;
 
-  // void addAddition(string name, int value);
+  virtual int addDivision(int addrRes, int addr1, int addr2, uint size = 4) = 0;
 
-  // void addAddition(string name1, string name2);
+  virtual int addReadMem(int addrDest, int addrMem, uint size = 4) = 0;
 
-  // void addAdditionAndAffectation(string dest, int value1, int value2);
+  virtual int addWriteMem(int addrMem, int addrSrc, uint size = 4) = 0;
 
-  // void addAdditionAndAffectation(string dest, string nameAdd, int value);
+  virtual void writeASM();
 
-  // void addAdditionAndAffectation(string dest, string nameAdd1, string nameAdd2);
+  virtual void addPrologue() = 0;
 
-  int addSubstraction(int addrRes, int addr1, int addr2, uint size = 4);
+  virtual void addEpilogue() = 0;
 
-  int addReadMem(int addrDest, int addrMem, uint size = 4);
+protected:
+  virtual void initDoc();
 
-  int addWriteMem(int addrMem, int addrSrc, uint size = 4);
-  
-  void writeASM();
+  virtual void addLabel(string name);
 
-  void addPrologue();
+  virtual void addInstr(string instr);
 
-  void addEpilogue();
+  virtual void addInstrMov(string src, string dest, uint size = 4) = 0;
 
-private:
-  void initDoc();
+  virtual void addInstrAdd(string src, string dest, uint size = 4) = 0;
 
+  virtual void addInstrSub(string src, string dest, uint size = 4) = 0;
 
-  void addLabel(string name);
+  virtual void addInstrDiv(string src) = 0;
 
-  void addInstr(string instr);
-
-  void addInstrMov(string src, string dest, uint size = 4);
-
-  void addInstrAdd(string src, string dest, uint size = 4);
-
-  void addInstrSub(string src, string dest, uint size = 4);
+  virtual void addInstrMult(string src) = 0;
 
   ofstream fileStream;
   string fileName;

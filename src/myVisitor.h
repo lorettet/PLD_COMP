@@ -128,7 +128,11 @@ public:
 	}
     
     virtual antlrcpp::Any visitVal(exprParser::ValContext *ctx) override {
-	    return (Expression*) visit(ctx->valeur());
+    
+    	if(ctx->ADDSOUS() && ctx->ADDSOUS()->getText() == "-") {
+	    return (Expression*) new Soustraction(new Int(0),(Expression*)  visit(ctx->valeur()));
+	}
+	return (Expression*) new Addition(new Int(0), (Expression*) visit(ctx->valeur()));
     }
 
     virtual antlrcpp::Any visitParenthese(exprParser::ParentheseContext *ctx) override {
