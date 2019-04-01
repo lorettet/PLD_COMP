@@ -44,3 +44,12 @@ string Multiplication::buildIR(CFG & cfg)
   cfg.current_bb->add_IRInstr(mul);
   return var;
 }
+
+string Parenthese::buildIR(CFG & cfg)
+{
+  cout << "Building IR ())" << endl;
+  cout << "Getting exp" << endl;
+  string var = exp->buildIR(cfg);
+  cout << "temp var is at : " << var << endl;
+  return var;
+}
