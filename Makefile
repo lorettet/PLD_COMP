@@ -41,7 +41,7 @@ COMPFLAG=-g -std=c++11 $(DEBUGFLAG) -Wno-attributes
 .PHONY: g4 clean exe
 
 all: $(EXEDIR)$(EXE)
-	@echo $(GREEN)Done$(CANCELCOLOR)
+	$(ECHO) $(GREEN)Done$(CANCELCOLOR)
 
 
 g4:$(G4)

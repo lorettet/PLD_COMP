@@ -7,11 +7,13 @@ TESTCOUNT=0
 REDCOLOR='\033[0;31m'
 RESETCOLOR='\033[0m'
 GREENCOLOR='\033[0;32m'
+BOLDFONT=$(tput bold)
+RESETFONT=$(tput sgr0)
 echo "Debut des tests" > resultatsTests.txt
 
 for directory in "$TESTFILESDIR"/*
 do
-	echo "-------------------------- ${directory} -----------------------" >> resultatsTests.txt
+	echo "----------------------- ${BOLDFONT}${directory}${RESETFONT} --------------------" >> resultatsTests.txt
 	errorCountCategory=0
 	testCountCategory=0
 	for testFile in "$directory"/*.c	
@@ -23,9 +25,9 @@ do
 		 cmp --silent temperr.txt $testFile.sol
 		    if [ $? -eq 0 ]
 			then
-			  echo -e $GREENCOLOR"                                    PASSED : ${testFile}"$RESETCOLOR
+			  echo -e $GREENCOLOR"                  ${BOLDFONT}PASSED${RESETFONT}$GREENCOLOR : ${testFile}"$RESETCOLOR
 			else
-				echo -e $REDCOLOR"                                    FAILED : ${testFile}"$RESETCOLOR
+				echo -e $REDCOLOR"                  ${BOLDFONT}FAILED${RESETFONT}$REDCOLOR : ${testFile}"$RESETCOLOR
 				echo -e $REDCOLOR"Echec test ${testFile}. Attendu ${RESATTENDU}, obtenu "$RESETCOLOR >> resultatsTests.txt
 				cat temperr.txt >> resultatsTests.txt
 	    		((ERRORCOUNT++))
@@ -38,11 +40,11 @@ do
 			if [ $RESPROG != $RESATTENDU ]
 			then
 			  ((ERRORCOUNT++))
-			  echo -e $REDCOLOR"                                    FAILED : ${testFile}"$RESETCOLOR
+			  echo -e $REDCOLOR"                  ${BOLDFONT}FAILED${RESETFONT}$REDCOLOR : ${testFile}"$RESETCOLOR
 			  echo -e $REDCOLOR"Echec test ${testFile}. Attendu ${RESATTENDU}, obtenu ${RESPROG}"$RESETCOLOR >> resultatsTests.txt
 			  ((errorCountCategory++))
 			else
-			    echo -e $GREENCOLOR"                                    PASSED : ${testFile}"$RESETCOLOR
+			    echo -e $GREENCOLOR"                  ${BOLDFONT}PASSED${RESETFONT}$GREENCOLOR : ${testFile}"$RESETCOLOR
 			fi
 			rm a.out main.s
 		fi
@@ -53,16 +55,16 @@ do
 	echo "">> resultatsTests.txt
 	if ["${errorCountCategory}" -ne "${testCountCategory}" ]
 	then
-	    echo -e $REDCOLOR"${errorCountCategory} echecs sur ${testCountCategory} dans ${directory}"$RESETCOLOR >> resultatsTests.txt
+	    echo -e $REDCOLOR"${BOLDFONT}${errorCountCategory} echecs${RESETFONT} sur ${testCountCategory} dans ${directory}"$RESETCOLOR >> resultatsTests.txt
 	else
-	    echo -e $GREENCOLOR"${errorCountCategory} echecs sur ${testCountCategory} dans ${directory}"$RESETCOLOR >> resultatsTests.txt
+	    echo -e $GREENCOLOR"${BOLDFONT}${errorCountCategory} echecs${RESETFONT} sur ${testCountCategory} dans ${directory}"$RESETCOLOR >> resultatsTests.txt
 	fi
 	echo "">> resultatsTests.txt
 done
-echo "-------------------------------------------------" >> resultatsTests.txt
+echo "---------------------------------- ${BOLDFONT}TOTAL${RESETFONT} ----------------------------------" >> resultatsTests.txt
 if ["${ERRORCOUNT}" -ne "${TESTCOUNT}" ]
 then
-    echo -e $REDCOLOR"${ERRORCOUNT} echecs sur ${TESTCOUNT}"$RESETCOLOR >> resultatsTests.txt
+    echo -e $REDCOLOR"${BOLDFONT}${ERRORCOUNT} echecs${RESETFONT} sur ${TESTCOUNT}" >> resultatsTests.txt
 else
-    echo -e $GREENCOLOR"${ERRORCOUNT} echecs sur ${TESTCOUNT}"$RESETCOLOR >> resultatsTests.txt
+    echo -e $GREENCOLOR"${BOLDFONT}${ERRORCOUNT} echecs${RESETFONT} sur ${TESTCOUNT}" >> resultatsTests.txt
 fi
