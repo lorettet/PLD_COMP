@@ -52,7 +52,7 @@ class Division : public Expression {
 	public:
 		Division(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Division(){}
-		string buildIR(CFG & cfg){}
+		string buildIR(CFG & cfg);
 
 	protected:
 		Expression* exp1;
@@ -64,7 +64,7 @@ class Parenthese : public Expression {
 	public:
 		Parenthese(Expression* e) : exp(e) {}
 		~Parenthese(){}
-		string buildIR(CFG & cfg){}
+		string buildIR(CFG & cfg);
 
 	protected:
 		Expression* exp;
