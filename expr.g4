@@ -15,19 +15,19 @@ declarations :
 			TYPE ID';' 					#declarationSimple
 			| TYPE ID '=' expression';'	#declarationAvecAffectation;
 
-instructions : 
-			ID'('parametresEffectifs');'	#appel
+instructions : expression';'				#expressionSeule
 			| ID '=' expression';'			#affectation
 			| 'return' expression';'		#return;
 			
-expression : expression MULTDIV expression			#expressionMultDiv
+expression : expression MULTDIV expression		#expressionMultDiv
 			| expression ADDSOUS expression		#expressionAddSous
-			| '('expression')'			#parenthese
-			| ADDSOUS? valeur 			#val;
+			| '('expression')'					#parenthese
+			| ADDSOUS? valeur 					#val;
 			
 		
-valeur : ID 	#variable
-		| INT	#int;
+valeur : ID'('parametresEffectifs')'		#appel
+		|ID 								#variable
+		| INT								#int;
 
 
 ESPACE : [ \n\t\r] -> skip;
