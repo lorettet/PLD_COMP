@@ -160,6 +160,19 @@ class IRInstr_mul : public IRInstr {
         string y;
 };
 
+class IRInstr_div : public IRInstr {
+
+    public:
+        IRInstr_div(BasicBlock* bb_, Type t, string dest, string x, string y);
+        virtual ~IRInstr_div(){}
+        void gen_asm(ASMWriter& asmw);
+
+    private:
+        string dest;
+        string x;
+        string y;
+};
+
 class IRInstr_cmp_eq : public IRInstr {
 
     public:

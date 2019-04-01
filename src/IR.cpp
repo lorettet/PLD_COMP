@@ -164,6 +164,9 @@ void IRInstr_sub::gen_asm(ASMWriter& asmb)
 IRInstr_mul::IRInstr_mul(BasicBlock* bb_, Type t, string dest, string x, string y) : IRInstr(bb_,t),dest(dest),x(x),y(y)
 {}
 
+IRInstr_div::IRInstr_div(BasicBlock* bb_, Type t, string dest, string x, string y) : IRInstr(bb_,t),dest(dest),x(x),y(y)
+{}
+
 void IRInstr_mul::gen_asm(ASMWriter& asmb)
 {
     int addrRes = bb->cfg->get_var_index(dest);
@@ -171,6 +174,15 @@ void IRInstr_mul::gen_asm(ASMWriter& asmb)
     int addry = bb->cfg->get_var_index(y);
 
     asmb.addMultiplication(addrRes, addrx, addry, t);
+}
+
+void IRInstr_div::gen_asm(ASMWriter& asmb)
+{
+    int addrRes = bb->cfg->get_var_index(dest);
+    int addrx = bb->cfg->get_var_index(x);
+    int addry = bb->cfg->get_var_index(y);
+
+    asmb.addDivision(addrRes, addrx, addry, t);
 }
 
 IRInstr_cmp_eq::IRInstr_cmp_eq(BasicBlock* bb_, Type t, string dest, string x, string y) : IRInstr(bb_,t),dest(dest),x(x),y(y)
