@@ -151,9 +151,9 @@ public:
   virtual antlrcpp::Any visitDeclarationAvecAffectation(exprParser::DeclarationAvecAffectationContext *ctx) override {
 	return (Declaration*) new DeclarationAvecAffectation(new Variable(ctx->ID()->getText()), (Expression*) visit(ctx->expression()));
   }
-
-  virtual antlrcpp::Any visitAppel(exprParser::AppelContext *ctx) override {
-	  return (Instruction*) new Appel(ctx->ID()->getText(), (ParametresEffectifs*) visit(ctx->parametresEffectifs()));
+  
+  virtual antlrcpp::Any visitExpressionSeule(exprParser::ExpressionSeuleContext *ctx) override {
+    return (Instruction*) new ExpressionSeule((Expression*) visit(ctx->expression()));
   }
 
   virtual antlrcpp::Any visitAffectation(exprParser::AffectationContext *ctx) override {
@@ -187,6 +187,10 @@ public:
 
   virtual antlrcpp::Any visitParenthese(exprParser::ParentheseContext *ctx) override {
     return (Expression*) new Parenthese((Expression*) visit(ctx->expression()));
+  }
+  
+  virtual antlrcpp::Any visitAppel(exprParser::AppelContext *ctx) override {
+	  return (Expression*) new Appel(ctx->ID()->getText(), (ParametresEffectifs*) visit(ctx->parametresEffectifs()));
   }
 
   virtual antlrcpp::Any visitVariable(exprParser::VariableContext *ctx) override {

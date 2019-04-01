@@ -123,13 +123,7 @@ class ParametresEffectifs {
 		vector<Expression*> listExpr;
 };
 
-class Instruction {
-	public:
-		virtual ~Instruction(){}
-		string virtual buildIR(CFG & cfg){}
-};
-
-class Appel : public Instruction {
+class Appel : public Valeur {
 	public:
 		Appel(string nomFct, ParametresEffectifs* pe) : nomFonction(nomFct), params(pe) { }
 		string buildIR(CFG & cfg);
@@ -137,6 +131,21 @@ class Appel : public Instruction {
 	protected:
 		string nomFonction;
 		ParametresEffectifs* params;
+};
+
+class Instruction {
+	public:
+		virtual ~Instruction(){}
+		string virtual buildIR(CFG & cfg){}
+};
+
+class ExpressionSeule : public Instruction {
+	public:
+		ExpressionSeule(Expression* expr) : expression(expr) {}
+		~ExpressionSeule() {}
+		string buildIR(CFG & cfg) {}
+	protected:
+		Expression* expression;
 };
 
 class Affectation : public Instruction {
