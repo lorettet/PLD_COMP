@@ -86,6 +86,7 @@ void CFG::buildIR()
 
 void CFG::gen_asm_prologue(ASMWriter & asmb)
 {
+  asmb.initFunction(ast->nom);
   asmb.addPrologue();
 }
 

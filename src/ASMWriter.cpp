@@ -20,8 +20,6 @@ void ASMWriter::addInstr(string instr)
 void ASMWriter::initDoc()
 {
   addInstr(".text");
-  addInstr(".global main");
-  addLabel("main");
 }
 
 void ASMWriter::writeASM()
@@ -33,4 +31,11 @@ void ASMWriter::writeASM()
     fileStream << l << endl;
   }
   fileStream.close();
+}
+
+void ASMWriter::initFunction(string name)
+{
+
+  addInstr(string(".global ")+name);
+  addLabel(name);
 }

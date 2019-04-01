@@ -101,7 +101,7 @@ class Parametre {
 	public:
 		Parametre(string n, string t) : nom(n), type(t) {}
 		virtual ~Parametre(){}
-		
+
 		string nom;
 		string type;
 };
@@ -111,7 +111,7 @@ class ParametresFormels {
 		ParametresFormels(){}
 		virtual ~ParametresFormels(){}
 		void ajouterParametre(Parametre * p){ listParams.push_back(p);}
-		vector<Parametre*> listParams;		
+		vector<Parametre*> listParams;
 };
 
 class ParametresEffectifs {
@@ -119,8 +119,8 @@ class ParametresEffectifs {
 		ParametresEffectifs(){}
 		virtual ~ParametresEffectifs(){}
 		void ajouterExpression(Expression* e){listExpr.push_back(e);}
-		
-		vector<Expression*> listExpr;		
+
+		vector<Expression*> listExpr;
 };
 
 class Instruction {
@@ -189,7 +189,7 @@ class Fonction {
 		virtual ~Fonction() {}
 		void ajouterDeclaration(Declaration* dec);
 		void ajouterInstruction(Instruction* inst);
-		
+
 		string nom;
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
@@ -201,7 +201,8 @@ class Programme {
 	public:
 		Programme(){}
 		void ajouterFonction(Fonction* fct){fonctions.push_back(fct);}
-		
+		vector<CFG*> buildIR();
+
 		vector<Fonction*> fonctions;
-		
+
 };

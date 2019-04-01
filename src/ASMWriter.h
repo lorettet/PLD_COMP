@@ -39,6 +39,8 @@ public:
 
   virtual void addEpilogue() = 0;
 
+  virtual void initFunction(string name);
+
 protected:
   virtual void initDoc();
 
