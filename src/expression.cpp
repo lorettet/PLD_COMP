@@ -30,3 +30,17 @@ string Soustraction::buildIR(CFG & cfg)
   cfg.current_bb->add_IRInstr(sub);
   return var;
 }
+
+string Multiplication::buildIR(CFG & cfg)
+{
+  cout << "Building IR Mul" << endl;
+  cout << "Getting exp1" << endl;
+  string var1 = exp1->buildIR(cfg);
+  cout << "Getting exp2" << endl;
+  string var2 = exp2->buildIR(cfg);
+  string var = cfg.create_new_tempvar(Type::Int32);
+  IRInstr_mul* mul = new IRInstr_mul(cfg.current_bb,Type::Int32,var,var1,var2);
+  cout << "Adding IR Mul" << endl;
+  cfg.current_bb->add_IRInstr(mul);
+  return var;
+}

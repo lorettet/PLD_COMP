@@ -39,10 +39,12 @@ public:
 
   int addSubstraction(int addrRes, int addr1, int addr2, uint size = 4);
 
+  int addMultiplication(int addrRes, int addr1, int addr2, uint size = 4);
+
   int addReadMem(int addrDest, int addrMem, uint size = 4);
 
   int addWriteMem(int addrMem, int addrSrc, uint size = 4);
-  
+
   void writeASM();
 
   void addPrologue();
