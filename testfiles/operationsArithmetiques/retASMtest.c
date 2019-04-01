@@ -4,5 +4,6 @@ int main()
 	int b = 4;
 	int c;
 	c = a-b;
-	a = a + c - b
+	a = a + c - b;
 	return a;
+}

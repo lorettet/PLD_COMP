@@ -1,25 +1,28 @@
 grammar expr;
 
-axiome : fonction ; 
-fonction : type nomFonction'('parametres')''{'declarations* instructions*'}';
+programme : fonction+;
+
+fonction : type ID'('parametres')''{'declarations* instructions*'}';
+
 type : 'int';
-nomFonction : 'main';
+
 parametres : 
 		| 'void';
 declarations : 
-			type VARIABLE';' 					#declarationSimple
-			| type VARIABLE '=' expression';'	#declarationAvecAffectation;
+			type ID';' 			#declarationSimple
+			| type ID '=' expression';'	#declarationAvecAffectation;
 
 instructions : 
-			VARIABLE '=' expression';'		#affectation
+			ID'('parametres')';				#appel
+			| ID '=' expression';'			#affectation
 			| 'return' expression';'		#return;
 			
 expression : expression MULTDIV expression		#expressionMultDiv
 			| expression ADDSOUS expression		#expressionAddSous
 			| '('expression')'					#parenthese
-			| valeur 							#val;
+			| [-]?valeur 						#val;
 		
-valeur : VARIABLE 	#variable
+valeur : ID 	#variable
 		| INT		#int;
 
 ESPACE : [ \n\t\r] -> skip;
@@ -27,5 +30,5 @@ ESPACE : [ \n\t\r] -> skip;
 MULTDIV : [*/];
 ADDSOUS : [+-];
 
-VARIABLE : [a-zA-Z]+;
-INT : [0-9]+ ;
+ID : [a-zA-Z_]+;
+INT : [0-9]+;

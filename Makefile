@@ -75,9 +75,4 @@ test:
 	cat resultatsTests.txt
 
 clean:
-<<<<<<< HEAD
-	-rm antlr/* bin/bin*/* a.out main.s main.o bin/exe
-=======
 	-rm -f antlr/* bin/bin*/* a.out main.s main.o bin/exe
-
->>>>>>> 2812b920b20cfe9865221e2f0b3a515cfb15a214
