@@ -41,7 +41,7 @@ class Multiplication : public Expression {
 	public:
 		Multiplication(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Multiplication(){}
-		string buildIR(CFG & cfg){}
+		string buildIR(CFG & cfg);
 
 	protected:
 		Expression* exp1;
@@ -52,7 +52,7 @@ class Division : public Expression {
 	public:
 		Division(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
 		~Division(){}
-		string buildIR(CFG & cfg){}
+		string buildIR(CFG & cfg);
 
 	protected:
 		Expression* exp1;
@@ -64,7 +64,7 @@ class Parenthese : public Expression {
 	public:
 		Parenthese(Expression* e) : exp(e) {}
 		~Parenthese(){}
-		string buildIR(CFG & cfg){}
+		string buildIR(CFG & cfg);
 
 	protected:
 		Expression* exp;
@@ -97,11 +97,21 @@ class Variable : public Valeur {
 		string nom;
 };
 
+class Parametre {
+	public:
+		Parametre(string n, string t) : nom(n), type(t) {}
+		virtual ~Parametre(){}
+		
+		string nom;
+		string type;
+};
+
 class ParametresFormels {
 	public:
 		ParametresFormels(){}
 		virtual ~ParametresFormels(){}
-		map<string, string> listParams;		
+		void ajouterParametre(Parametre * p){ listParams.push_back(p);}
+		vector<Parametre*> listParams;		
 };
 
 class ParametresEffectifs {

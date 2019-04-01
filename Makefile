@@ -66,10 +66,15 @@ $(BINDIR)binsrc/%.o: $(SRCDIR)%.cpp
 exe:
 	as -o main.o main.s
 	gcc main.o
-	
+
 test:
 	make clean
 	make g4
+	make
+	./tests.sh 2> errTestScript.txt
+	cat resultatsTests.txt
+	
+quicktest:
 	make
 	./tests.sh 2> errTestScript.txt
 	cat resultatsTests.txt

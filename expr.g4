@@ -2,17 +2,18 @@ grammar expr;
 
 programme : fonction+;
 
-fonction : type ID'('parametresFormels')''{'declarations* instructions*'}';
+fonction : TYPE ID'('parametresFormels')''{'declarations* instructions*'}';
 
-type : 'int';
 
-parametresFormels : (type ID(','type ID)*)*;
+parametresFormels : (parametre(','parametre)*)*;
+
+parametre : TYPE ID;
 
 parametresEffectifs : (expression(','expression)*)*;
 
 declarations : 
-			type ID';' 			#declarationSimple
-			| type ID '=' expression';'	#declarationAvecAffectation;
+			TYPE ID';' 					#declarationSimple
+			| TYPE ID '=' expression';'	#declarationAvecAffectation;
 
 instructions : 
 			ID'('parametresEffectifs');'	#appel
@@ -23,14 +24,18 @@ expression : expression MULTDIV expression			#expressionMultDiv
 			| expression ADDSOUS expression		#expressionAddSous
 			| '('expression')'			#parenthese
 			| ADDSOUS? valeur 			#val;
+			
 		
 valeur : ID 	#variable
 		| INT	#int;
+
 
 ESPACE : [ \n\t\r] -> skip;
 
 MULTDIV : [*/];
 ADDSOUS : [+-];
 
+TYPE : 'int';
+
 ID : [a-zA-Z_]+;
-INT : [0-9]+;
+INT : [0-9]+ ;

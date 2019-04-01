@@ -39,10 +39,14 @@ public:
 
   int addSubstraction(int addrRes, int addr1, int addr2, uint size = 4);
 
+  int addMultiplication(int addrRes, int addr1, int addr2, uint size = 4);
+
+  int addDivision(int addrRes, int addr1, int addr2, uint size = 4);
+
   int addReadMem(int addrDest, int addrMem, uint size = 4);
 
   int addWriteMem(int addrMem, int addrSrc, uint size = 4);
-  
+
   void writeASM();
 
   void addPrologue();
@@ -62,6 +66,10 @@ private:
   void addInstrAdd(string src, string dest, uint size = 4);
 
   void addInstrSub(string src, string dest, uint size = 4);
+  
+  void addInstrMult(string src);
+  
+  void addInstrDiv(string src);
 
   ofstream fileStream;
   string fileName;

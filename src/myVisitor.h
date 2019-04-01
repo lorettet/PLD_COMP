@@ -117,19 +117,25 @@ public:
 	}
 	return f;
   }
-
-  virtual antlrcpp::Any visitType(exprParser::TypeContext *ctx) override {
-    return visitChildren(ctx);
+  
+  virtual antlrcpp::Any visitParametre(exprParser::ParametreContext *ctx) override {
+    return new Parametre(ctx->ID()->getText(), ctx->TYPE()->getText());
   }
 
   virtual antlrcpp::Any visitParametresFormels(exprParser::ParametresFormelsContext *ctx) override {
-    return visitChildren(ctx);
+	ParametresFormels * pf = new ParametresFormels();
+	
+	for (auto parametre : ctx->parametre()){
+		pf->ajouterParametre((Parametre*)visit(parametre));
+	}
+    return pf;
   }
 
   virtual antlrcpp::Any visitParametresEffectifs(exprParser::ParametresEffectifsContext *ctx) override {
 	  ParametresEffectifs* pe = new ParametresEffectifs();
-	  for (auto parametre : ctx->expression()){
-		  pe->ajouterExpression((Expression*) visit(parametre));
+	  
+	  for (auto expression : ctx->expression()){
+		  pe->ajouterExpression((Expression*) visit(expression));
 	  }
 	  return pe;
   }
