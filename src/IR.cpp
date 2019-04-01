@@ -67,18 +67,17 @@ void CFG::gen_asm(ASMWriter & asmb)
 
 void CFG::buildIR()
 {
-  cout << "Building IR CFG" << endl;
+  cout << "=== Building IR CFG for function "<< ast->nom << " ===" << endl;
   for(vector<Declaration*>::iterator pObj = ast->declarations.begin(); pObj != ast->declarations.end(); ++pObj)
   {
     add_to_symbol_table((*pObj)->getNomVariable(), Type::Int32);
-    if (dynamic_cast<DeclarationAvecAffectation*>(*pObj)) {
-      (*pObj)->buildIR(*this);
-    }
+    (*pObj)->buildIR(*this);
 
   }
   for(vector<Instruction*>::iterator pObj = ast->instructions.begin(); pObj != ast->instructions.end(); ++pObj)
   {
     cout << "Building instr" << endl;
+    cout << typeid(**pObj).name() << endl;
     (*pObj)->buildIR(*this);
     cout << "instr done" << endl;
   }

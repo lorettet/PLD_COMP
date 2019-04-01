@@ -127,7 +127,7 @@ class Appel : public Valeur {
 	public:
 		Appel(string nomFct, ParametresEffectifs* pe) : nomFonction(nomFct), params(pe) { }
 		string buildIR(CFG & cfg);
-		~Appel() { }
+		virtual ~Appel() { }
 	protected:
 		string nomFonction;
 		ParametresEffectifs* params;
@@ -142,8 +142,8 @@ class Instruction {
 class ExpressionSeule : public Instruction {
 	public:
 		ExpressionSeule(Expression* expr) : expression(expr) {}
-		~ExpressionSeule() {}
-		string buildIR(CFG & cfg) {}
+		virtual ~ExpressionSeule() {}
+		string buildIR(CFG & cfg);
 	protected:
 		Expression* expression;
 };
@@ -151,7 +151,7 @@ class ExpressionSeule : public Instruction {
 class Affectation : public Instruction {
 	public:
 		Affectation(Variable* var, Expression* expr) : variable(var), expression(expr) { }
-		~Affectation() { }
+		virtual ~Affectation() { }
 		string buildIR(CFG & cfg);
 	protected:
 		Variable* variable;

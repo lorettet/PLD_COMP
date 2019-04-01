@@ -17,3 +17,8 @@ string Variable::buildIR(CFG & cfg)
   cout << "var is " << nom << endl;
   return nom;
 }
+
+string Appel::buildIR(CFG & cfg)
+{
+  return "";
+}
