@@ -15,13 +15,13 @@ instructions :
 			VARIABLE '=' expression';'		#affectation
 			| 'return' expression';'		#return;
 			
-expression : expression MULTDIV expression		#expressionMultDiv
+expression : expression MULTDIV expression			#expressionMultDiv
 			| expression ADDSOUS expression		#expressionAddSous
-			| '('expression')'					#parenthese
-			| valeur 							#val;
+			| '('expression')'			#parenthese
+			| ADDSOUS? valeur 			#val;
 		
 valeur : VARIABLE 	#variable
-		| INT		#int;
+	| INT		#int;
 
 ESPACE : [ \n\t\r] -> skip;
 
