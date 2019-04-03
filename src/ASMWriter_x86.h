@@ -15,9 +15,9 @@ public:
   ASMWriter_x86(string name);
   virtual ~ASMWriter_x86(){}
 
-  virtual void addReturnVar(int addr, uint size = 4);
+  virtual void addReturnVar(int addr,string fctName, uint size = 4);
 
-  virtual void addReturnInt(int value);
+  virtual void addReturnInt(int value, string fctName);
 
   virtual void addAffectationInt(int addr, int value, uint size = 4);
 
@@ -39,7 +39,7 @@ public:
 
   virtual void addPrologue(int stackFrameSize, int nbParams);
 
-  virtual void addEpilogue();
+  virtual void addEpilogue(string fctName);
 
 protected:
 
@@ -58,4 +58,6 @@ protected:
   virtual void addInstrCall(string label);
 
   virtual void addInstrNeg(string src);
+
+  virtual void addInstrJmp(string label);
 };

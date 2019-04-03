@@ -15,9 +15,9 @@ public:
 
   virtual ~ASMWriter(){}
 
-  virtual void addReturnVar(int addr, uint size = 4) = 0;
+  virtual void addReturnVar(int addr, string fctName ,uint size = 4) = 0;
 
-  virtual void addReturnInt(int value) = 0;
+  virtual void addReturnInt(int value, string fctName) = 0;
 
   virtual void addAffectationInt(int addr, int value, uint size = 4) = 0;
 
@@ -41,7 +41,7 @@ public:
 
   virtual void addPrologue(int stackFrameSize, int nbParams) = 0;
 
-  virtual void addEpilogue() = 0;
+  virtual void addEpilogue(string fctName) = 0;
 
   virtual void initFunction(string name);
 
@@ -65,6 +65,8 @@ protected:
   virtual void addInstrCall(string label) = 0;
 
   virtual void addInstrNeg(string src) = 0;
+
+  virtual void addInstrJmp(string label) = 0;
 
   ofstream fileStream;
   string fileName;

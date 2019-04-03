@@ -6,9 +6,6 @@
 CFG::CFG(Fonction * ast_) : ast(ast_)
 {
   cout << "Creating CFG" << endl;
-  BasicBlock* firstBB = new BasicBlock(this,"_block");
-  add_bb(firstBB);
-  current_bb = firstBB;
 }
 
 CFG::~CFG()
@@ -79,7 +76,7 @@ void CFG::gen_asm_prologue(ASMWriter & asmb)
 
 void CFG::gen_asm_epilogue(ASMWriter & asmb)
 {
-  asmb.addEpilogue();
+  asmb.addEpilogue(ast->nom);
 }
 
 int CFG::getStackSize()
@@ -248,7 +245,7 @@ void IRInstr_ret::gen_asm(ASMWriter& asmb)
 {
     int addrVar = bb->cfg->get_var_index(var);
 
-    asmb.addReturnVar(addrVar,t);
+    asmb.addReturnVar(addrVar,bb->cfg->ast->nom,t);
 }
 
 IRInstr_neg::IRInstr_neg(BasicBlock* bb_, Type t, string var) : IRInstr(bb_,t),var(var)
