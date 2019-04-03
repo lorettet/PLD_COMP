@@ -50,9 +50,9 @@ public:
     virtual antlrcpp::Any visitReturn(exprParser::ReturnContext *ctx) override {
 		return (Instruction*) new Return((Expression*) visit(ctx->expression()));
 	}
-    
+
     virtual antlrcpp::Any visitVal(exprParser::ValContext *ctx) override {
-    
+
     	if(ctx->ADDSOUS() && ctx->ADDSOUS()->getText() == "-") {
 	    return (Expression*) new Soustraction(new Int(0),(Expression*)  visit(ctx->valeur()));
 	}
@@ -65,18 +65,18 @@ public:
 
     virtual antlrcpp::Any visitExpressionAddSous(exprParser::ExpressionAddSousContext *ctx) override {
 	    if(ctx->ADDSOUS()->getText() == "-") {
-	    	return (Expression*) new Soustraction((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1))); 
+	    	return (Expression*) new Soustraction((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1)));
 	    }
 	    return (Expression*) new Addition((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1)));
     }
 
     virtual antlrcpp::Any visitExpressionMultDiv(exprParser::ExpressionMultDivContext *ctx) override {
 	    if(ctx->MULTDIV()->getText() == "*") {
-	    	return (Expression*) new Multiplication((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1))); 
+	    	return (Expression*) new Multiplication((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1)));
 	    }
 	    return (Expression*) new Division((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1)));
     }
-    
+
     virtual antlrcpp::Any visitVariable(exprParser::VariableContext *ctx) override {
 		return (Expression*) new Variable(ctx->VARIABLE()->getText());
 	}
@@ -121,14 +121,14 @@ public:
 	}
 	return f;
   }
-  
+
   virtual antlrcpp::Any visitParametre(exprParser::ParametreContext *ctx) override {
     return new Parametre(ctx->ID()->getText(), ctx->TYPE()->getText());
   }
 
   virtual antlrcpp::Any visitParametresFormels(exprParser::ParametresFormelsContext *ctx) override {
 	ParametresFormels * pf = new ParametresFormels();
-	
+
 	for (auto parametre : ctx->parametre()){
 		pf->ajouterParametre((Parametre*)visit(parametre));
 	}
@@ -137,7 +137,7 @@ public:
 
   virtual antlrcpp::Any visitParametresEffectifs(exprParser::ParametresEffectifsContext *ctx) override {
 	  ParametresEffectifs* pe = new ParametresEffectifs();
-	  
+
 	  for (auto expression : ctx->expression()){
 		  pe->ajouterExpression((Expression*) visit(expression));
 	  }
@@ -151,7 +151,7 @@ public:
   virtual antlrcpp::Any visitDeclarationAvecAffectation(exprParser::DeclarationAvecAffectationContext *ctx) override {
 	return (Declaration*) new DeclarationAvecAffectation(new Variable(ctx->ID()->getText()), (Expression*) visit(ctx->expression()));
   }
-  
+
   virtual antlrcpp::Any visitExpressionSeule(exprParser::ExpressionSeuleContext *ctx) override {
     return (Instruction*) new ExpressionSeule((Expression*) visit(ctx->expression()));
   }
@@ -165,30 +165,32 @@ public:
   }
 
   virtual antlrcpp::Any visitVal(exprParser::ValContext *ctx) override {
-    if(ctx->ADDSOUS() && ctx->ADDSOUS()->getText() == "-") {
-	    return (Expression*) new Soustraction(new Int(0),(Expression*)  visit(ctx->valeur()));
-	}
-	return (Expression*) new Addition(new Int(0), (Expression*) visit(ctx->valeur()));
+    return visit(ctx->valeur());
   }
 
   virtual antlrcpp::Any visitExpressionAddSous(exprParser::ExpressionAddSousContext *ctx) override {
     if(ctx->ADDSOUS()->getText() == "-") {
-    	return (Expression*) new Soustraction((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1))); 
+    	return (Expression*) new Soustraction((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1)));
     }
     return (Expression*) new Addition((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1)));
   }
 
   virtual antlrcpp::Any visitExpressionMultDiv(exprParser::ExpressionMultDivContext *ctx) override {
     if(ctx->MULTDIV()->getText() == "*") {
-    	return (Expression*) new Multiplication((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1))); 
+    	return (Expression*) new Multiplication((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1)));
     }
     return (Expression*) new Division((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1)));
+  }
+
+  virtual antlrcpp::Any visitExpressionUnaire(exprParser::ExpressionUnaireContext *ctx) override {
+	  if(ctx->ADDSOUS()->getText() == "+") return (Expression*) visit(ctx->expression());
+	  return (Expression*) new ExpressionUnaire((Expression*) visit(ctx->expression()), ctx->ADDSOUS()->getText() == "-");
   }
 
   virtual antlrcpp::Any visitParenthese(exprParser::ParentheseContext *ctx) override {
     return (Expression*) new Parenthese((Expression*) visit(ctx->expression()));
   }
-  
+
   virtual antlrcpp::Any visitAppel(exprParser::AppelContext *ctx) override {
 	  return (Expression*) new Appel(ctx->ID()->getText(), (ParametresEffectifs*) visit(ctx->parametresEffectifs()));
   }
@@ -203,6 +205,3 @@ public:
 
 
 };
-
-
-
