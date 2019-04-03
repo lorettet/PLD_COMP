@@ -27,7 +27,7 @@ expression : expression MULTDIV expression		#expressionMultDiv
 		
 valeur : ID'('parametresEffectifs')'		#appel
 		|ID 								#variable
-		| INT								#int;
+		|INT								#int;
 
 
 ESPACE : [ \n\t\r] -> skip;

@@ -75,11 +75,13 @@ class Valeur : public Expression {
 		Valeur() { }
 		virtual ~Valeur(){}
 		int virtual getValue(){}
+		
+		bool positif;
 };
 
 class Int : public Valeur{
 	public:
-		Int(int val) : valeur(val) { }
+		Int(int val, bool pos) : valeur(val) { this->positif = pos; }
 		~Int() { }
 		int getValue() {return valeur;}
 		string buildIR(CFG & cfg);
