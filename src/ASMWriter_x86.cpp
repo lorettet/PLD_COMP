@@ -66,11 +66,15 @@ void ASMWriter_x86::addInstrNeg(string src)
 	addInstr("neg "+src);
 }
 
-void ASMWriter_x86::addPrologue(int stackFrameSize)
+void ASMWriter_x86::addPrologue(int stackFrameSize, int nbParams)
 {
   addInstr("pushq %rbp");
   addInstrMov("%rsp", "%rbp", 8);
   addInstrSub(string("$")+to_string(stackFrameSize+4), "%rsp", 8);
+  for(int i = 0; i<nbParams; i++)
+  {
+    addInstrMov(registers[i],-(i+1)*4+"(%rbp)");
+  }
 }
 
 void ASMWriter_x86::addEpilogue()

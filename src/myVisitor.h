@@ -111,7 +111,7 @@ public:
   }
 
   virtual antlrcpp::Any visitFonction(exprParser::FonctionContext *ctx) override {
-    Fonction* f = new Fonction();
+    Fonction* f = new Fonction((ParametresFormels*) visit(ctx->parametresFormels()));
     f->nom = ctx->ID()->getText();
 	for(auto declaration : ctx->declarations()) {
 	  f->ajouterDeclaration(visit(declaration));

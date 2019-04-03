@@ -121,6 +121,7 @@ class ParametresFormels {
 		ParametresFormels(){}
 		virtual ~ParametresFormels(){}
 		void ajouterParametre(Parametre * p){ listParams.push_back(p);}
+		int getNbParams(){return listParams.size();}
 		vector<Parametre*> listParams;
 };
 
@@ -204,7 +205,7 @@ class DeclarationAvecAffectation : public Declaration {
 
 class Fonction {
 	public:
-		Fonction() {}
+		Fonction(ParametresFormels* p): params(p) {}
 		virtual ~Fonction() {}
 		void ajouterDeclaration(Declaration* dec);
 		void ajouterInstruction(Instruction* inst);
@@ -213,6 +214,7 @@ class Fonction {
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
 		map<string,int> variables;
+		ParametresFormels* params;
 		int index = -4;
 };
 

@@ -37,7 +37,7 @@ public:
 
   virtual int addNeg(int addr, uint size = 4);
 
-  virtual void addPrologue(int stackFrameSize);
+  virtual void addPrologue(int stackFrameSize, int nbParams);
 
   virtual void addEpilogue();
 
