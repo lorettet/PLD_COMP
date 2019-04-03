@@ -37,13 +37,13 @@ public:
 
   virtual int addNeg(int addr, uint size = 4);
 
-  virtual void addPrologue(int stackFrameSize);
+  virtual void addPrologue(int stackFrameSize, int nbParams);
 
   virtual void addEpilogue();
 
 protected:
 
-  string registers[6] = {"edi","esi","edx","ecx","r8d","r9d"};
+  string registers[6] = {"%edi","%esi","%edx","%ecx","%r8d","%r9d"};
 
   virtual void addInstrMov(string src, string dest, uint size = 4);
 

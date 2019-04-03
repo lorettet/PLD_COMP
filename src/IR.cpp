@@ -68,6 +68,11 @@ void CFG::gen_asm(ASMWriter & asmb)
 void CFG::buildIR()
 {
   cout << "=== Building IR CFG for function "<< ast->nom << " ===" << endl;
+  cout << "Adding params" << endl;
+  for(auto p : ast->params->listParams)
+  {
+    add_to_symbol_table(p->nom,Type::Int32);
+  }
   for(vector<Declaration*>::iterator pObj = ast->bloc->declarations.begin(); pObj != ast->bloc->declarations.end(); ++pObj)
   {
     add_to_symbol_table((*pObj)->getNomVariable(), Type::Int32);
@@ -86,7 +91,7 @@ void CFG::buildIR()
 void CFG::gen_asm_prologue(ASMWriter & asmb)
 {
   asmb.initFunction(ast->nom);
-  asmb.addPrologue(getStackSize());
+  asmb.addPrologue(getStackSize(),ast->params->getNbParams());
 }
 
 void CFG::gen_asm_epilogue(ASMWriter & asmb)

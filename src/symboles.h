@@ -124,6 +124,7 @@ class ParametresFormels {
 		ParametresFormels(){}
 		virtual ~ParametresFormels(){}
 		void ajouterParametre(Parametre * p){ listParams.push_back(p);}
+		int getNbParams(){return listParams.size();}
 		vector<Parametre*> listParams;
 };
 
@@ -286,6 +287,7 @@ class DeclarationAvecAffectation : public Declaration {
 
 class Bloc: public Instruction {
 	public:
+
 		Bloc(){}
 		~Bloc() {}
 		string buildIR(CFG & cfg) {}
@@ -297,12 +299,14 @@ class Bloc: public Instruction {
 		int index = -4;
 };
 class Fonction {
-	public:
-		Fonction(Bloc* b, string n): bloc(b), nom(n) {}
+	public:		
+		Fonction(ParametresFormels* p, Bloc* b, string n): params(p), bloc(b), nom(n) {}
+		virtual ~Fonction() {}
 		void ajouterDeclaration(Declaration* dec){this->bloc->ajouterDeclaration(dec);}
 		void ajouterInstruction(Instruction* inst){this->bloc->ajouterInstruction(inst);}
 		string nom;
 		Bloc* bloc;
+		ParametresFormels* params;
 };
 
 class Programme {

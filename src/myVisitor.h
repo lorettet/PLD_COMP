@@ -17,6 +17,10 @@ public:
 	}
 	return p;
   }
+  virtual antlrcpp::Any visitFonction(exprParser::FonctionContext *ctx) override {
+    return new Fonction((ParametresFormels*) visit(ctx->parametresFormels()), (Bloc*) visit(ctx->bloc()), ctx->ID()->getText());
+  }
+
   virtual antlrcpp::Any visitParametre(exprParser::ParametreContext *ctx) override {
     return new Parametre(ctx->ID()->getText(), ctx->TYPE()->getText());
   }
@@ -38,10 +42,6 @@ public:
 	  }
 	  return pe;
   }
-
-    virtual antlrcpp::Any visitFonction(exprParser::FonctionContext *ctx) override { 
-    	return (Fonction*) new Fonction((Bloc*) visit(ctx->bloc()), ctx->ID()->getText());
-	}
 
     virtual antlrcpp::Any visitBloc(exprParser::BlocContext *context) override {
 	Bloc* b = new Bloc();

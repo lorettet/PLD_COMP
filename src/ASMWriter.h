@@ -39,7 +39,7 @@ public:
 
   virtual void writeASM();
 
-  virtual void addPrologue(int stackFrameSize) = 0;
+  virtual void addPrologue(int stackFrameSize, int nbParams) = 0;
 
   virtual void addEpilogue() = 0;
 
