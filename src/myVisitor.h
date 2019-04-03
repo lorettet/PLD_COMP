@@ -184,6 +184,11 @@ public:
     }
     return (Expression*) new Division((Expression*) visit(ctx->expression(0)),(Expression*) visit(ctx->expression(1)));
   }
+  
+  virtual antlrcpp::Any visitExpressionUnaire(exprParser::ExpressionUnaireContext *ctx) override {
+	  if(ctx->ADDSOUS()->getText() == "+") return (Expression*) visit(ctx->expression());
+	  return (Expression*) new ExpressionUnaire((Expression*) visit(ctx->expression()), ctx->ADDSOUS()->getText());
+  }
 
   virtual antlrcpp::Any visitParenthese(exprParser::ParentheseContext *ctx) override {
     return (Expression*) new Parenthese((Expression*) visit(ctx->expression()));

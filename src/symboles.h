@@ -59,6 +59,16 @@ class Division : public Expression {
 		Expression* exp2;
 };
 
+class ExpressionUnaire : public Expression {
+	public:
+	ExpressionUnaire(Expression* e, string s) : exp(e), signe(s) {}
+	~ExpressionUnaire(){}
+	string buildIR(CFG & cfg);
+	
+	protected:
+		Expression* exp;
+		string signe;
+};
 
 class Parenthese : public Expression {
 	public:

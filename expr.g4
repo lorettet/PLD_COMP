@@ -21,13 +21,14 @@ instructions : expression';'				#expressionSeule
 			
 expression : expression MULTDIV expression		#expressionMultDiv
 			| expression ADDSOUS expression		#expressionAddSous
+			| ADDSOUS expression				#expressionUnaire
 			| '('expression')'					#parenthese
 			| ADDSOUS? valeur 					#val;
 			
 		
 valeur : ID'('parametresEffectifs')'		#appel
 		|ID 								#variable
-		| INT								#int;
+		|INT								#int;
 
 
 ESPACE : [ \n\t\r] -> skip;
