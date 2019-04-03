@@ -75,11 +75,13 @@ class Valeur : public Expression {
 		Valeur() { }
 		virtual ~Valeur(){}
 		int virtual getValue(){}
+		
+		bool positif;
 };
 
 class Int : public Valeur{
 	public:
-		Int(int val) : valeur(val) { }
+		Int(int val, bool pos) : valeur(val) { this->positif = pos; }
 		~Int() { }
 		int getValue() {return valeur;}
 		string buildIR(CFG & cfg);
@@ -97,10 +99,55 @@ class Variable : public Valeur {
 		string nom;
 };
 
+class Parametre {
+	public:
+		Parametre(string n, string t) : nom(n), type(t) {}
+		virtual ~Parametre(){}
+		
+		string nom;
+		string type;
+};
+
+class ParametresFormels {
+	public:
+		ParametresFormels(){}
+		virtual ~ParametresFormels(){}
+		void ajouterParametre(Parametre * p){ listParams.push_back(p);}
+		vector<Parametre*> listParams;		
+};
+
+class ParametresEffectifs {
+	public:
+		ParametresEffectifs(){}
+		virtual ~ParametresEffectifs(){}
+		void ajouterExpression(Expression* e){listExpr.push_back(e);}
+		
+		vector<Expression*> listExpr;		
+};
+
+class Appel : public Valeur {
+	public:
+		Appel(string nomFct, ParametresEffectifs* pe) : nomFonction(nomFct), params(pe) { }
+		string buildIR(CFG & cfg);
+		~Appel() { }
+	protected:
+		string nomFonction;
+		ParametresEffectifs* params;
+};
+
 class Instruction {
 	public:
 		virtual ~Instruction(){}
 		string virtual buildIR(CFG & cfg){}
+};
+
+class ExpressionSeule : public Instruction {
+	public:
+		ExpressionSeule(Expression* expr) : expression(expr) {}
+		~ExpressionSeule() {}
+		string buildIR(CFG & cfg) {}
+	protected:
+		Expression* expression;
 };
 
 class Affectation : public Instruction {
@@ -150,11 +197,22 @@ class DeclarationAvecAffectation : public Declaration {
 class Fonction {
 	public:
 		Fonction() {}
+		virtual ~Fonction() {}
 		void ajouterDeclaration(Declaration* dec);
 		void ajouterInstruction(Instruction* inst);
-	//protected:
+		
+		string nom;
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
 		map<string,int> variables;
 		int index = -4;
+};
+
+class Programme {
+	public:
+		Programme(){}
+		void ajouterFonction(Fonction* fct){fonctions.push_back(fct);}
+		
+		vector<Fonction*> fonctions;
+		
 };
