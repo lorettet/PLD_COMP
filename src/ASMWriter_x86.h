@@ -27,17 +27,23 @@ public:
 
   virtual int addMultiplication(int addrRes, int addr1, int addr2, uint size = 4);
 
+  virtual int addCall(string label, int addrRes, uint size, vector<int> params);
+
   virtual int addDivision(int addrRes, int addr1, int addr2, uint size = 4);
 
   virtual int addReadMem(int addrDest, int addrMem, uint size = 4);
 
   virtual int addWriteMem(int addrMem, int addrSrc, uint size = 4);
 
-  virtual void addPrologue();
+  virtual int addNeg(int addr, uint size = 4);
+
+  virtual void addPrologue(int stackFrameSize);
 
   virtual void addEpilogue();
 
 protected:
+
+  string registers[6] = {"edi","esi","edx","ecx","r8d","r9d"};
 
   virtual void addInstrMov(string src, string dest, uint size = 4);
 
@@ -48,4 +54,8 @@ protected:
   virtual void addInstrDiv(string src);
 
   virtual void addInstrMult(string src);
+
+  virtual void addInstrCall(string label);
+
+  virtual void addInstrNeg(string src);
 };

@@ -87,6 +87,8 @@ class CFG {
 	string new_BB_name();
 	BasicBlock* current_bb;
 
+  int getStackSize();
+
  protected:
 	map <string, Type> SymbolType; /**< part of the symbol table  */
 	map <string, int> SymbolIndex; /**< part of the symbol table  */
@@ -254,6 +256,17 @@ class IRInstr_ret : public IRInstr {
     public:
         IRInstr_ret(BasicBlock* bb_, Type t, string var);
         virtual ~IRInstr_ret(){}
+        void gen_asm(ASMWriter& asmw);
+
+    private:
+        string var;
+};
+
+class IRInstr_neg : public IRInstr {
+
+    public:
+        IRInstr_neg(BasicBlock* bb_, Type t, string var);
+        virtual ~IRInstr_neg(){}
         void gen_asm(ASMWriter& asmw);
 
     private:

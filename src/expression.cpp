@@ -59,6 +59,25 @@ string Division::buildIR(CFG & cfg)
   return var;
 }
 
+string ExpressionUnaire::buildIR(CFG & cfg)
+{
+	  cout << "-= Building IR Expression Unaire =-" << endl;
+    string var;
+    if(isNegative)
+    {
+      cout << "exp is negative" << endl;
+      var = exp->buildIR(cfg);
+      IRInstr_neg* neg = new IRInstr_neg(cfg.current_bb,Type::Int32,var);
+      cfg.current_bb->add_IRInstr(neg);
+    }
+    else
+    {
+      cout << "expr is not negative" << endl;
+      var = exp->buildIR(cfg);
+    }
+    return var;
+}
+
 string Parenthese::buildIR(CFG & cfg)
 {
   cout << "-= Building IR ())=- " << endl;
