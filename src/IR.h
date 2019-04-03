@@ -6,7 +6,6 @@
 #include <iostream>
 #include <initializer_list>
 
-// Declarations from the parser -- replace with your own
 #include "type.h"
 #include "ASMWriter.h"
 class BasicBlock;

@@ -167,6 +167,21 @@ class Return : public Instruction {
 		Expression* expression;
 };
 
+
+//
+// WORK IN PROGRESS
+//
+class InstructionIF : public Instruction {
+	public:
+		//InstructionIF(Expression* expr) : expression(expr) { }
+		string buildIR(CFG & cfg);
+		~InstructionIF() { }
+	protected:
+		TestExpression* test;
+		Bloc* trueCode;
+		Bloc* falseCode;
+};
+
 class Declaration {
 	public:
 		virtual ~Declaration() {cout << "== DESTRUCTING DECLARATION ==" << endl;}
