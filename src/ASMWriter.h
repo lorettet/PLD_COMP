@@ -27,15 +27,15 @@ public:
 
   virtual int addMultiplication(int addrRes, int addr1, int addr2, uint size = 4) = 0;
 
-  virtual int addCall(string label, int addrRes, uint size, vector<string> params) = 0;
+  virtual int addCall(string label, int addrRes, uint size, vector<int> params) = 0;
 
   virtual int addDivision(int addrRes, int addr1, int addr2, uint size = 4) = 0;
 
   virtual int addReadMem(int addrDest, int addrMem, uint size = 4) = 0;
 
   virtual int addWriteMem(int addrMem, int addrSrc, uint size = 4) = 0;
-  
-  virtual int addNeg(int addrRes, int addr1, uint size = 4) = 0;
+
+  virtual int addNeg(int addr, uint size = 4) = 0;
 
   virtual void writeASM();
 
@@ -63,7 +63,7 @@ protected:
   virtual void addInstrMult(string src) = 0;
 
   virtual void addInstrCall(string label) = 0;
-  
+
   virtual void addInstrNeg(string src) = 0;
 
   ofstream fileStream;

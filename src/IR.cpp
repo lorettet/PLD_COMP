@@ -225,7 +225,12 @@ IRInstr_call::IRInstr_call(BasicBlock* bb_, Type t, string label, string dest, v
 void IRInstr_call::gen_asm(ASMWriter& asmb)
 {
     int addrDest = bb->cfg->get_var_index(dest);
-    asmb.addCall(label, addrDest, t, params);
+    vector<int> addrs;
+    for(auto p : params)
+    {
+      addrs.push_back(bb->cfg->get_var_index(p));
+    }
+    asmb.addCall(label, addrDest, t, addrs);
 }
 
 IRInstr_rmem::IRInstr_rmem(BasicBlock* bb_, Type t, string dest, int addr) : IRInstr(bb_,t),dest(dest),addr(addr)
@@ -256,4 +261,13 @@ void IRInstr_ret::gen_asm(ASMWriter& asmb)
     int addrVar = bb->cfg->get_var_index(var);
 
     asmb.addReturnVar(addrVar,t);
+}
+
+IRInstr_neg::IRInstr_neg(BasicBlock* bb_, Type t, string var) : IRInstr(bb_,t),var(var)
+{}
+
+void IRInstr_neg::gen_asm(ASMWriter& asmb)
+{
+    int addrVar = bb->cfg->get_var_index(var);
+    asmb.addNeg(addrVar,t);
 }
