@@ -103,7 +103,7 @@ class Parametre {
 	public:
 		Parametre(string n, string t) : nom(n), type(t) {}
 		virtual ~Parametre(){}
-		
+
 		string nom;
 		string type;
 };
@@ -113,7 +113,7 @@ class ParametresFormels {
 		ParametresFormels(){}
 		virtual ~ParametresFormels(){}
 		void ajouterParametre(Parametre * p){ listParams.push_back(p);}
-		vector<Parametre*> listParams;		
+		vector<Parametre*> listParams;
 };
 
 class ParametresEffectifs {
@@ -121,15 +121,15 @@ class ParametresEffectifs {
 		ParametresEffectifs(){}
 		virtual ~ParametresEffectifs(){}
 		void ajouterExpression(Expression* e){listExpr.push_back(e);}
-		
-		vector<Expression*> listExpr;		
+
+		vector<Expression*> listExpr;
 };
 
 class Appel : public Valeur {
 	public:
 		Appel(string nomFct, ParametresEffectifs* pe) : nomFonction(nomFct), params(pe) { }
 		string buildIR(CFG & cfg);
-		~Appel() { }
+		virtual ~Appel() { }
 	protected:
 		string nomFonction;
 		ParametresEffectifs* params;
@@ -144,8 +144,8 @@ class Instruction {
 class ExpressionSeule : public Instruction {
 	public:
 		ExpressionSeule(Expression* expr) : expression(expr) {}
-		~ExpressionSeule() {}
-		string buildIR(CFG & cfg) {}
+		virtual ~ExpressionSeule() {}
+		string buildIR(CFG & cfg);
 	protected:
 		Expression* expression;
 };
@@ -153,7 +153,7 @@ class ExpressionSeule : public Instruction {
 class Affectation : public Instruction {
 	public:
 		Affectation(Variable* var, Expression* expr) : variable(var), expression(expr) { }
-		~Affectation() { }
+		virtual ~Affectation() { }
 		string buildIR(CFG & cfg);
 	protected:
 		Variable* variable;
@@ -200,7 +200,7 @@ class Fonction {
 		virtual ~Fonction() {}
 		void ajouterDeclaration(Declaration* dec);
 		void ajouterInstruction(Instruction* inst);
-		
+
 		string nom;
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
@@ -212,7 +212,8 @@ class Programme {
 	public:
 		Programme(){}
 		void ajouterFonction(Fonction* fct){fonctions.push_back(fct);}
-		
+		vector<CFG*> buildIR();
+
 		vector<Fonction*> fonctions;
-		
+
 };

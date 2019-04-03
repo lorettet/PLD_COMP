@@ -28,14 +28,14 @@ int main (int argc, char *argv[]) {
     assert(tree);
     MyVisitor visitor;
     Programme* p = visitor.visit(tree);
-		/*ASMWriter asmb("main.s");
-    	Fonction* f = visitor.visit(tree);
 		ASMWriter_x86 asmb("main.s");
-		CFG cfg(f);
-		cfg.buildIR();
-		cout << "CFG IR done" << endl;
-		cfg.gen_asm(asmb);
-		asmb.writeASM();*/
+		vector<CFG*> cfgs = p->buildIR();
+		for(auto cfg : cfgs)
+		{
+			cfg->gen_asm(asmb);
+		}
+		cout << "Writing ASM" << endl;
+		asmb.writeASM();
 
 	return 0;
 }

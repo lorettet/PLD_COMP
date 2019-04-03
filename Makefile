@@ -1,6 +1,6 @@
-ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4#antlr4
-ANTLRRUNTIMEHEADERPATH=/shares/public/tp/ANTLR4-CPP/antlr4-runtime/#/usr/local/include/antlr4-runtime/
-ANTLRRUNTIMELIB=/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a#/usr/local/lib/libantlr4-runtime.a
+ANTLR=antlr4#/shares/public/tp/ANTLR4-CPP/bin/antlr4
+ANTLRRUNTIMEHEADERPATH=/usr/local/include/antlr4-runtime/#/shares/public/tp/ANTLR4-CPP/antlr4-runtime/
+ANTLRRUNTIMELIB=/usr/local/lib/libantlr4-runtime.a#/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a
 
 COMP=g++
 EDL=g++
@@ -19,9 +19,9 @@ OBJ2:=$(SRCANTLR:.cpp=.o)
 OBJ:=$(subst src,bin/binsrc,$(OBJ1))
 OBJANTLR:=$(subst antlr,bin/binantlr,$(OBJ2))
 
-ECHO=@echo
-GREEN="\033[32m"
-CANCELCOLOR="\033[0m"
+ECHO=@echo -e
+GREEN='\033[0;32m'
+CANCELCOLOR='\033[0m'
 
 
 ifeq ($(DEBUG),yes)
@@ -41,7 +41,7 @@ COMPFLAG=-g -std=c++11 $(DEBUGFLAG) -Wno-attributes
 .PHONY: g4 clean exe
 
 all: $(EXEDIR)$(EXE)
-	@echo $(GREEN)Done$(CANCELCOLOR)
+	$(ECHO) $(GREEN)Done$(CANCELCOLOR)
 
 
 g4:$(G4)

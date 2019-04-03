@@ -24,7 +24,10 @@ string Return::buildIR(CFG & cfg)
   return var;
 }
 
-string Appel::buildIR(CFG & cfg)
+string ExpressionSeule::buildIR(CFG & cfg)
 {
-  return "TODO";
+  cout << "Building IR Exp Seule" << endl;
+  //string var = expression->buildIR(cfg);
+  //TODO
+  return "";
 }
