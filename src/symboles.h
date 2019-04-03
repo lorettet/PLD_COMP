@@ -8,6 +8,9 @@
 
 using namespace std;
 
+enum SigneComparaison { INFEGAL, SUPEGAL, EGAL, DIFF, SUPSTRICT, INFSTRICT };
+enum SigneLogique { ET, OU };
+
 class Expression {
 	public:
 		Expression(){}
@@ -169,6 +172,85 @@ class Affectation : public Instruction {
 		Expression* expression;
 };
 
+class InstrIF : public Instruction {
+	public:
+		InstrIF(){}
+};
+
+class IfStatement : public Instruction {
+	public:
+		IfStatement(){}
+		~IfStatement(){}
+		string virtual buildIR(CFG & cfg){}
+};
+
+class ElseStatement : public IfStatement {
+	public:
+		ElseStatement(){}
+		~ElseStatement(){}
+		string virtual buildIR(CFG & cfg){}
+};
+
+class ElseSimple : public ElseStatement {
+	public:
+		ElseSimple(Instruction * i) : instruction(i) {}
+		~ElseSimple(){}
+	protected:
+		Instruction* instruction;
+};
+
+class ElseCompose : public ElseStatement {
+	public:
+		ElseCompose(Instruction * i) : instruction(i) {}
+		~ElseCompose(){}
+		vector<Instruction*> instructions;
+	protected:
+		Instruction* instruction;
+};
+
+class TestExpression : public Instruction {
+	public:
+		TestExpression(){}
+		~TestExpression(){}
+		string virtual buildIR(CFG & cfg){}
+
+};
+
+class TestExpr : public TestExpression {
+	public:
+		TestExpr(Expression * e) : expression(e) {}
+		~TestExpr() {}
+		string buildIR(CFG & cfg){}
+
+	protected:
+		Expression * expression;
+};
+
+class TestExprLogique : public TestExpression {
+	public:
+		TestExprLogique(TestExpression * e1, TestExpression* e2, SigneLogique s) : expression1(e1), expression2(e2), signe(s) {}
+		~TestExprLogique() {}
+		string buildIR(CFG & cfg){}
+
+	protected:
+		TestExpression * expression1;
+		TestExpression * expression2;
+		SigneLogique signe;
+};
+
+class TestExprCompar : public TestExpression {
+	public:
+		TestExprCompar(TestExpression * e1, TestExpression* e2, SigneComparaison s) : expression1(e1), expression2(e2), signe(s) {}
+		~TestExprCompar() {}
+		string buildIR(CFG & cfg){}
+
+	protected:
+		TestExpression * expression1;
+		TestExpression * expression2;
+		SigneComparaison signe;
+};
+
+
 class Return : public Instruction {
 	public:
 		Return(Expression* expr) : expression(expr) { }
@@ -203,19 +285,28 @@ class DeclarationAvecAffectation : public Declaration {
 		Expression* expression;
 };
 
-class Fonction {
+class Bloc: public Instruction {
 	public:
-		Fonction(ParametresFormels* p): params(p) {}
-		virtual ~Fonction() {}
+
+		Bloc(){}
+		~Bloc() {}
+		string buildIR(CFG & cfg) {}
 		void ajouterDeclaration(Declaration* dec);
 		void ajouterInstruction(Instruction* inst);
-
-		string nom;
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
 		map<string,int> variables;
-		ParametresFormels* params;
 		int index = -4;
+};
+class Fonction {
+	public:		
+		Fonction(ParametresFormels* p, Bloc* b, string n): params(p), bloc(b), nom(n) {}
+		virtual ~Fonction() {}
+		void ajouterDeclaration(Declaration* dec){this->bloc->ajouterDeclaration(dec);}
+		void ajouterInstruction(Instruction* inst){this->bloc->ajouterInstruction(inst);}
+		string nom;
+		Bloc* bloc;
+		ParametresFormels* params;
 };
 
 class Programme {

@@ -73,13 +73,13 @@ void CFG::buildIR()
   {
     add_to_symbol_table(p->nom,Type::Int32);
   }
-  for(vector<Declaration*>::iterator pObj = ast->declarations.begin(); pObj != ast->declarations.end(); ++pObj)
+  for(vector<Declaration*>::iterator pObj = ast->bloc->declarations.begin(); pObj != ast->bloc->declarations.end(); ++pObj)
   {
     add_to_symbol_table((*pObj)->getNomVariable(), Type::Int32);
     (*pObj)->buildIR(*this);
 
   }
-  for(vector<Instruction*>::iterator pObj = ast->instructions.begin(); pObj != ast->instructions.end(); ++pObj)
+  for(vector<Instruction*>::iterator pObj = ast->bloc->instructions.begin(); pObj != ast->bloc->instructions.end(); ++pObj)
   {
     cout << "Building instr" << endl;
     cout << typeid(**pObj).name() << endl;
