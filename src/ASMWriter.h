@@ -34,6 +34,8 @@ public:
   virtual int addReadMem(int addrDest, int addrMem, uint size = 4) = 0;
 
   virtual int addWriteMem(int addrMem, int addrSrc, uint size = 4) = 0;
+  
+  virtual int addNeg(int addrRes, int addr1, uint size = 4) = 0;
 
   virtual void writeASM();
 
@@ -61,6 +63,8 @@ protected:
   virtual void addInstrMult(string src) = 0;
 
   virtual void addInstrCall(string label) = 0;
+  
+  virtual void addInstrNeg(string src) = 0;
 
   ofstream fileStream;
   string fileName;
