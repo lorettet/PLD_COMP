@@ -11,21 +11,21 @@ parametre : TYPE ID;
 
 parametresEffectifs : (expression(','expression)*)*;
 
-declarations : 
+declarations :
 			TYPE ID';' 					#declarationSimple
 			| TYPE ID '=' expression';'	#declarationAvecAffectation;
 
 instructions : expression';'				#expressionSeule
 			| ID '=' expression';'			#affectation
 			| 'return' expression';'		#return;
-			
-expression : expression MULTDIV expression		#expressionMultDiv
+
+expression : ADDSOUS expression				#expressionUnaire
+			| expression MULTDIV expression		#expressionMultDiv
 			| expression ADDSOUS expression		#expressionAddSous
-			| ADDSOUS expression				#expressionUnaire
 			| '('expression')'					#parenthese
 			| ADDSOUS? valeur 					#val;
-			
-		
+
+
 valeur : ID'('parametresEffectifs')'		#appel
 		|ID 								#variable
 		|INT								#int;

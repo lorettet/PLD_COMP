@@ -61,7 +61,7 @@ class Division : public Expression {
 
 class ExpressionUnaire : public Expression {
 	public:
-	ExpressionUnaire(Expression* e, string s) : exp(e), isNegative(s) {}
+	ExpressionUnaire(Expression* e, bool s) : exp(e), isNegative(s) {}
 	~ExpressionUnaire(){}
 	string buildIR(CFG & cfg);
 

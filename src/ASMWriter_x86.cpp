@@ -63,9 +63,9 @@ void ASMWriter_x86::addInstrCall(string label)
 
 void ASMWriter_x86::addInstrNeg(string src)
 {
-	addInstr("neg "+src);	
+	addInstr("neg "+src);
 }
-  
+
 void ASMWriter_x86::addPrologue(int stackFrameSize)
 {
   addInstr("pushq %rbp");
@@ -152,10 +152,10 @@ void ASMWriter_x86::addReturnInt(int value)
   addInstrMov(string("$")+to_string(value),"%eax");
 }
 
-int ASMWriter_x86::addNeg(int addrRes, int addr1, uint size)
+int ASMWriter_x86::addNeg(int addr, uint size)
 {
-	addInstrMov(to_string(addr1)+string("(%rbp)"),string("%eax"),size);
-	addInstrNeg(string("%eax"));
-    addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
-    return addrRes;
+    addInstrMov(to_string(addr)+string("(%rbp)"),string("%eax"),size);
+	  addInstrNeg(string("%eax"));
+    addInstrMov(string("%eax"),to_string(addr)+string("(%rbp)"),size);
+    return addr;
 }

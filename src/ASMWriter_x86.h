@@ -34,8 +34,8 @@ public:
   virtual int addReadMem(int addrDest, int addrMem, uint size = 4);
 
   virtual int addWriteMem(int addrMem, int addrSrc, uint size = 4);
-  
-  virtual int addNeg(int addrRes, int addr1, uint size = 4);
+
+  virtual int addNeg(int addr, uint size = 4);
 
   virtual void addPrologue(int stackFrameSize);
 
@@ -56,6 +56,6 @@ protected:
   virtual void addInstrMult(string src);
 
   virtual void addInstrCall(string label);
-  
+
   virtual void addInstrNeg(string src);
 };
