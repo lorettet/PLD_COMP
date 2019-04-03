@@ -59,6 +59,16 @@ class Division : public Expression {
 		Expression* exp2;
 };
 
+class ExpressionUnaire : public Expression {
+	public:
+	ExpressionUnaire(Expression* e, string s) : exp(e), signe(s) {}
+	~ExpressionUnaire(){}
+	string buildIR(CFG & cfg);
+	
+	protected:
+		Expression* exp;
+		string signe;
+};
 
 class Parenthese : public Expression {
 	public:
@@ -75,13 +85,11 @@ class Valeur : public Expression {
 		Valeur() { }
 		virtual ~Valeur(){}
 		int virtual getValue(){}
-		
-		bool positif;
 };
 
 class Int : public Valeur{
 	public:
-		Int(int val, bool pos) : valeur(val) { this->positif = pos; }
+		Int(int val) : valeur(val) { }
 		~Int() { }
 		int getValue() {return valeur;}
 		string buildIR(CFG & cfg);

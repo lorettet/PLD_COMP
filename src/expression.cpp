@@ -59,6 +59,11 @@ string Division::buildIR(CFG & cfg)
   return var;
 }
 
+string ExpressionUnaire::buildIR(CFG & cfg)
+{
+	
+}
+
 string Parenthese::buildIR(CFG & cfg)
 {
   cout << "-= Building IR ())=- " << endl;
