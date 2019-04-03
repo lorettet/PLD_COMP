@@ -116,11 +116,11 @@ int ASMWriter_x86::addDivision(int addrRes, int addr1, int addr2, uint size){
   return addrRes;
 }
 
-int ASMWriter_x86::addCall(string label, int addrRes, uint size, vector<string> params){
+int ASMWriter_x86::addCall(string label, int addrRes, uint size, vector<int> params){
   int i = 0;
   for(auto p : params)
   {
-    //addInstrMov()
+    addInstrMov(to_string(p)+"(%rbp)","%"+registers[i++]);
   }
   addInstrCall(label);
   addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);

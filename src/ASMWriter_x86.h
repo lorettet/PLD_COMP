@@ -27,7 +27,7 @@ public:
 
   virtual int addMultiplication(int addrRes, int addr1, int addr2, uint size = 4);
 
-  virtual int addCall(string label, int addrRes, uint size, vector<string> params);
+  virtual int addCall(string label, int addrRes, uint size, vector<int> params);
 
   virtual int addDivision(int addrRes, int addr1, int addr2, uint size = 4);
 
