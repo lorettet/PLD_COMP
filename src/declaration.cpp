@@ -10,6 +10,7 @@ string Declaration::getNomVariable() {
 string DeclarationSimple::buildIR(CFG & cfg)
 {
 	cout << "Simple Declaration" << endl;
+	return "";
 }
 
 string DeclarationAvecAffectation::buildIR(CFG & cfg)

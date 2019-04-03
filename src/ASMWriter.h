@@ -27,6 +27,8 @@ public:
 
   virtual int addMultiplication(int addrRes, int addr1, int addr2, uint size = 4) = 0;
 
+  virtual int addCall(string label, int addrRes, uint size, vector<string> params) = 0;
+
   virtual int addDivision(int addrRes, int addr1, int addr2, uint size = 4) = 0;
 
   virtual int addReadMem(int addrDest, int addrMem, uint size = 4) = 0;
@@ -35,9 +37,11 @@ public:
 
   virtual void writeASM();
 
-  virtual void addPrologue() = 0;
+  virtual void addPrologue(int stackFrameSize) = 0;
 
   virtual void addEpilogue() = 0;
+
+  virtual void initFunction(string name);
 
 protected:
   virtual void initDoc();
@@ -55,6 +59,8 @@ protected:
   virtual void addInstrDiv(string src) = 0;
 
   virtual void addInstrMult(string src) = 0;
+
+  virtual void addInstrCall(string label) = 0;
 
   ofstream fileStream;
   string fileName;

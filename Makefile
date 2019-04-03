@@ -1,6 +1,6 @@
-ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4#antlr4
-ANTLRRUNTIMEHEADERPATH=/shares/public/tp/ANTLR4-CPP/antlr4-runtime/#/usr/local/include/antlr4-runtime/
-ANTLRRUNTIMELIB=/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a#/usr/local/lib/libantlr4-runtime.a
+ANTLR=antlr4#/shares/public/tp/ANTLR4-CPP/bin/antlr4
+ANTLRRUNTIMEHEADERPATH=/usr/local/include/antlr4-runtime/#/shares/public/tp/ANTLR4-CPP/antlr4-runtime/
+ANTLRRUNTIMELIB=/usr/local/lib/libantlr4-runtime.a#/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a
 
 COMP=g++
 EDL=g++
