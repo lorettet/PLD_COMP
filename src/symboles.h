@@ -290,18 +290,20 @@ class Bloc: public Instruction {
 
 		Bloc(){}
 		~Bloc() {}
-		string buildIR(CFG & cfg) {}
-		void ajouterDeclaration(Declaration* dec);
-		void ajouterInstruction(Instruction* inst);
+		string buildIR(CFG & cfg);
+		void ajouterDeclaration(Declaration* dec){declarations.push_back(dec);};
+		void ajouterInstruction(Instruction* inst){instructions.push_back(inst);};
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
 		map<string,int> variables;
-		int index = -4;
+		int index = 0;
+
 };
 class Fonction {
-	public:		
+	public:
 		Fonction(ParametresFormels* p, Bloc* b, string n): params(p), bloc(b), nom(n) {}
 		virtual ~Fonction() {}
+		void buildIR(CFG & cfg);
 		void ajouterDeclaration(Declaration* dec){this->bloc->ajouterDeclaration(dec);}
 		void ajouterInstruction(Instruction* inst){this->bloc->ajouterInstruction(inst);}
 		string nom;

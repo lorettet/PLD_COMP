@@ -31,3 +31,21 @@ string ExpressionSeule::buildIR(CFG & cfg)
   //TODO
   return "";
 }
+
+string Bloc::buildIR(CFG & cfg)
+{
+  cout << "-= Building IR Bloc =-" << endl;
+  for(vector<Declaration*>::iterator pObj = declarations.begin(); pObj != declarations.end(); ++pObj)
+  {
+    cfg.add_to_symbol_table((*pObj)->getNomVariable(), Type::Int32);
+    (*pObj)->buildIR(cfg);
+  }
+  for(vector<Instruction*>::iterator pObj = instructions.begin(); pObj != instructions.end(); ++pObj)
+  {
+    cout << "Building instr" << endl;
+    cout << typeid(**pObj).name() << endl;
+    (*pObj)->buildIR(cfg);
+    cout << "instr done" << endl;
+  }
+  return "";
+}
