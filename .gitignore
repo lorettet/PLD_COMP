@@ -37,6 +37,7 @@ bin/*
 
 # Fichiers genere par antlr
 antlr/*
+.antlr/*
 
 # Exemple directory generated files
 exemple/*
