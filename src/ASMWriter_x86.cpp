@@ -73,7 +73,7 @@ void ASMWriter_x86::addPrologue(int stackFrameSize, int nbParams)
   addInstrSub(string("$")+to_string(stackFrameSize+4), "%rsp", 8);
   for(int i = 0; i<nbParams; i++)
   {
-    addInstrMov(registers[i],-(i+1)*4+"(%rbp)");
+    addInstrMov(registers[i],to_string(-(i+1)*4)+"(%rbp)");
   }
 }
 
@@ -129,7 +129,7 @@ int ASMWriter_x86::addCall(string label, int addrRes, uint size, vector<int> par
   int i = 0;
   for(auto p : params)
   {
-    addInstrMov(to_string(p)+"(%rbp)","%"+registers[i++]);
+    addInstrMov(to_string(p)+"(%rbp)",registers[i++]);
   }
   addInstrCall(label);
   addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);

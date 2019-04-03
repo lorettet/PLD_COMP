@@ -43,7 +43,7 @@ public:
 
 protected:
 
-  string registers[6] = {"edi","esi","edx","ecx","r8d","r9d"};
+  string registers[6] = {"%edi","%esi","%edx","%ecx","%r8d","%r9d"};
 
   virtual void addInstrMov(string src, string dest, uint size = 4);
 

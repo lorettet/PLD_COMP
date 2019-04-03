@@ -68,6 +68,11 @@ void CFG::gen_asm(ASMWriter & asmb)
 void CFG::buildIR()
 {
   cout << "=== Building IR CFG for function "<< ast->nom << " ===" << endl;
+  cout << "Adding params" << endl;
+  for(auto p : ast->params->listParams)
+  {
+    add_to_symbol_table(p->nom,Type::Int32);
+  }
   for(vector<Declaration*>::iterator pObj = ast->declarations.begin(); pObj != ast->declarations.end(); ++pObj)
   {
     add_to_symbol_table((*pObj)->getNomVariable(), Type::Int32);
