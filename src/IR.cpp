@@ -262,3 +262,12 @@ void IRInstr_ret::gen_asm(ASMWriter& asmb)
 
     asmb.addReturnVar(addrVar,t);
 }
+
+IRInstr_neg::IRInstr_neg(BasicBlock* bb_, Type t, string var) : IRInstr(bb_,t),var(var)
+{}
+
+void IRInstr_neg::gen_asm(ASMWriter& asmb)
+{
+    int addrVar = bb->cfg->get_var_index(var);
+    asmb.addNeg(addrVar,t);
+}
