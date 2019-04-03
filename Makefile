@@ -1,6 +1,14 @@
-ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4#antlr4
-ANTLRRUNTIMEHEADERPATH=/shares/public/tp/ANTLR4-CPP/antlr4-runtime/#/usr/local/include/antlr4-runtime/
-ANTLRRUNTIMELIB=/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a#/usr/local/lib/libantlr4-runtime.a
+PC=$(shell uname -n)
+ifeq ($(PC), $(filter $(PC), KALI PADELL))
+	ANTLR=antlr4
+	ANTLRRUNTIMEHEADERPATH=/usr/local/include/antlr4-runtime/
+	ANTLRRUNTIMELIB=/usr/local/lib/libantlr4-runtime.a
+else
+	ANTLR=/shares/public/tp/ANTLR4-CPP/bin/antlr4
+	ANTLRRUNTIMEHEADERPATH=/shares/public/tp/ANTLR4-CPP/antlr4-runtime/
+	ANTLRRUNTIMELIB=/shares/public/tp/ANTLR4-CPP/lib/libantlr4-runtime.a
+endif
+
 
 COMP=g++
 EDL=g++
@@ -43,11 +51,9 @@ COMPFLAG=-g -std=c++11 $(DEBUGFLAG) -Wno-attributes
 all: $(EXEDIR)$(EXE)
 	$(ECHO) $(GREEN)Done$(CANCELCOLOR)
 
-
 g4:$(G4)
 	$(ECHO) $(GREEN)Generation antlr$(CANCELCOLOR)
 	$(ANTLR) $(ANTLRFLAG) $(G4) -o $(ANTLRDIR)
-
 
 
 $(EXEDIR)$(EXE):$(OBJ) $(OBJANTLR)

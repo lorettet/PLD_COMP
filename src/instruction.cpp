@@ -23,3 +23,11 @@ string Return::buildIR(CFG & cfg)
   cfg.current_bb->add_IRInstr(instr);
   return var;
 }
+
+string ExpressionSeule::buildIR(CFG & cfg)
+{
+  cout << "Building IR Exp Seule" << endl;
+  //string var = expression->buildIR(cfg);
+  //TODO
+  return "";
+}

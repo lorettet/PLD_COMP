@@ -59,6 +59,16 @@ class Division : public Expression {
 		Expression* exp2;
 };
 
+class ExpressionUnaire : public Expression {
+	public:
+	ExpressionUnaire(Expression* e, bool s) : exp(e), isNegative(s) {}
+	~ExpressionUnaire(){}
+	string buildIR(CFG & cfg);
+
+	protected:
+		Expression* exp;
+		bool isNegative;
+};
 
 class Parenthese : public Expression {
 	public:
@@ -97,16 +107,61 @@ class Variable : public Valeur {
 		string nom;
 };
 
+class Parametre {
+	public:
+		Parametre(string n, string t) : nom(n), type(t) {}
+		virtual ~Parametre(){}
+
+		string nom;
+		string type;
+};
+
+class ParametresFormels {
+	public:
+		ParametresFormels(){}
+		virtual ~ParametresFormels(){}
+		void ajouterParametre(Parametre * p){ listParams.push_back(p);}
+		vector<Parametre*> listParams;
+};
+
+class ParametresEffectifs {
+	public:
+		ParametresEffectifs(){}
+		virtual ~ParametresEffectifs(){}
+		void ajouterExpression(Expression* e){listExpr.push_back(e);}
+
+		vector<Expression*> listExpr;
+};
+
+class Appel : public Valeur {
+	public:
+		Appel(string nomFct, ParametresEffectifs* pe) : nomFonction(nomFct), params(pe) { }
+		string buildIR(CFG & cfg);
+		virtual ~Appel() { }
+	protected:
+		string nomFonction;
+		ParametresEffectifs* params;
+};
+
 class Instruction {
 	public:
 		virtual ~Instruction(){}
 		string virtual buildIR(CFG & cfg){}
 };
 
+class ExpressionSeule : public Instruction {
+	public:
+		ExpressionSeule(Expression* expr) : expression(expr) {}
+		virtual ~ExpressionSeule() {}
+		string buildIR(CFG & cfg);
+	protected:
+		Expression* expression;
+};
+
 class Affectation : public Instruction {
 	public:
 		Affectation(Variable* var, Expression* expr) : variable(var), expression(expr) { }
-		~Affectation() { }
+		virtual ~Affectation() { }
 		string buildIR(CFG & cfg);
 	protected:
 		Variable* variable;
@@ -150,11 +205,23 @@ class DeclarationAvecAffectation : public Declaration {
 class Fonction {
 	public:
 		Fonction() {}
+		virtual ~Fonction() {}
 		void ajouterDeclaration(Declaration* dec);
 		void ajouterInstruction(Instruction* inst);
-	//protected:
+
+		string nom;
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
 		map<string,int> variables;
 		int index = -4;
+};
+
+class Programme {
+	public:
+		Programme(){}
+		void ajouterFonction(Fonction* fct){fonctions.push_back(fct);}
+		vector<CFG*> buildIR();
+
+		vector<Fonction*> fonctions;
+
 };

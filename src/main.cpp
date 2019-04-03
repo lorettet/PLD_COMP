@@ -24,15 +24,17 @@ int main (int argc, char *argv[]) {
   	CommonTokenStream tokens(&lexer);
 
     exprParser parser(&tokens);
-    tree::ParseTree* tree = parser.axiome();
+    tree::ParseTree* tree = parser.programme();
     assert(tree);
     MyVisitor visitor;
-    Fonction* f = visitor.visit(tree);
+    Programme* p = visitor.visit(tree);
 		ASMWriter_x86 asmb("main.s");
-		CFG cfg(f);
-		cfg.buildIR();
-		cout << "CFG IR done" << endl;
-		cfg.gen_asm(asmb);
+		vector<CFG*> cfgs = p->buildIR();
+		for(auto cfg : cfgs)
+		{
+			cfg->gen_asm(asmb);
+		}
+		cout << "Writing ASM" << endl;
 		asmb.writeASM();
 
 	return 0;
