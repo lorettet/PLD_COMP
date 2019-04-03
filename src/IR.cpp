@@ -86,12 +86,22 @@ void CFG::buildIR()
 void CFG::gen_asm_prologue(ASMWriter & asmb)
 {
   asmb.initFunction(ast->nom);
-  asmb.addPrologue();
+  asmb.addPrologue(getStackSize());
 }
 
 void CFG::gen_asm_epilogue(ASMWriter & asmb)
 {
   asmb.addEpilogue();
+}
+
+int CFG::getStackSize()
+{
+  int res = 0;
+  for(auto p : SymbolType)
+  {
+    res += p.second;
+  }
+  return res;
 }
 
 BasicBlock::BasicBlock(CFG* cfg_, string entry_label) : cfg(cfg_), label(entry_label)
@@ -214,7 +224,8 @@ IRInstr_call::IRInstr_call(BasicBlock* bb_, Type t, string label, string dest, v
 
 void IRInstr_call::gen_asm(ASMWriter& asmb)
 {
-    // A FAIRE
+    int addrDest = bb->cfg->get_var_index(dest);
+    asmb.addCall(label, addrDest, t, params);
 }
 
 IRInstr_rmem::IRInstr_rmem(BasicBlock* bb_, Type t, string dest, int addr) : IRInstr(bb_,t),dest(dest),addr(addr)

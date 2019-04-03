@@ -87,6 +87,8 @@ class CFG {
 	string new_BB_name();
 	BasicBlock* current_bb;
 
+  int getStackSize();
+
  protected:
 	map <string, Type> SymbolType; /**< part of the symbol table  */
 	map <string, int> SymbolIndex; /**< part of the symbol table  */

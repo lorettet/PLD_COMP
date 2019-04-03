@@ -35,7 +35,6 @@ void ASMWriter::writeASM()
 
 void ASMWriter::initFunction(string name)
 {
-
-  addInstr(string(".global ")+name);
+  addInstr(".global "+name);
   addLabel(name);
 }
