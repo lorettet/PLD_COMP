@@ -35,11 +35,13 @@ public:
 
   virtual int addWriteMem(int addrMem, int addrSrc, uint size = 4);
 
+  virtual int addJmp(string label);
+
   virtual int addNeg(int addr, uint size = 4);
 
   virtual void addPrologue(int stackFrameSize, int nbParams);
 
-  virtual void addEpilogue(string fctName);
+  virtual void addEpilogue();
 
 protected:
 

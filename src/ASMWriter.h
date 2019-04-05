@@ -35,20 +35,22 @@ public:
 
   virtual int addWriteMem(int addrMem, int addrSrc, uint size = 4) = 0;
 
+  virtual int addJmp(string label) = 0;
+
   virtual int addNeg(int addr, uint size = 4) = 0;
 
   virtual void writeASM();
 
   virtual void addPrologue(int stackFrameSize, int nbParams) = 0;
 
-  virtual void addEpilogue(string fctName) = 0;
+  virtual void addEpilogue() = 0;
 
   virtual void initFunction(string name);
 
+  virtual void addLabel(string name);
+
 protected:
   virtual void initDoc();
-
-  virtual void addLabel(string name);
 
   virtual void addInstr(string instr);
 

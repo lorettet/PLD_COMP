@@ -33,7 +33,7 @@ void CFG::add_bb(BasicBlock* bb)
 
 string CFG::new_BB_name()
 {
-  return "block"+to_string(bbs.size());
+  return ast->nom+"_bblock"+to_string(bbs.size());
 }
 
 void CFG::add_to_symbol_table(string name, Type t)
@@ -58,6 +58,10 @@ void CFG::gen_asm(ASMWriter & asmb)
   for(auto bb : bbs)
   {
     bb->gen_asm(asmb);
+    if(bb->exit_true && !bb->exit_false)
+    {
+      asmb.addJmp(bb->exit_true->label);
+    }
   }
   gen_asm_epilogue(asmb);
 }
@@ -65,6 +69,13 @@ void CFG::gen_asm(ASMWriter & asmb)
 void CFG::buildIR()
 {
   cout << "=== Building IR CFG for function "<< ast->nom << " ===" << endl;
+  string nomBloc = ast->nom+"_main_bbloc";
+  BasicBlock* mainBB = new BasicBlock(this,nomBloc);
+  add_bb(mainBB);
+  current_bb = mainBB;
+  BasicBlock* retBB = new BasicBlock(this,ast->nom+"_ret_bbloc");
+  add_bb(retBB);
+  mainBB->exit_true = retBB;
   ast->buildIR(*this);
 }
 
@@ -76,7 +87,7 @@ void CFG::gen_asm_prologue(ASMWriter & asmb)
 
 void CFG::gen_asm_epilogue(ASMWriter & asmb)
 {
-  asmb.addEpilogue(ast->nom);
+  asmb.addEpilogue();
 }
 
 int CFG::getStackSize()
@@ -91,6 +102,8 @@ int CFG::getStackSize()
 
 BasicBlock::BasicBlock(CFG* cfg_, string entry_label) : cfg(cfg_), label(entry_label)
 {
+  exit_true = nullptr;
+  exit_false = nullptr;
 }
 
 BasicBlock::~BasicBlock()
@@ -110,6 +123,7 @@ void BasicBlock::gen_asm(ASMWriter & asmb)
 {
 
   cout << "Starting gen ASM for block : " << label << endl;
+  asmb.addLabel(label);
   for(auto instr : instrs)
   {
     instr->gen_asm(asmb);

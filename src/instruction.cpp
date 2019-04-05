@@ -35,10 +35,6 @@ string ExpressionSeule::buildIR(CFG & cfg)
 string Bloc::buildIR(CFG & cfg)
 {
   cout << "-= Building IR Bloc =-" << endl;
-  string nomBloc = cfg.new_BB_name();
-  BasicBlock* BB = new BasicBlock(&cfg,nomBloc);
-  cfg.add_bb(BB);
-  cfg.current_bb = BB;
   for(vector<Declaration*>::iterator pObj = declarations.begin(); pObj != declarations.end(); ++pObj)
   {
     cfg.add_to_symbol_table((*pObj)->getNomVariable(), Type::Int32);
