@@ -288,20 +288,27 @@ class DeclarationAvecAffectation : public Declaration {
 class Bloc: public Instruction {
 	public:
 
-		Bloc(){}
+		Bloc(){parent = nullptr;}
 		~Bloc() {}
 		string buildIR(CFG & cfg);
-		void ajouterDeclaration(Declaration* dec){declarations.push_back(dec);};
+		void ajouterDeclaration(Declaration* dec){declarations.push_back(dec);variables[dec->getNomVariable()] = 4;};
 		void ajouterInstruction(Instruction* inst){instructions.push_back(inst);};
+		string hasLocalVariable(string var);
 		vector<Declaration*> declarations;
 		vector<Instruction*> instructions;
 		map<string,int> variables;
 		int index = 0;
+		Bloc* parent;
 
 };
 class Fonction {
 	public:
-		Fonction(ParametresFormels* p, Bloc* b, string n): params(p), bloc(b), nom(n) {}
+		Fonction(ParametresFormels* p, Bloc* b, string n): params(p), bloc(b), nom(n) {
+			for(auto param : p->listParams)
+			{
+				bloc->variables[param->nom] = atoi(param->type.c_str());
+			}
+		}
 		virtual ~Fonction() {}
 		void buildIR(CFG & cfg);
 		void ajouterDeclaration(Declaration* dec){this->bloc->ajouterDeclaration(dec);}

@@ -20,7 +20,7 @@ string DeclarationAvecAffectation::buildIR(CFG & cfg)
 	string right = expression->buildIR(cfg);
 	cout << "Getting left" << endl;
 	string left = variable->buildIR(cfg);
-	IRInstr_wmem* instr = new IRInstr_wmem(cfg.current_bb,Type::Int32,cfg.get_var_index(left),right);
+	IRInstr_wmem* instr = new IRInstr_wmem(cfg.current_bb,Type::Int32,cfg.current_bloc,cfg.get_var_index(left,cfg.current_bloc),right);
 	cout << "Adding IR Dec + Affec" << endl;
 	cfg.current_bb->add_IRInstr(instr);
 	return right;

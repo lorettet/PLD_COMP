@@ -16,10 +16,10 @@ using namespace antlr4;
 string lireFichier(string nomFichier);
 
 int main (int argc, char *argv[]) {
-	assert(argc == 2);
-	string programme = lireFichier(argv[1]);
+		assert(argc == 2);
+		string programme = lireFichier(argv[1]);
 
-	ANTLRInputStream input(programme);
+		ANTLRInputStream input(programme);
   	exprLexer lexer(&input);
   	CommonTokenStream tokens(&lexer);
 
@@ -37,7 +37,7 @@ int main (int argc, char *argv[]) {
 		cout << "Writing ASM" << endl;
 		asmb.writeASM();
 
-	return 0;
+		return 0;
 }
 
 string lireFichier(string nomFichier) {

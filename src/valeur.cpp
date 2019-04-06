@@ -7,7 +7,7 @@ string Int::buildIR(CFG & cfg)
 {
   cout << "- =Building IR Int : " << valeur << " =-" << endl;
   string var = cfg.create_new_tempvar(Type::Int32);
-  IRInstr_ldconst* instr = new IRInstr_ldconst(cfg.current_bb,Type::Int32,var, valeur);
+  IRInstr_ldconst* instr = new IRInstr_ldconst(cfg.current_bb,Type::Int32,cfg.current_bloc,var, valeur);
   cfg.current_bb->add_IRInstr(instr);
   return var;
 }
@@ -29,7 +29,7 @@ string Appel::buildIR(CFG & cfg)
     temp = exp->buildIR(cfg);
     tempExp.push_back(temp);
   }
-  IRInstr_call* call = new IRInstr_call(cfg.current_bb,Type::Int32,nomFonction,var,tempExp);
+  IRInstr_call* call = new IRInstr_call(cfg.current_bb,Type::Int32,cfg.current_bloc,nomFonction,var,tempExp);
   cfg.current_bb->add_IRInstr(call);
   return var;
 }
