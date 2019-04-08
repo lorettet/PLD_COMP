@@ -43,12 +43,12 @@ public:
 	  return pe;
   }
 
-    virtual antlrcpp::Any visitBloc(exprParser::BlocContext *context) override {
+    virtual antlrcpp::Any visitBloc(exprParser::BlocContext *ctx) override {
 	Bloc* b = new Bloc();
-	for(auto declaration : context->declarations()) {
+	for(auto declaration : ctx->declarations()) {
 	  b->ajouterDeclaration(visit(declaration));
 	}
-	for(auto instruction : context->instructions()) {
+	for(auto instruction : ctx->instructions()) {
 	  b->ajouterInstruction(visit(instruction));
 	}
 	return b;
@@ -75,51 +75,65 @@ public:
 		return (Instruction*) new Return((Expression*) visit(ctx->expression()));
 	}
 
-    virtual antlrcpp::Any visitInstrIF(exprParser::InstrIFContext *context) {
-    	return visitChildren(context);
-}
-
-
-    virtual antlrcpp::Any visitIfSimpleInstr(exprParser::IfSimpleInstrContext *context) {
-    	return visitChildren(context);
+    virtual antlrcpp::Any visitInstrIF(exprParser::InstrIFContext *ctx) override {
+    	return (Instruction*) new InstrIF((IfStatement*) visit(ctx->ifStatement()));
 	}
 
-    virtual antlrcpp::Any visitIfSimpleDecl(exprParser::IfSimpleDeclContext *context) {
-    	return visitChildren(context);
+
+ 	virtual antlrcpp::Any visitIfInstr(exprParser::IfInstrContext *ctx) override {
+	  return (IfStatement*) new IfInstr(visit(ctx->testExpression()), visit(ctx->instructions()), visit(ctx->elseStatement()));
 	}
 
-    virtual antlrcpp::Any visitBlocSimple(exprParser::BlocSimpleContext *context){
-	Bloc * bloc = visit(context->bloc());
-	Instruction * inst  = (Instruction*) bloc;
-	return (Instruction*) inst;
-}
-
-    virtual antlrcpp::Any visitIfCompose(exprParser::IfComposeContext *context) {
-    	return visitChildren(context);
+    virtual antlrcpp::Any visitIfSimpleDecl(exprParser::IfSimpleDeclContext *ctx) override {
+    	return (IfStatement*) new IfSimpleDecl(visit(ctx->testExpression()), visit(ctx->declarations()), visit(ctx->elseStatement()));
 	}
 
-    virtual antlrcpp::Any visitElseIF(exprParser::ElseIFContext *context) {
-    	return visitChildren(context);
+    virtual antlrcpp::Any visitBlocSimple(exprParser::BlocSimpleContext *ctx) override {
+		Bloc * bloc = visit(ctx->bloc());
+		Instruction * inst  = (Instruction*) bloc;
+		return (Instruction*) inst;
 	}
 
-    virtual antlrcpp::Any visitElseSimple(exprParser::ElseSimpleContext *context) {
-    	return visitChildren(context);
+
+    virtual antlrcpp::Any visitElseIF(exprParser::ElseIFContext *ctx) override {
+    	return (ElseStatement*) new ElseIf((IfStatement*)visit(ctx->ifStatement()));
 	}
 
-    virtual antlrcpp::Any visitElseCompose(exprParser::ElseComposeContext *context) {
-    	return visitChildren(context);
+    virtual antlrcpp::Any visitElseSimple(exprParser::ElseSimpleContext *ctx) override {
+    	return (ElseStatement*) new ElseSimple((Instruction*)visit(ctx->instructions()));
 	}
 
-    virtual antlrcpp::Any visitTestExpr(exprParser::TestExprContext *context) {
-    	return visitChildren(context);
+
+  virtual antlrcpp::Any visitTestExprLogique(exprParser::TestExprLogiqueContext *ctx) override {
+		if(ctx->SIGNELOGIQUE()->getText() == "&&") {
+			return (TestExpression*) new TestExprLogique(visit(ctx->testExpression(0)), visit(ctx->testExpression(1)), ET);
+		}
+		return (TestExpression*) new TestExprLogique(visit(ctx->testExpression(0)), visit(ctx->testExpression(1)), OU);
 	}
 
-    virtual antlrcpp::Any visitTestExprLogique(exprParser::TestExprLogiqueContext *context) {
-    	return visitChildren(context);
+  virtual antlrcpp::Any visitTestExprPar(exprParser::TestExprParContext *ctx) override {
+    	return (TestExpression*) new TestExprPar((TestExpression*) visit(ctx->testExpression()));
+	}	
+	
+    virtual antlrcpp::Any visitTestExprCompar(exprParser::TestExprComparContext *ctx) override {
+	    string signe = ctx->SIGNECOMPARAISON()->getText();
+			if(signe == "<=") {
+				return (TestExpression*) new TestExprCompar(visit(ctx->expression(0)), visit(ctx->expression(1)), INFEGAL);
+			}
+			else if(signe == ">=") {
+				return (TestExpression*) new TestExprCompar(visit(ctx->expression(0)), visit(ctx->expression(1)), SUPEGAL);
+			} else if(signe == "==") {
+				return (TestExpression*) new TestExprCompar((Expression*) visit(ctx->expression(0)), (Expression*) visit(ctx->expression(1)), EGAL);
+			} else if(signe == "!=") {
+				return (TestExpression*) new TestExprCompar(visit(ctx->expression(0)), visit(ctx->expression(1)), DIFF);
+			} else if(signe == ">") {
+				return (TestExpression*) new TestExprCompar(visit(ctx->expression(0)), visit(ctx->expression(1)), SUPSTRICT);
+			}
+			return (TestExpression*) new TestExprCompar(visit(ctx->expression(0)), visit(ctx->expression(1)), INFSTRICT);
 	}
-
-    virtual antlrcpp::Any visitTestExprCompar(exprParser::TestExprComparContext *context) {
-    	return visitChildren(context);
+	
+  virtual antlrcpp::Any visitNot(exprParser::NotContext *ctx) override {
+    	return (TestExpression*) new Not((TestExpression*) ctx->testExpression());
 	}
 
   virtual antlrcpp::Any visitVal(exprParser::ValContext *ctx) override {

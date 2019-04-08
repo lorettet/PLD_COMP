@@ -23,19 +23,21 @@ instructions : expression';'					#expressionSeule
 
 
 ifStatement:
-	'if' '(' testExpression ')' instructions elseStatement?	#ifSimpleInstr
-	| 'if' '(' testExpression ')' declarations elseStatement?#ifSimpleDecl
-	| 'if' '(' testExpression ')' bloc elseStatement? 	#ifCompose;
+	'if' '(' testExpression ')' instructions elseStatement?		#ifInstr
+	| 'if' '(' testExpression ')' declarations elseStatement?	#ifSimpleDecl;
+
 
 elseStatement:
-	'else' ifStatement					#elseIF
-	| 'else' instructions 					#elseSimple
-	| 'else' bloc						#elseCompose;
+	'else' ifStatement						#elseIF
+	| 'else' instructions 					#elseSimple;
+
 
 testExpression:
-	expression						#testExpr
-	| testExpression SIGNELOGIQUE testExpression		#testExprLogique
-	| testExpression SIGNECOMPARAISON testExpression	#testExprCompar;
+	'!' testExpression									#not
+	| '(' testExpression ')'							#testExprPar
+	| expression SIGNECOMPARAISON expression			#testExprCompar
+	| testExpression SIGNELOGIQUE testExpression		#testExprLogique;
+
 	
 expression : ADDSOUS expression					#expressionUnaire
 			| expression MULTDIV expression		#expressionMultDiv
@@ -61,8 +63,7 @@ SIGNECOMPARAISON : '<='
 		| '<';
 
 SIGNELOGIQUE : '&&' 
-		| '||'
-		| '!';
+		| '||';
 
 TYPE : 'int';
 
