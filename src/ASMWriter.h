@@ -80,6 +80,8 @@ protected:
 
   virtual void addInstrJmp(string label) = 0;
 
+  virtual void addInstrCmp(string src, string dest) = 0;
+
   ofstream fileStream;
   string fileName;
   vector<string> lines;

@@ -64,4 +64,6 @@ protected:
   virtual void addInstrNeg(string src);
 
   virtual void addInstrJmp(string label);
+
+  virtual void addInstrCmp(string src, string dest);
 };

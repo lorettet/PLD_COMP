@@ -71,6 +71,10 @@ void ASMWriter_x86::addInstrJmp(string label)
   addInstr("jmp "+label);
 }
 
+void ASMWriter_x86::addInstrCmp(string src, string dest){
+  addInstr("cmp "+src+", "+dest);
+}
+
 void ASMWriter_x86::addPrologue(int stackFrameSize, int nbParams)
 {
   addInstr("pushq %rbp");
@@ -134,7 +138,7 @@ int ASMWriter_x86::addComparison(int addrRes, int addr1, int addr2, cmp c, uint 
   switch (c)
   {
     case eq:
-      /* code */
+        
       break;
     case le:
       /* code */
