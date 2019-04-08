@@ -33,27 +33,38 @@ string ExpressionSeule::buildIR(CFG & cfg)
   return "";
 }
 
-//
-// WORK IN PROGRESS
-//
-/*
-string InstructionIF::buildIR(CFG & cfg){
-  test→buildIR(cfg); //returns a variable name but we don’t use it
-  testBB = cfg→currentBB;
-  thenBB = new BasicBlock(cfg, trueCode); //this constructor also generates the code
-  elseBB = new BasicBlock(cfg, falseCode);
-  afterIfBB = new BasicBlock(cfg); //constructor of an empty basic block
-  afterIfBB→exitTrue = testBB→exitTrue; //pointer stitching
-  afterIfBB→exitFalse = testBB→exitFalse; //pointer stitching
-  testBB→exitTrue = thenBB; //pointer stitching
-  testBB→exitFalse = elseBB; //pointer stitching
-  thenBB→exitTrue = afterIfBB; //pointer stitching
-  thenBB→exitFalse = NULL; //unconditional exit
-  elseBB→exitTrue = afterIfBB; //pointer stitching
-  elseBB→exitFalse = NULL; //unconditional exit
-  cfg→currentBB = afterIfBB;
+string InstrIF::buildIR(CFG & cfg)
+{
+  cout << "-= Building IR InstrIF =-" << endl;
+  return ifStatement->buildIR(cfg);
 }
-*/
+
+string IfInstr::buildIR(CFG & cfg){
+  cout << "-= Building IR IfInstr =-" << endl;
+  testExpression->buildIR(cfg); //returns a variable name but we don’t use it
+  BasicBlock* thenBB = new BasicBlock(&cfg, cfg.new_BB_name());
+  cfg.current_bb = thenBB;
+  instruction->buildIR(cfg);
+  BasicBlock* elseBB = new BasicBlock(&cfg, cfg.new_BB_name());
+  cfg.current_bb = elseBB;
+  if(elseStatement != nullptr)
+  {
+    elseStatement->buildIR(cfg);
+  }
+  BasicBlock* testBB = cfg.current_bb;
+  BasicBlock* afterIfBB = cfg.current_bb->exit_true;
+  afterIfBB->exit_true = testBB->exit_true; //pointer stitching
+  afterIfBB->exit_false = testBB->exit_false; //pointer stitching
+  testBB->exit_true = thenBB; //pointer stitching
+  testBB->exit_false = elseBB; //pointer stitching
+  thenBB->exit_true = afterIfBB; //pointer stitching
+  thenBB->exit_false = NULL; //unconditional exit
+  elseBB->exit_true = afterIfBB; //pointer stitching
+  elseBB->exit_false = NULL; //unconditional exit
+  cfg.current_bb = afterIfBB;
+  return "";
+}
+
 string Bloc::buildIR(CFG & cfg)
 {
   cout << "-= Building IR Bloc =-" << endl;
