@@ -5,5 +5,13 @@ string TestExprCompar::buildIR(CFG & cfg)
   cout << "-= Building IR TestExpr =-" << endl;
   string var1 = expression1->buildIR(cfg);
   string var2 = expression2->buildIR(cfg);
-  return "";
+  string res = cfg.create_new_tempvar(Type::Int32);
+  switch(signe)
+  {
+    case EGAL:
+      cout << "EGAL" << endl;
+      IRInstr_cmp_eq* instr = new IRInstr_cmp_eq(cfg.current_bb, Type::Int32, cfg.current_bloc, res, var1, var2);
+      cfg.current_bb->add_IRInstr(instr);
+      return res;
+  }
 }

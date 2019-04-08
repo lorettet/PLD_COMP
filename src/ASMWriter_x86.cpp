@@ -88,7 +88,7 @@ void ASMWriter_x86::addInstrJmpIfGreaterOrEqual(string label)
 
 void ASMWriter_x86::addInstrCmp(string src, string dest)
 {
-  addInstr("cmp "+src+", "+dest);
+  addInstr("cmp "+dest+", "+src);
 }
 
 void ASMWriter_x86::addPrologue(int stackFrameSize, int nbParams)
@@ -164,7 +164,7 @@ int ASMWriter_x86::addComparison(int addrRes, int addr1, int addr2, cmp c, uint 
       break;
     case lt:
       addComparisonSupStrict(addrRes, addr1, addr2, size);
-      break;  
+      break;
     default:
       break;
   }

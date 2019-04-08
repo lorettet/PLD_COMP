@@ -74,12 +74,14 @@ void CFG::gen_asm(ASMWriter & asmb)
 
     if(bb->exit_false)
     {
+      cout << bb->label << " is linked with false at " << bb->exit_false->label << endl;
       int testResultAddr = bb->cfg->get_var_index(bb->testResultVar, nullptr);
       asmb.addCmp(testResultAddr,0);
       asmb.addJmpIfEqual(bb->exit_false->label);
     }
     if(bb->exit_true)
     {
+      cout << bb->label << " is linked with true at " << bb->exit_true->label << endl;
       asmb.addJmp(bb->exit_true->label);
     }
   }
@@ -291,7 +293,6 @@ IRInstr_ret::IRInstr_ret(BasicBlock* bb_, Type t, Bloc* b_, string var) : IRInst
 void IRInstr_ret::gen_asm(ASMWriter& asmb)
 {
     cout << "gen ASM ret" << endl;
-    cout << "----------------------" << context << endl;
     int addrVar = bb->cfg->get_var_index(var, context);
     asmb.addReturnVar(addrVar,bb->cfg->ast->nom,t);
 }

@@ -240,6 +240,7 @@ class ElseSimple : public ElseStatement {
 	public:
 		ElseSimple(Instruction * i) : instruction(i) {}
 		~ElseSimple(){}
+		string virtual buildIR(CFG & cfg);
 	protected:
 		Instruction* instruction;
 };
@@ -248,6 +249,7 @@ class ElseIf : public ElseStatement {
 	public:
 		ElseIf(IfStatement* ifS) : ifStatement(ifS) {}
 		~ElseIf(){}
+		string virtual buildIR(CFG & cfg);
 	protected:
 		IfStatement* ifStatement;
 };

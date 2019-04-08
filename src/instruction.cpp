@@ -22,6 +22,8 @@ string Return::buildIR(CFG & cfg)
   IRInstr_ret* instr = new IRInstr_ret(cfg.current_bb,Type::Int32,cfg.current_bloc,var);
   cout << "Adding IR Return" << endl;
   cfg.current_bb->add_IRInstr(instr);
+  cout << "Binding exit_true to return bloc : " << cfg.bbs[1]->label << endl;
+  cfg.current_bb->exit_true = cfg.bbs[1];
   return "end";
 }
 
@@ -41,35 +43,59 @@ string InstrIF::buildIR(CFG & cfg)
 
 string IfInstr::buildIR(CFG & cfg){
   cout << "-= Building IR IfInstr =-" << endl;
-  testExpression->buildIR(cfg); //returns a variable name but we don’t use it
+  cfg.current_bb->testResultVar = testExpression->buildIR(cfg);
   BasicBlock* backupCurrentBB = cfg.current_bb;
   BasicBlock* thenBB = new BasicBlock(&cfg, cfg.new_BB_name());
   cfg.add_bb(thenBB);
   cfg.current_bb = thenBB;
-  instruction->buildIR(cfg);
+  string thenRet = instruction->buildIR(cfg);
   BasicBlock* elseBB = nullptr;
+  string elseRet;
   if(elseStatement != nullptr)
   {
     elseBB = new BasicBlock(&cfg, cfg.new_BB_name());
     cfg.add_bb(elseBB);
     cfg.current_bb = elseBB;
-    elseStatement->buildIR(cfg);
+    elseRet = elseStatement->buildIR(cfg);
   }
   BasicBlock* afterIfBB = new BasicBlock(&cfg,cfg.new_BB_name());
   cfg.add_bb(afterIfBB);
   BasicBlock* testBB = backupCurrentBB;
   afterIfBB->exit_true = testBB->exit_true; //pointer stitching
   testBB->exit_true = thenBB; //pointer stitching
-  testBB->exit_false = elseBB; //pointer stitching
-  thenBB->exit_true = afterIfBB; //pointer stitching
+  testBB->exit_false = afterIfBB;
+  if(thenRet != "end")
+  {
+    thenBB->exit_true = afterIfBB; //pointer stitching
+  }
+  else
+  {
+    cout << "Then contains a return -> not binding to next bloc (already bind)" << endl;
+  }
   thenBB->exit_false = NULL; //unconditional exit
   if(elseStatement != nullptr)
   {
-    elseBB->exit_true = afterIfBB; //pointer stitching
+    if(elseRet != "end")
+    {
+      elseBB->exit_true = afterIfBB; //pointer stitching
+    }
     elseBB->exit_false = NULL; //unconditional exit
+    testBB->exit_false = elseBB; //pointer stitching
   }
   cfg.current_bb = afterIfBB;
+  cout << "-= Exiting IR IfInstr =-" << endl;
   return "";
+}
+
+
+string ElseSimple::buildIR(CFG & cfg)
+{
+  return instruction->buildIR(cfg);
+}
+
+string ElseIf::buildIR(CFG & cfg)
+{
+  return ifStatement->buildIR(cfg); 
 }
 
 string Bloc::buildIR(CFG & cfg)

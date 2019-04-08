@@ -45,7 +45,7 @@ class BasicBlock {
 	vector<IRInstr*> instrs; /** < the instructions themselves. */
     string testResultVar;
  protected:
-    
+
 
 };
 
@@ -88,6 +88,7 @@ class CFG {
 	string new_BB_name();
 	BasicBlock* current_bb;
   Bloc* current_bloc;
+  	vector <BasicBlock*> bbs; /**< all the basic blocks of this CFG*/
 
   int getStackSize();
 
@@ -97,7 +98,6 @@ class CFG {
 	int nextFreeSymbolIndex = 0; /**< to allocate new symbols in the symbol table */
   int lastTempVar = 0;
 
-	vector <BasicBlock*> bbs; /**< all the basic blocks of this CFG*/
 };
 
 
