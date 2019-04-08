@@ -31,13 +31,27 @@ public:
 
   virtual int addDivision(int addrRes, int addr1, int addr2, uint size = 4);
 
+  virtual int addCmp(int addr, int value, uint size = 4);
+
   virtual int addComparison(int addrRes, int addr1, int addr2, cmp c, uint size = 4);
+
+  virtual int addComparisonEqual(int addrRes, int addr1, int addr2, uint size);
+
+  virtual int addComparisonSupEqual(int addrRes, int addr1, int addr2, uint size);
+
+  virtual int addComparisonSupStrict(int addrRes, int addr1, int addr2, uint size);
 
   virtual int addReadMem(int addrDest, int addrMem, uint size = 4);
 
   virtual int addWriteMem(int addrMem, int addrSrc, uint size = 4);
 
   virtual int addJmp(string label);
+
+  virtual int addJmpIfEqual(string label);
+
+  virtual int addJmpIfGreater(string label);
+
+  virtual int addJmpIfGreaterOrEqual(string label);
 
   virtual int addNeg(int addr, uint size = 4);
 
@@ -64,6 +78,12 @@ protected:
   virtual void addInstrNeg(string src);
 
   virtual void addInstrJmp(string label);
+
+  virtual void addInstrJmpIfEqual(string label);
+
+  virtual void addInstrJmpIfGreater(string label);
+
+  virtual void addInstrJmpIfGreaterOrEqual(string label);
 
   virtual void addInstrCmp(string src, string dest);
 };

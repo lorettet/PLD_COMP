@@ -67,7 +67,14 @@ void CFG::gen_asm(ASMWriter & asmb)
   for(auto bb : bbs)
   {
     bb->gen_asm(asmb);
-    if(bb->exit_true && !bb->exit_false)
+
+    if(bb->exit_false)
+    {
+      int testResultAddr = bb->cfg->get_var_index(bb->testResultVar, nullptr);
+      asmb.addCmp(testResultAddr,0);
+      asmb.addJmpIfEqual(bb->exit_false->label);
+    }
+    if(bb->exit_true)
     {
       asmb.addJmp(bb->exit_true->label);
     }
@@ -183,9 +190,6 @@ void IRInstr_sub::gen_asm(ASMWriter& asmb)
 }
 
 IRInstr_mul::IRInstr_mul(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
-{}
-
-IRInstr_div::IRInstr_div(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
 {}
 
 void IRInstr_mul::gen_asm(ASMWriter& asmb)

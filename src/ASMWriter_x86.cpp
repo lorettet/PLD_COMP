@@ -71,7 +71,23 @@ void ASMWriter_x86::addInstrJmp(string label)
   addInstr("jmp "+label);
 }
 
-void ASMWriter_x86::addInstrCmp(string src, string dest){
+void ASMWriter_x86::addInstrJmpIfEqual(string label)
+{
+  addInstr("je "+label);
+}
+
+void ASMWriter_x86::addInstrJmpIfGreater(string label)
+{
+  addInstr("jg "+label);
+}
+
+void ASMWriter_x86::addInstrJmpIfGreaterOrEqual(string label)
+{
+  addInstr("jge "+label);
+}
+
+void ASMWriter_x86::addInstrCmp(string src, string dest)
+{
   addInstr("cmp "+src+", "+dest);
 }
 
@@ -104,7 +120,6 @@ int ASMWriter_x86::addAddition(int addrRes, int addr1, int addr2, uint size){
   addInstrAdd(string("%edx"),string("%eax"),size);
   addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
   return addrRes;
-  //return adresse ?
 }
 
 int ASMWriter_x86::addSubstraction(int addrRes, int addr1, int addr2, uint size){
@@ -115,7 +130,6 @@ int ASMWriter_x86::addSubstraction(int addrRes, int addr1, int addr2, uint size)
   addInstrSub(string("%edx"),string("%eax"),size);
   addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
   return addrRes;
-  //return adresse ?
 }
 
 int ASMWriter_x86::addMultiplication(int addrRes, int addr1, int addr2, uint size){
@@ -134,27 +148,68 @@ int ASMWriter_x86::addDivision(int addrRes, int addr1, int addr2, uint size){
   return addrRes;
 }
 
+int ASMWriter_x86::addCmp(int addr, int value, uint size){
+  addInstrCmp(to_string(addr)+string("(%rbp)"),string("$")+to_string(value));
+  return 0;
+}
+
 int ASMWriter_x86::addComparison(int addrRes, int addr1, int addr2, cmp c, uint size){
   switch (c)
   {
     case eq:
-        
+      addComparisonEqual(addrRes, addr1, addr2, size);
       break;
     case le:
-      /* code */
+      addComparisonSupEqual(addrRes, addr1, addr2, size);
       break;
     case lt:
-      /* code */
-      break;
-  
+      addComparisonSupStrict(addrRes, addr1, addr2, size);
+      break;  
     default:
       break;
   }
-  
-  addInstrMov(to_string(addr1)+string("(%rbp)"),string("%eax"),size);
-  addInstrMov(to_string(addr2)+string("(%rbp)"),string("%ebx"),size);
-  addInstrDiv(string("%ebx"));
-  addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
+  return addrRes;
+}
+
+int ASMWriter_x86::addComparisonEqual(int addrRes, int addr1, int addr2, uint size){
+  addInstrMov(to_string(addr1)+string("(%rbp)"),string("%edx"),size);
+  addInstrMov(to_string(addr2)+string("(%rbp)"),string("%eax"),size);
+  addInstrCmp(string("%edx"),string("%eax"));
+  addInstrJmpIfEqual("equal");
+  addAffectationInt(addrRes, 0, size);
+  addInstrJmp("end");
+  addLabel("equal");
+  addAffectationInt(addrRes, 1, size);
+  addLabel("end");
+
+  return addrRes;
+}
+
+int ASMWriter_x86::addComparisonSupEqual(int addrRes, int addr1, int addr2, uint size){
+  addInstrMov(to_string(addr1)+string("(%rbp)"),string("%edx"),size);
+  addInstrMov(to_string(addr2)+string("(%rbp)"),string("%eax"),size);
+  addInstrCmp(string("%edx"),string("%eax"));
+  addInstrJmpIfGreaterOrEqual("greaterOrEqual");
+  addAffectationInt(addrRes, 0, size);
+  addInstrJmp("end");
+  addLabel("greaterOrEqual");
+  addAffectationInt(addrRes, 1, size);
+  addLabel("end");
+
+  return addrRes;
+}
+
+int ASMWriter_x86::addComparisonSupStrict(int addrRes, int addr1, int addr2, uint size){
+  addInstrMov(to_string(addr1)+string("(%rbp)"),string("%edx"),size);
+  addInstrMov(to_string(addr2)+string("(%rbp)"),string("%eax"),size);
+  addInstrCmp(string("%edx"),string("%eax"));
+  addInstrJmpIfGreater("greater");
+  addAffectationInt(addrRes, 0, size);
+  addInstrJmp("end");
+  addLabel("greater");
+  addAffectationInt(addrRes, 1, size);
+  addLabel("end");
+
   return addrRes;
 }
 
@@ -200,5 +255,23 @@ int ASMWriter_x86::addNeg(int addr, uint size)
 int ASMWriter_x86::addJmp(string label)
 {
   addInstrJmp(label);
+  return 0;
+}
+
+int ASMWriter_x86::addJmpIfEqual(string label)
+{
+  addInstrJmpIfEqual(label);
+  return 0;
+}
+
+int ASMWriter_x86::addJmpIfGreater(string label)
+{
+  addInstrJmpIfGreater(label);
+  return 0;
+}
+
+int ASMWriter_x86::addJmpIfGreaterOrEqual(string label)
+{
+  addInstrJmpIfGreaterOrEqual(label);
   return 0;
 }
