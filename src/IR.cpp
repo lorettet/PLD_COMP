@@ -224,8 +224,48 @@ void IRInstr_cmp_eq::gen_asm(ASMWriter& asmb)
     int addrRes = bb->cfg->get_var_index(dest, context);
     int addrx = bb->cfg->get_var_index(x, context);
     int addry = bb->cfg->get_var_index(y, context);
+    string labelModifier = bb->label+"_";
 
-    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::eq, t);
+    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::eq, labelModifier, t);  
+}
+
+IRInstr_cmp_gt::IRInstr_cmp_gt(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
+{}
+
+void IRInstr_cmp_gt::gen_asm(ASMWriter& asmb)
+{
+    int addrRes = bb->cfg->get_var_index(dest, context);
+    int addrx = bb->cfg->get_var_index(x, context);
+    int addry = bb->cfg->get_var_index(y, context);
+    string labelModifier = bb->label+"_";
+    
+    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::gt, labelModifier, t);
+}
+
+IRInstr_cmp_ge::IRInstr_cmp_ge(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
+{}
+
+void IRInstr_cmp_ge::gen_asm(ASMWriter& asmb)
+{
+    int addrRes = bb->cfg->get_var_index(dest, context);
+    int addrx = bb->cfg->get_var_index(x, context);
+    int addry = bb->cfg->get_var_index(y, context);
+    string labelModifier = bb->label+"_";
+    
+    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::ge, labelModifier, t);
+}
+
+IRInstr_cmp_neq::IRInstr_cmp_neq(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
+{}
+
+void IRInstr_cmp_neq::gen_asm(ASMWriter& asmb)
+{
+    int addrRes = bb->cfg->get_var_index(dest, context);
+    int addrx = bb->cfg->get_var_index(x, context);
+    int addry = bb->cfg->get_var_index(y, context);
+    string labelModifier = bb->label+"_";
+    
+    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::neq, labelModifier, t);
 }
 
 IRInstr_cmp_lt::IRInstr_cmp_lt(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
@@ -233,7 +273,12 @@ IRInstr_cmp_lt::IRInstr_cmp_lt(BasicBlock* bb_, Type t, Bloc* b_, string dest, s
 
 void IRInstr_cmp_lt::gen_asm(ASMWriter& asmb)
 {
-    // A FAIRE
+    int addrRes = bb->cfg->get_var_index(dest, context);
+    int addrx = bb->cfg->get_var_index(x, context);
+    int addry = bb->cfg->get_var_index(y, context);
+    string labelModifier = bb->label+"_";
+    
+    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::lt, labelModifier, t);
 }
 
 IRInstr_cmp_le::IRInstr_cmp_le(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
@@ -241,7 +286,12 @@ IRInstr_cmp_le::IRInstr_cmp_le(BasicBlock* bb_, Type t, Bloc* b_, string dest, s
 
 void IRInstr_cmp_le::gen_asm(ASMWriter& asmb)
 {
-    // A FAIRE
+    int addrRes = bb->cfg->get_var_index(dest, context);
+    int addrx = bb->cfg->get_var_index(x, context);
+    int addry = bb->cfg->get_var_index(y, context);
+    string labelModifier = bb->label+"_";
+    
+    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::le, labelModifier, t);
 }
 
 IRInstr_call::IRInstr_call(BasicBlock* bb_, Type t, Bloc* b_, string label, string dest, vector<string> params) : IRInstr(bb_,t,b_),label(label),dest(dest),params(params)

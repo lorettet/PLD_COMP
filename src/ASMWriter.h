@@ -14,9 +14,12 @@ public:
 
   typedef enum
   {
-    eq=0,
-    le=1,
-    lt=2
+    eq=1,
+    ge=2,
+    gt=3,
+    neq=-1,
+    le=-2,
+    lt=-3
   } cmp;
 
   ASMWriter(string name);
@@ -41,13 +44,19 @@ public:
 
   virtual int addCmp(int addr, int value, uint size = 4) = 0;
 
-  virtual int addComparison(int addrRes, int addr1, int addr2, cmp c, uint size = 4) = 0;
+  virtual int addComparison(int addrRes, int addr1, int addr2, cmp c, string labelModifier, uint size = 4) = 0;
 
-  virtual int addComparisonEqual(int addrRes, int addr1, int addr2, uint size) = 0;
+  virtual int addComparisonEqual(int addrRes, int addr1, int addr2, string labelModifier, uint size) = 0;
 
-  virtual int addComparisonSupEqual(int addrRes, int addr1, int addr2, uint size) = 0;
+  virtual int addComparisonSupEqual(int addrRes, int addr1, int addr2, string labelModifier, uint size) = 0;
 
-  virtual int addComparisonSupStrict(int addrRes, int addr1, int addr2, uint size) = 0;
+  virtual int addComparisonSupStrict(int addrRes, int addr1, int addr2, string labelModifier, uint size) = 0;
+
+  virtual int addComparisonNotEqual(int addrRes, int addr1, int addr2, string labelModifier, uint size) = 0;
+
+  virtual int addComparisonInfEqual(int addrRes, int addr1, int addr2, string labelModifier, uint size) = 0;
+
+  virtual int addComparisonInfStrict(int addrRes, int addr1, int addr2, string labelModifier, uint size) = 0;
 
   virtual int addReadMem(int addrDest, int addrMem, uint size = 4) = 0;
 
@@ -60,6 +69,12 @@ public:
   virtual int addJmpIfGreater(string label) = 0;
 
   virtual int addJmpIfGreaterOrEqual(string label) = 0;
+
+  virtual int addJmpIfNotEqual(string label) = 0;
+
+  virtual int addJmpIfInferior(string label) = 0;
+
+  virtual int addJmpIfInferiorOrEqual(string label) = 0;
 
   virtual int addNeg(int addr, uint size = 4) = 0;
 
@@ -99,6 +114,12 @@ protected:
   virtual void addInstrJmpIfGreater(string label) = 0;
 
   virtual void addInstrJmpIfGreaterOrEqual(string label) = 0;
+
+  virtual void addInstrJmpIfNotEqual(string label) = 0;
+
+  virtual void addInstrJmpIfInferior(string label) = 0;
+
+  virtual void addInstrJmpIfInferiorOrEqual(string label) = 0;
 
   virtual void addInstrCmp(string src, string dest) = 0;
 

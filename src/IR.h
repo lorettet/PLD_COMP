@@ -191,6 +191,45 @@ class IRInstr_cmp_eq : public IRInstr {
         string y;
 };
 
+class IRInstr_cmp_gt : public IRInstr {
+
+    public:
+        IRInstr_cmp_gt(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y);
+        virtual ~IRInstr_cmp_gt(){}
+        void gen_asm(ASMWriter& asmw);
+
+    private:
+        string dest;
+        string x;
+        string y;
+};
+
+class IRInstr_cmp_ge : public IRInstr {
+
+    public:
+        IRInstr_cmp_ge(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y);
+        virtual ~IRInstr_cmp_ge(){}
+        void gen_asm(ASMWriter& asmw);
+
+    private:
+        string dest;
+        string x;
+        string y;
+};
+
+class IRInstr_cmp_neq : public IRInstr {
+
+    public:
+        IRInstr_cmp_neq(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y);
+        virtual ~IRInstr_cmp_neq(){}
+        void gen_asm(ASMWriter& asmw);
+
+    private:
+        string dest;
+        string x;
+        string y;
+};
+
 class IRInstr_cmp_lt : public IRInstr {
 
     public:
