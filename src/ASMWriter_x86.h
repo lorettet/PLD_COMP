@@ -33,13 +33,19 @@ public:
 
   virtual int addCmp(int addr, int value, uint size = 4);
 
-  virtual int addComparison(int addrRes, int addr1, int addr2, cmp c, uint size = 4);
+  virtual int addComparison(int addrRes, int addr1, int addr2, cmp c, string labelModifier, uint size = 4);
 
-  virtual int addComparisonEqual(int addrRes, int addr1, int addr2, uint size);
+  virtual int addComparisonEqual(int addrRes, int addr1, int addr2, string labelModifier, uint size);
 
-  virtual int addComparisonSupEqual(int addrRes, int addr1, int addr2, uint size);
+  virtual int addComparisonSupEqual(int addrRes, int addr1, int addr2, string labelModifier, uint size);
 
-  virtual int addComparisonSupStrict(int addrRes, int addr1, int addr2, uint size);
+  virtual int addComparisonSupStrict(int addrRes, int addr1, int addr2, string labelModifier, uint size);
+
+  virtual int addComparisonNotEqual(int addrRes, int addr1, int addr2, string labelModifier, uint size);
+
+  virtual int addComparisonInfEqual(int addrRes, int addr1, int addr2, string labelModifier, uint size);
+
+  virtual int addComparisonInfStrict(int addrRes, int addr1, int addr2, string labelModifier, uint size);
 
   virtual int addReadMem(int addrDest, int addrMem, uint size = 4);
 
@@ -52,6 +58,12 @@ public:
   virtual int addJmpIfGreater(string label);
 
   virtual int addJmpIfGreaterOrEqual(string label);
+
+  virtual int addJmpIfNotEqual(string label);
+
+  virtual int addJmpIfInferior(string label);
+
+  virtual int addJmpIfInferiorOrEqual(string label);
 
   virtual int addNeg(int addr, uint size = 4);
 
@@ -84,6 +96,12 @@ protected:
   virtual void addInstrJmpIfGreater(string label);
 
   virtual void addInstrJmpIfGreaterOrEqual(string label);
+
+  virtual void addInstrJmpIfNotEqual(string label);
+
+  virtual void addInstrJmpIfInferior(string label);
+
+  virtual void addInstrJmpIfInferiorOrEqual(string label);
 
   virtual void addInstrCmp(string src, string dest);
 };
