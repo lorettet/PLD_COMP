@@ -50,3 +50,7 @@ Makefile
 #Tests
 resultatsTests.txt
 errTestScript.txt
+
+#vgcore
+vgcore.*
+
