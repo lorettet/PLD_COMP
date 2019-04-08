@@ -153,6 +153,15 @@ class Instruction {
 		string virtual buildIR(CFG & cfg){}
 };
 
+class Declaration {
+	public:
+		virtual ~Declaration() {cout << "== DESTRUCTING DECLARATION ==" << endl;}
+		string getNomVariable();
+		string virtual buildIR(CFG & cfg){}
+	protected:
+		Variable* variable;
+};
+
 class ExpressionSeule : public Instruction {
 	public:
 		ExpressionSeule(Expression* expr) : expression(expr) {}
@@ -172,10 +181,7 @@ class Affectation : public Instruction {
 		Expression* expression;
 };
 
-class InstrIF : public Instruction {
-	public:
-		InstrIF(){}
-};
+
 
 class IfStatement : public Instruction {
 	public:
@@ -184,11 +190,50 @@ class IfStatement : public Instruction {
 		string virtual buildIR(CFG & cfg){}
 };
 
+class InstrIF : public Instruction {
+	public:
+		InstrIF(IfStatement* ifS): ifStatement(ifS){}
+		~InstrIF(){}
+		string virtual buildIR(CFG & cfg){}
+	protected:
+		IfStatement* ifStatement;
+};
+
 class ElseStatement : public IfStatement {
 	public:
 		ElseStatement(){}
 		~ElseStatement(){}
 		string virtual buildIR(CFG & cfg){}
+};
+
+class TestExpression {
+	public:
+		TestExpression(){}
+		~TestExpression(){}
+		string virtual buildIR(CFG & cfg){}
+
+};
+
+class IfInstr: public IfStatement {
+	public:
+		IfInstr(TestExpression* tE, Instruction* instr, ElseStatement* els): testExpression(tE), instruction(instr), elseStatement(els) {}
+		~IfInstr() {}
+		string virtual buildIR(CFG& cfg) {}
+	protected:
+		TestExpression* testExpression;
+		Instruction* instruction;
+		ElseStatement* elseStatement;
+};
+
+class IfSimpleDecl: public IfStatement {
+	public:
+		IfSimpleDecl(TestExpression* tE, Declaration* decl, ElseStatement* els): testExpression(tE), declaration(decl), elseStatement(els) {}
+		~IfSimpleDecl() {}
+		string virtual buildIR(CFG& cfg) {}
+	protected:
+		TestExpression* testExpression;
+		Declaration* declaration;
+		ElseStatement* elseStatement;
 };
 
 class ElseSimple : public ElseStatement {
@@ -199,22 +244,14 @@ class ElseSimple : public ElseStatement {
 		Instruction* instruction;
 };
 
-class ElseCompose : public ElseStatement {
+class ElseIf : public ElseStatement {
 	public:
-		ElseCompose(Instruction * i) : instruction(i) {}
-		~ElseCompose(){}
-		vector<Instruction*> instructions;
+		ElseIf(IfStatement* ifS) : ifStatement(ifS) {}
+		~ElseIf(){}
 	protected:
-		Instruction* instruction;
+		IfStatement* ifStatement;
 };
 
-class TestExpression : public Instruction {
-	public:
-		TestExpression(){}
-		~TestExpression(){}
-		string virtual buildIR(CFG & cfg){}
-
-};
 
 class TestExpr : public TestExpression {
 	public:
@@ -240,16 +277,35 @@ class TestExprLogique : public TestExpression {
 
 class TestExprCompar : public TestExpression {
 	public:
-		TestExprCompar(TestExpression * e1, TestExpression* e2, SigneComparaison s) : expression1(e1), expression2(e2), signe(s) {}
+		TestExprCompar(Expression * e1, Expression* e2, SigneComparaison s) : expression1(e1), expression2(e2), signe(s) {}
 		~TestExprCompar() {}
 		string buildIR(CFG & cfg){}
 
 	protected:
-		TestExpression * expression1;
-		TestExpression * expression2;
+		Expression * expression1;
+		Expression * expression2;
 		SigneComparaison signe;
 };
 
+class Not: public TestExpression {
+	public:
+		Not(TestExpression * e1) : expression(e1) {}
+		~Not() {}
+		string buildIR(CFG & cfg){}
+
+	protected:
+		TestExpression * expression;
+};
+
+class TestExprPar: public TestExpression {
+	public:
+		TestExprPar(TestExpression * e1) : expression(e1) {}
+		~TestExprPar() {}
+		string buildIR(CFG & cfg){}
+
+	protected:
+		TestExpression * expression;
+};
 
 class Return : public Instruction {
 	public:
@@ -260,31 +316,6 @@ class Return : public Instruction {
 		Expression* expression;
 };
 
-
-//
-// WORK IN PROGRESS
-//
-/*
-class InstructionIF : public Instruction {
-	public:
-		//InstructionIF(Expression* expr) : expression(expr) { }
-		string buildIR(CFG & cfg);
-		~InstructionIF() { }
-	protected:
-		TestExpression* test;
-		Bloc* trueCode;
-		Bloc* falseCode;
-};
-*/
-
-class Declaration {
-	public:
-		virtual ~Declaration() {cout << "== DESTRUCTING DECLARATION ==" << endl;}
-		string getNomVariable();
-		string virtual buildIR(CFG & cfg){}
-	protected:
-		Variable* variable;
-};
 
 class DeclarationSimple : public Declaration {
 	public:

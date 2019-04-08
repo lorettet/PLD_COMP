@@ -186,9 +186,6 @@ void IRInstr_sub::gen_asm(ASMWriter& asmb)
 IRInstr_mul::IRInstr_mul(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
 {}
 
-IRInstr_div::IRInstr_div(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
-{}
-
 void IRInstr_mul::gen_asm(ASMWriter& asmb)
 {
     cout << "gen ASM mul" << endl;

@@ -105,7 +105,7 @@ class IRInstr {
     public:
         IRInstr(BasicBlock* bb_, Type t_, Bloc* b_);
         virtual ~IRInstr(){}
-        virtual void gen_asm(ASMWriter& asmw) = 0; /**< x86 assembly code generation for this IR instruction */
+        virtual void gen_asm(ASMWriter& asmb) = 0; /**< x86 assembly code generation for this IR instruction */
 
     protected:
         BasicBlock* bb; /**< The BB this instruction belongs to, which provides a pointer to the CFG this instruction belong to */
@@ -118,7 +118,7 @@ class IRInstr_ldconst : public IRInstr {
     public:
         IRInstr_ldconst(BasicBlock* bb_, Type t_, Bloc* b_, string dest_, int c_);
         virtual ~IRInstr_ldconst(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string dest;
@@ -130,7 +130,7 @@ class IRInstr_add : public IRInstr {
     public:
         IRInstr_add(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y);
         virtual ~IRInstr_add(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string dest;
@@ -143,7 +143,7 @@ class IRInstr_sub : public IRInstr {
     public:
         IRInstr_sub(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y);
         virtual ~IRInstr_sub(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string dest;
@@ -156,7 +156,7 @@ class IRInstr_mul : public IRInstr {
     public:
         IRInstr_mul(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y);
         virtual ~IRInstr_mul(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string dest;
@@ -169,7 +169,7 @@ class IRInstr_div : public IRInstr {
     public:
         IRInstr_div(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y);
         virtual ~IRInstr_div(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string dest;
@@ -182,7 +182,7 @@ class IRInstr_cmp_eq : public IRInstr {
     public:
         IRInstr_cmp_eq(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y);
         virtual ~IRInstr_cmp_eq(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string dest;
@@ -195,7 +195,7 @@ class IRInstr_cmp_lt : public IRInstr {
     public:
         IRInstr_cmp_lt(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y);
         virtual ~IRInstr_cmp_lt(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string dest;
@@ -208,7 +208,7 @@ class IRInstr_cmp_le : public IRInstr {
     public:
         IRInstr_cmp_le(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y);
         virtual ~IRInstr_cmp_le(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string dest;
@@ -221,7 +221,7 @@ class IRInstr_call : public IRInstr {
     public:
         IRInstr_call(BasicBlock* bb_, Type t, Bloc* b_, string label, string dest, vector<string> params);
         virtual ~IRInstr_call(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string label;
@@ -234,7 +234,7 @@ class IRInstr_rmem : public IRInstr {
     public:
         IRInstr_rmem(BasicBlock* bb_, Type t, Bloc* b_, string dest, int addr);
         virtual ~IRInstr_rmem(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string dest;
@@ -246,7 +246,7 @@ class IRInstr_wmem : public IRInstr {
     public:
         IRInstr_wmem(BasicBlock* bb_, Type t, Bloc* b_, int addr, string var);
         virtual ~IRInstr_wmem(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         int addr;
@@ -258,7 +258,7 @@ class IRInstr_ret : public IRInstr {
     public:
         IRInstr_ret(BasicBlock* bb_, Type t, Bloc* b_, string var);
         virtual ~IRInstr_ret(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string var;
@@ -269,7 +269,7 @@ class IRInstr_neg : public IRInstr {
     public:
         IRInstr_neg(BasicBlock* bb_, Type t, Bloc* b_, string var);
         virtual ~IRInstr_neg(){}
-        void gen_asm(ASMWriter& asmw);
+        void gen_asm(ASMWriter& asmb);
 
     private:
         string var;
