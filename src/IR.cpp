@@ -71,7 +71,14 @@ void CFG::gen_asm(ASMWriter & asmb)
     if(i++ == 1)
       continue;
     bb->gen_asm(asmb);
-    if(bb->exit_true && !bb->exit_false)
+
+    if(bb->exit_false)
+    {
+      int testResultAddr = bb->cfg->get_var_index(bb->testResultVar, nullptr);
+      asmb.addCmp(testResultAddr,0);
+      asmb.addJmpIfEqual(bb->exit_false->label);
+    }
+    if(bb->exit_true)
     {
       asmb.addJmp(bb->exit_true->label);
     }
