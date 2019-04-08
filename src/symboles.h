@@ -252,17 +252,6 @@ class ElseIf : public ElseStatement {
 		IfStatement* ifStatement;
 };
 
-
-class TestExpr : public TestExpression {
-	public:
-		TestExpr(Expression * e) : expression(e) {}
-		~TestExpr() {}
-		string buildIR(CFG & cfg){}
-
-	protected:
-		Expression * expression;
-};
-
 class TestExprLogique : public TestExpression {
 	public:
 		TestExprLogique(TestExpression * e1, TestExpression* e2, SigneLogique s) : expression1(e1), expression2(e2), signe(s) {}

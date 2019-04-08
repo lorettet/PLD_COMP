@@ -81,11 +81,17 @@ public:
 
 
  	virtual antlrcpp::Any visitIfInstr(exprParser::IfInstrContext *ctx) override {
-	  return (IfStatement*) new IfInstr(visit(ctx->testExpression()), visit(ctx->instructions()), visit(ctx->elseStatement()));
+	  if (ctx->elseStatement()) {
+	  	return (IfStatement*) new IfInstr(visit(ctx->testExpression()), visit(ctx->instructions()), visit(ctx->elseStatement()));
+	  }
+	  return (IfStatement*) new IfInstr(visit(ctx->testExpression()), visit(ctx->instructions()), nullptr);
 	}
 
     virtual antlrcpp::Any visitIfSimpleDecl(exprParser::IfSimpleDeclContext *ctx) override {
-    	return (IfStatement*) new IfSimpleDecl(visit(ctx->testExpression()), visit(ctx->declarations()), visit(ctx->elseStatement()));
+	    if (ctx->elseStatement()) {
+    		return (IfStatement*) new IfSimpleDecl((TestExpression*) visit(ctx->testExpression()), visit(ctx->declarations()), visit(ctx->elseStatement()));
+	    }
+	    return (IfStatement*) new IfSimpleDecl((TestExpression*) visit(ctx->testExpression()), visit(ctx->declarations()), nullptr);
 	}
 
     virtual antlrcpp::Any visitBlocSimple(exprParser::BlocSimpleContext *ctx) override {
