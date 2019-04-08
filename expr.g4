@@ -18,8 +18,8 @@ declarations :
 instructions : expression';'					#expressionSeule
 			| ID '=' expression';'			#affectation
 			| 'return' expression';'		#return
-			| ifStatement				#instrIF
-			| bloc					#blocSimple;
+			| ifStatement					#instrIF
+			| bloc							#blocSimple;
 
 
 ifStatement:
