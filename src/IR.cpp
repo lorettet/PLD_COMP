@@ -199,6 +199,10 @@ void IRInstr_mul::gen_asm(ASMWriter& asmb)
     asmb.addMultiplication(addrRes, addrx, addry, t);
 }
 
+
+IRInstr_div::IRInstr_div(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
+{}
+
 void IRInstr_div::gen_asm(ASMWriter& asmb)
 {
     cout << "gen ASM div" << endl;
@@ -214,7 +218,11 @@ IRInstr_cmp_eq::IRInstr_cmp_eq(BasicBlock* bb_, Type t, Bloc* b_, string dest, s
 
 void IRInstr_cmp_eq::gen_asm(ASMWriter& asmb)
 {
-    // A FAIRE
+    int addrRes = bb->cfg->get_var_index(dest, context);
+    int addrx = bb->cfg->get_var_index(x, context);
+    int addry = bb->cfg->get_var_index(y, context);
+
+    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::eq, t);
 }
 
 IRInstr_cmp_lt::IRInstr_cmp_lt(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)

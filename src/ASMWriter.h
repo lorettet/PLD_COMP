@@ -11,6 +11,14 @@ using namespace std;
 class ASMWriter
 {
 public:
+
+  typedef enum
+  {
+    eq=0,
+    le=1,
+    lt=2
+  } cmp;
+
   ASMWriter(string name);
 
   virtual ~ASMWriter(){}
@@ -30,6 +38,8 @@ public:
   virtual int addCall(string label, int addrRes, uint size, vector<int> params) = 0;
 
   virtual int addDivision(int addrRes, int addr1, int addr2, uint size = 4) = 0;
+
+  virtual int addComparison(int addrRes, int addr1, int addr2, cmp c, uint size = 4) = 0;
 
   virtual int addReadMem(int addrDest, int addrMem, uint size = 4) = 0;
 
@@ -69,6 +79,8 @@ protected:
   virtual void addInstrNeg(string src) = 0;
 
   virtual void addInstrJmp(string label) = 0;
+
+  virtual void addInstrCmp(string src, string dest) = 0;
 
   ofstream fileStream;
   string fileName;
