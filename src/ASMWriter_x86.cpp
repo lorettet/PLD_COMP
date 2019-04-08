@@ -121,6 +121,30 @@ int ASMWriter_x86::addDivision(int addrRes, int addr1, int addr2, uint size){
   return addrRes;
 }
 
+int ASMWriter_x86::addComparison(int addrRes, int addr1, int addr2, cmp c, uint size){
+  switch (c)
+  {
+    case eq:
+      /* code */
+      break;
+    case le:
+      /* code */
+      break;
+    case lt:
+      /* code */
+      break;
+  
+    default:
+      break;
+  }
+  
+  addInstrMov(to_string(addr1)+string("(%rbp)"),string("%eax"),size);
+  addInstrMov(to_string(addr2)+string("(%rbp)"),string("%ebx"),size);
+  addInstrDiv(string("%ebx"));
+  addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
+  return addrRes;
+}
+
 int ASMWriter_x86::addCall(string label, int addrRes, uint size, vector<int> params){
   int i = 0;
   for(auto p : params)

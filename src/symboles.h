@@ -181,6 +181,7 @@ class Return : public Instruction {
 //
 // WORK IN PROGRESS
 //
+/*
 class InstructionIF : public Instruction {
 	public:
 		//InstructionIF(Expression* expr) : expression(expr) { }
@@ -191,6 +192,7 @@ class InstructionIF : public Instruction {
 		Bloc* trueCode;
 		Bloc* falseCode;
 };
+*/
 
 class Declaration {
 	public:

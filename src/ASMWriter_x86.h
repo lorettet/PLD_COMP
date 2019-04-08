@@ -31,6 +31,8 @@ public:
 
   virtual int addDivision(int addrRes, int addr1, int addr2, uint size = 4);
 
+  virtual int addComparison(int addrRes, int addr1, int addr2, cmp c, uint size = 4);
+
   virtual int addReadMem(int addrDest, int addrMem, uint size = 4);
 
   virtual int addWriteMem(int addrMem, int addrSrc, uint size = 4);

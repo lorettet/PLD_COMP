@@ -207,7 +207,11 @@ IRInstr_cmp_eq::IRInstr_cmp_eq(BasicBlock* bb_, Type t, string dest, string x, s
 
 void IRInstr_cmp_eq::gen_asm(ASMWriter& asmb)
 {
-    // A FAIRE
+    int addrRes = bb->cfg->get_var_index(dest);
+    int addrx = bb->cfg->get_var_index(x);
+    int addry = bb->cfg->get_var_index(y);
+
+    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::eq, t);
 }
 
 

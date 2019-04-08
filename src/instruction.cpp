@@ -35,6 +35,7 @@ string ExpressionSeule::buildIR(CFG & cfg)
 //
 // WORK IN PROGRESS
 //
+/*
 string InstructionIF::buildIR(CFG & cfg){
   test→buildIR(cfg); //returns a variable name but we don’t use it
   testBB = cfg→currentBB;
@@ -51,3 +52,4 @@ string InstructionIF::buildIR(CFG & cfg){
   elseBB→exitFalse = NULL; //unconditional exit
   cfg→currentBB = afterIfBB;
 }
+*/
