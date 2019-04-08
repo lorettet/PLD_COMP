@@ -66,11 +66,20 @@ void ASMWriter_x86::addInstrNeg(string src)
 	addInstr("neg "+src);
 }
 
-void ASMWriter_x86::addPrologue(int stackFrameSize)
+void ASMWriter_x86::addInstrJmp(string label)
+{
+  addInstr("jmp "+label);
+}
+
+void ASMWriter_x86::addPrologue(int stackFrameSize, int nbParams)
 {
   addInstr("pushq %rbp");
   addInstrMov("%rsp", "%rbp", 8);
   addInstrSub(string("$")+to_string(stackFrameSize+4), "%rsp", 8);
+  for(int i = 0; i<nbParams; i++)
+  {
+    addInstrMov(registers[i],to_string(-(i+1)*4)+"(%rbp)");
+  }
 }
 
 void ASMWriter_x86::addEpilogue()
@@ -149,7 +158,7 @@ int ASMWriter_x86::addCall(string label, int addrRes, uint size, vector<int> par
   int i = 0;
   for(auto p : params)
   {
-    addInstrMov(to_string(p)+"(%rbp)","%"+registers[i++]);
+    addInstrMov(to_string(p)+"(%rbp)",registers[i++]);
   }
   addInstrCall(label);
   addInstrMov(string("%eax"),to_string(addrRes)+string("(%rbp)"),size);
@@ -166,12 +175,12 @@ int ASMWriter_x86::addWriteMem(int addrMem, int addrSrc, uint size){
   addInstrMov(string("%edx"),to_string(addrMem)+string("(%rbp)"),size);
 }
 
-void ASMWriter_x86::addReturnVar(int addr, uint size)
+void ASMWriter_x86::addReturnVar(int addr, string fctName, uint size)
 {
   addInstrMov(to_string(addr)+string("(%rbp)"),string("%eax"),size);
 }
 
-void ASMWriter_x86::addReturnInt(int value)
+void ASMWriter_x86::addReturnInt(int value, string fctName)
 {
   addInstrMov(string("$")+to_string(value),"%eax");
 }
@@ -182,4 +191,10 @@ int ASMWriter_x86::addNeg(int addr, uint size)
 	  addInstrNeg(string("%eax"));
     addInstrMov(string("%eax"),to_string(addr)+string("(%rbp)"),size);
     return addr;
+}
+
+int ASMWriter_x86::addJmp(string label)
+{
+  addInstrJmp(label);
+  return 0;
 }

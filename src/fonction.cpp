@@ -1,18 +1,7 @@
-#include <assert.h>
 #include "symboles.h"
+#include <sstream>
 
 using namespace std;
-
-void Fonction::ajouterDeclaration(Declaration* dec) {
- 	assert(variables.find(dec->getNomVariable()) == variables.end());
-	declarations.push_back(dec);
-	variables[dec->getNomVariable()] = index;
-	index += 4;
-}
-
-void Fonction::ajouterInstruction(Instruction* inst) {
-	instructions.push_back(inst);
-}
 
 vector<CFG*> Programme::buildIR()
 {
@@ -24,4 +13,18 @@ vector<CFG*> Programme::buildIR()
     res.push_back(c);
   }
   return res;
+}
+
+void Fonction::buildIR(CFG & cfg)
+{
+  cout << "-= Build IR Fonction : " << nom << " =-" << endl;
+  cout << "Adding params" << endl;
+  stringstream ss;
+  ss << bloc;
+  string pointerString = ss.str();
+  for(auto p : params->listParams)
+  {
+    cfg.add_to_symbol_table(p->nom+pointerString,Type::Int32);
+  }
+  bloc->buildIR(cfg);
 }
