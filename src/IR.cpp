@@ -2,6 +2,7 @@
 #include "IR.h"
 #include "symboles.h"
 #include <sstream>
+#include "exception.h"
 
 CFG::CFG(Fonction * ast_) : ast(ast_)
 {
@@ -27,7 +28,7 @@ int CFG::get_var_index(string name,Bloc* context)
   string res = context->hasLocalVariable(name);
   if(res != "")
     return SymbolIndex[name+res];
-  throw exception();
+  throw UndefindedVarException(name,ast->nom);
 }
 
 Type CFG::get_var_type(string name)

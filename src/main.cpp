@@ -5,6 +5,7 @@
 #include "../antlr/exprParser.h"
 #include "myVisitor.h"
 #include "ASMWriter_x86.h"
+#include "exception.h"
 
 #include <fstream>
 #include <string>
@@ -28,14 +29,21 @@ int main (int argc, char *argv[]) {
     assert(tree);
     MyVisitor visitor;
     Programme* p = visitor.visit(tree);
-		ASMWriter_x86 asmb("main.s");
-		vector<CFG*> cfgs = p->buildIR();
-		for(auto cfg : cfgs)
-		{
-			cfg->gen_asm(asmb);
+		try {
+			ASMWriter_x86 asmb("main.s");
+			vector<CFG*> cfgs = p->buildIR();
+			for(auto cfg : cfgs)
+			{
+				cfg->gen_asm(asmb);
+			}
+			cout << "Writing ASM" << endl;
+			asmb.writeASM();
 		}
-		cout << "Writing ASM" << endl;
-		asmb.writeASM();
+		catch(UndefindedVarException & e)
+		{
+			cerr << "[ERROR] " <<e.what() << endl;
+			return 1;
+		}
 
 		return 0;
 }

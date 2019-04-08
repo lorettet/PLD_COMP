@@ -1,2 +1,1 @@
-terminate called after throwing an instance of 'std::exception'
-  what():  std::exception
+[ERROR] Undefinded variable d in main

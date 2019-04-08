@@ -291,7 +291,10 @@ class Bloc: public Instruction {
 		Bloc(){parent = nullptr;}
 		~Bloc() {}
 		string buildIR(CFG & cfg);
-		void ajouterDeclaration(Declaration* dec){declarations.push_back(dec);variables[dec->getNomVariable()] = 4;};
+		void ajouterDeclaration(Declaration* dec){
+			declarations.push_back(dec);
+			variables[dec->getNomVariable()] = 4;
+		}
 		void ajouterInstruction(Instruction* inst){instructions.push_back(inst);};
 		string hasLocalVariable(string var);
 		vector<Declaration*> declarations;
