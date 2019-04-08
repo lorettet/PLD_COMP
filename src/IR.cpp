@@ -65,14 +65,18 @@ void CFG::gen_asm(ASMWriter & asmb)
 {
   cout << "Starting gen ASM" << endl;
   gen_asm_prologue(asmb);
+  int i = 0;
   for(auto bb : bbs)
   {
+    if(i++ == 1)
+      continue;
     bb->gen_asm(asmb);
     if(bb->exit_true && !bb->exit_false)
     {
       asmb.addJmp(bb->exit_true->label);
     }
   }
+  bbs[1]->gen_asm(asmb);// generation du bloc ret
   gen_asm_epilogue(asmb);
 }
 

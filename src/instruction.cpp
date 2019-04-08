@@ -42,25 +42,32 @@ string InstrIF::buildIR(CFG & cfg)
 string IfInstr::buildIR(CFG & cfg){
   cout << "-= Building IR IfInstr =-" << endl;
   testExpression->buildIR(cfg); //returns a variable name but we don’t use it
+  BasicBlock* backupCurrentBB = cfg.current_bb;
   BasicBlock* thenBB = new BasicBlock(&cfg, cfg.new_BB_name());
+  cfg.add_bb(thenBB);
   cfg.current_bb = thenBB;
   instruction->buildIR(cfg);
-  BasicBlock* elseBB = new BasicBlock(&cfg, cfg.new_BB_name());
-  cfg.current_bb = elseBB;
+  BasicBlock* elseBB = nullptr;
   if(elseStatement != nullptr)
   {
+    elseBB = new BasicBlock(&cfg, cfg.new_BB_name());
+    cfg.add_bb(elseBB);
+    cfg.current_bb = elseBB;
     elseStatement->buildIR(cfg);
   }
-  BasicBlock* testBB = cfg.current_bb;
-  BasicBlock* afterIfBB = cfg.current_bb->exit_true;
+  BasicBlock* afterIfBB = new BasicBlock(&cfg,cfg.new_BB_name());
+  cfg.add_bb(afterIfBB);
+  BasicBlock* testBB = backupCurrentBB;
   afterIfBB->exit_true = testBB->exit_true; //pointer stitching
-  afterIfBB->exit_false = testBB->exit_false; //pointer stitching
   testBB->exit_true = thenBB; //pointer stitching
   testBB->exit_false = elseBB; //pointer stitching
   thenBB->exit_true = afterIfBB; //pointer stitching
   thenBB->exit_false = NULL; //unconditional exit
-  elseBB->exit_true = afterIfBB; //pointer stitching
-  elseBB->exit_false = NULL; //unconditional exit
+  if(elseStatement != nullptr)
+  {
+    elseBB->exit_true = afterIfBB; //pointer stitching
+    elseBB->exit_false = NULL; //unconditional exit
+  }
   cfg.current_bb = afterIfBB;
   return "";
 }

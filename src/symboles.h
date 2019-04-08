@@ -187,7 +187,7 @@ class IfStatement : public Instruction {
 	public:
 		IfStatement(){}
 		~IfStatement(){}
-		string virtual buildIR(CFG & cfg);
+		string virtual buildIR(CFG & cfg){}
 };
 
 class InstrIF : public Instruction {
@@ -256,7 +256,7 @@ class TestExprLogique : public TestExpression {
 	public:
 		TestExprLogique(TestExpression * e1, TestExpression* e2, SigneLogique s) : expression1(e1), expression2(e2), signe(s) {}
 		~TestExprLogique() {}
-		string buildIR(CFG & cfg);
+		string buildIR(CFG & cfg){}
 
 	protected:
 		TestExpression * expression1;
@@ -268,7 +268,7 @@ class TestExprCompar : public TestExpression {
 	public:
 		TestExprCompar(Expression * e1, Expression* e2, SigneComparaison s) : expression1(e1), expression2(e2), signe(s) {}
 		~TestExprCompar() {}
-		string buildIR(CFG & cfg){}
+		string buildIR(CFG & cfg);
 
 	protected:
 		Expression * expression1;
