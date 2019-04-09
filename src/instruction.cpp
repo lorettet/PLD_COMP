@@ -22,7 +22,7 @@ string Return::buildIR(CFG & cfg)
   IRInstr_ret* instr = new IRInstr_ret(cfg.current_bb,Type::Int32,cfg.current_bloc,var);
   cout << "Adding IR Return" << endl;
   cfg.current_bb->add_IRInstr(instr);
-  cout << "Binding exit_true to return bloc : " << cfg.bbs[1]->label << endl;
+  cout << "Binding ("<< cfg.current_bb->label << ") exit_true to return bloc : " << cfg.bbs[1]->label << endl;
   cfg.current_bb->exit_true = cfg.bbs[1];
   return "end";
 }
@@ -49,53 +49,63 @@ string IfInstr::buildIR(CFG & cfg){
   cfg.add_bb(thenBB);
   cfg.current_bb = thenBB;
   string thenRet = instruction->buildIR(cfg);
-  BasicBlock* elseBB = nullptr;
-  string elseRet;
-  if(elseStatement != nullptr)
+
+  backupCurrentBB->exit_true = thenBB; // on bind le bloc de base au bloc then
+
+  if(elseStatement == nullptr) // si if simple
   {
-    elseBB = new BasicBlock(&cfg, cfg.new_BB_name());
-    cfg.add_bb(elseBB);
-    cfg.current_bb = elseBB;
-    elseRet = elseStatement->buildIR(cfg);
-  }
-  BasicBlock* afterIfBB = new BasicBlock(&cfg,cfg.new_BB_name());
-  cfg.add_bb(afterIfBB);
-  BasicBlock* testBB = backupCurrentBB;
-  afterIfBB->exit_true = testBB->exit_true; //pointer stitching
-  testBB->exit_true = thenBB; //pointer stitching
-  testBB->exit_false = afterIfBB;
-  if(thenRet != "end")
-  {
-    thenBB->exit_true = afterIfBB; //pointer stitching
-  }
-  else
-  {
-    cout << "Then contains a return -> not binding to next bloc (already bind)" << endl;
-  }
-  thenBB->exit_false = NULL; //unconditional exit
-  if(elseStatement != nullptr)
-  {
-    if(elseRet != "end")
+    BasicBlock* afterIfBB = new BasicBlock(&cfg,cfg.new_BB_name());
+    cfg.add_bb(afterIfBB);
+    backupCurrentBB->exit_false = afterIfBB; // on bind le bloc de base au bloc after
+    if(thenRet == "end")
     {
-      elseBB->exit_true = afterIfBB; //pointer stitching
+      cout << "Then contains a return -> exit_true already bind" << endl;
     }
-    elseBB->exit_false = NULL; //unconditional exit
-    testBB->exit_false = elseBB; //pointer stitching
+    else
+    {
+      if(thenBB->exit_true == nullptr) // if not already modified by antother if
+      {
+        thenBB->exit_true = afterIfBB; // on bind de bloc then au bloc after
+      }
+    }
+    cfg.current_bb = afterIfBB;
   }
-  cfg.current_bb = afterIfBB;
-  cout << "-= Exiting IR IfInstr =-" << endl;
+  else // if contains else
+  {
+    cfg.current_bb = backupCurrentBB;
+    elseStatement->buildIR(cfg);
+  }
   return "";
 }
 
 
 string ElseSimple::buildIR(CFG & cfg)
 {
-  return instruction->buildIR(cfg);
+  BasicBlock* elseBB = new BasicBlock(&cfg, cfg.new_BB_name());
+  cfg.add_bb(elseBB);
+  BasicBlock* backupCurrentBB = cfg.current_bb;
+  backupCurrentBB->exit_false = elseBB; // on bind le bloc de base au bloc else
+  cfg.current_bb = elseBB;
+  string elseRet = instruction->buildIR(cfg);
+  BasicBlock* afterElseBB = new BasicBlock(&cfg, cfg.new_BB_name());
+  cfg.add_bb(afterElseBB);
+  BasicBlock* thenBB = backupCurrentBB->exit_true;
+  thenBB->exit_true = afterElseBB;
+  if(elseRet == "end")
+  {
+    cout << "Else contains a return -> exit already bind" << endl;
+  }
+  else
+  {
+    elseBB->exit_true = afterElseBB; // on bind le bloc else au bloc after
+  }
+  cfg.current_bb = afterElseBB;
+  return "";
 }
 
 string ElseIf::buildIR(CFG & cfg)
 {
-  return ifStatement->buildIR(cfg); 
+  return ifStatement->buildIR(cfg);
 }
 
 string Bloc::buildIR(CFG & cfg)
