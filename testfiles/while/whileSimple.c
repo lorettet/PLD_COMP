@@ -1,5 +1,5 @@
 int main() {
-	while(1==1)
+	while(2==2)
 		return 1;
 
 	return 3;

@@ -8,8 +8,10 @@ int main() {
 
 int fonctionWhile(int a) {
 	int i = 0;
+	int somme = 0;
 	while(i < a){
+		somme = somme + i;
 		i = i+1;
 	}
-	return i;
+	return somme;
 }

@@ -91,9 +91,13 @@ string WhileInstr::buildIR(CFG & cfg){
   BasicBlock* testBB = new BasicBlock(&cfg, cfg.new_BB_name());
   cfg.add_bb(testBB);
   testBB->exit_true = cfg.current_bb->exit_true;
-  testBB->testResultVar = testExpression->buildIR(cfg);
+  cfg.current_bb->exit_true = testBB;
 
   cfg.current_bb = testBB;  
+
+  testBB->testResultVar = testExpression->buildIR(cfg);
+
+
 
   BasicBlock* backupCurrentBB = cfg.current_bb;
   BasicBlock* thenBB = new BasicBlock(&cfg, cfg.new_BB_name());
