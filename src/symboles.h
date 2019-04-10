@@ -203,7 +203,7 @@ class ElseStatement : public IfStatement {
 	public:
 		ElseStatement(){}
 		~ElseStatement(){}
-		string virtual buildIR(CFG & cfg){}
+		string virtual buildIR(CFG & cfg, BasicBlock* afterBB){}
 };
 
 class TestExpression {
@@ -240,7 +240,7 @@ class ElseSimple : public ElseStatement {
 	public:
 		ElseSimple(Instruction * i) : instruction(i) {}
 		~ElseSimple(){}
-		string virtual buildIR(CFG & cfg);
+		string virtual buildIR(CFG & cfg, BasicBlock* afterBB);
 	protected:
 		Instruction* instruction;
 };
@@ -249,7 +249,7 @@ class ElseIf : public ElseStatement {
 	public:
 		ElseIf(IfStatement* ifS) : ifStatement(ifS) {}
 		~ElseIf(){}
-		string virtual buildIR(CFG & cfg);
+		string virtual buildIR(CFG & cfg, BasicBlock* afterBB);
 	protected:
 		IfStatement* ifStatement;
 };

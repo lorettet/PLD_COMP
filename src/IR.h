@@ -92,6 +92,7 @@ class CFG {
 
   int getStackSize();
 
+
  protected:
 	map <string, Type> SymbolType; /**< part of the symbol table  */
 	map <string, int> SymbolIndex; /**< part of the symbol table  */
