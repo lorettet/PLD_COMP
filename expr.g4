@@ -15,7 +15,7 @@ declarations :
 			TYPE ID';' 					#declarationSimple
 			| TYPE ID '=' expression';'			#declarationAvecAffectation
 			| TYPE ID'['INT']'';'				#declarationTabSimple
-			| TYPE ID'['INT']' '=' expression';'		#declarationTabAvecAffectation;
+			| TYPE ID'['INT']' '=' expressionTab';'		#declarationTabAvecAffectation;
 
 instructions : expression';'					#expressionSeule
 			| ID '=' expression';'			#affectation
@@ -49,9 +49,9 @@ expression : ADDSOUS expression					#expressionUnaire
 			| expression MULTDIV expression		#expressionMultDiv
 			| expression ADDSOUS expression		#expressionAddSous
 			| '('expression')'			#parenthese
-			| ADDSOUS? valeur 			#val
-			| '{'(INT(','INT)*)*'}'		#expressionTab;
-		
+			| ADDSOUS? valeur 			#val;
+
+expressionTab :		'{'(INT(','INT)*)*'}';
 valeur : 
 	 ID'('parametresEffectifs')'					#appel	
 	|ID 								#variable

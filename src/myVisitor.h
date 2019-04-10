@@ -60,7 +60,7 @@ public:
     	}
 
     	virtual antlrcpp::Any visitDeclarationTabAvecAffectation(exprParser::DeclarationTabAvecAffectationContext *ctx) override {
-    		return (Declaration*) new DeclarationTabAvecAffectation(new Variable(ctx->ID()->getText()), atoi(ctx->INT()->getText().c_str()), (Expression*) visit(ctx->expressionTab()));
+    		return (Declaration*) new DeclarationTabAvecAffectation(new Variable(ctx->ID()->getText()), atoi(ctx->INT()->getText().c_str()), (ExpressionTab*) visit(ctx->expressionTab()));
     	}
 
   	virtual antlrcpp::Any visitExpressionSeule(exprParser::ExpressionSeuleContext *ctx) override {
