@@ -35,11 +35,11 @@ string ExpressionSeule::buildIR(CFG & cfg)
   return "";
 }
 
-string InstrIF::buildIR(CFG & cfg)
+/*string InstrIF::buildIR(CFG & cfg)
 {
   cout << "-= Building IR InstrIF =-" << endl;
   return ifStatement->buildIR(cfg);
-}
+}*/
 
 string IfInstr::buildIR(CFG & cfg){
   cout << "-= Building IR IfInstr =-" << endl;

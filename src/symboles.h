@@ -190,15 +190,6 @@ class IfStatement : public Instruction {
 		string virtual buildIR(CFG & cfg){}
 };
 
-class InstrIF : public Instruction {
-	public:
-		InstrIF(IfStatement* ifS): ifStatement(ifS){}
-		~InstrIF(){}
-		string virtual buildIR(CFG & cfg);
-	protected:
-		IfStatement* ifStatement;
-};
-
 class ElseStatement : public IfStatement {
 	public:
 		ElseStatement(){}
@@ -211,7 +202,6 @@ class TestExpression {
 		TestExpression(){}
 		~TestExpression(){}
 		string virtual buildIR(CFG & cfg){}
-
 };
 
 class IfInstr: public IfStatement {

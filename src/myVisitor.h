@@ -76,7 +76,7 @@ public:
 	}
 
     virtual antlrcpp::Any visitInstrIF(exprParser::InstrIFContext *ctx) override {
-    	return (Instruction*) new InstrIF((IfStatement*) visit(ctx->ifStatement()));
+    	return (Instruction*) ((IfStatement*) visit(ctx->ifStatement()));
 	}
 
 
