@@ -41,6 +41,12 @@ string ExpressionSeule::buildIR(CFG & cfg)
   return ifStatement->buildIR(cfg);
 }*/
 
+/*string InstrWHILE::buildIR(CFG & cfg)
+{
+  cout << "-= Building IR InstrWHILE =-" << endl;
+  return whileStatement->buildIR(cfg);
+}*/
+
 string IfInstr::buildIR(CFG & cfg){
   cout << "-= Building IR IfInstr =-" << endl;
   cfg.current_bb->testResultVar = testExpression->buildIR(cfg);
@@ -51,25 +57,19 @@ string IfInstr::buildIR(CFG & cfg){
   BasicBlock* afterIfBB = new BasicBlock(&cfg,cfg.new_BB_name());
   cfg.add_bb(afterIfBB);
 
+  backupCurrentBB->exit_false = afterIfBB; // on bind le bloc de base au bloc after
+  afterIfBB->exit_true = backupCurrentBB->exit_true; // on bind le bloc after if a l'ancien exit true du bloc de base
+  backupCurrentBB->exit_true = thenBB; // on bind le bloc de base au bloc then
+  thenBB->exit_true = afterIfBB; // on bind le bloc then au bloc after
+
   if(elseStatement == nullptr) // si if simple
   {
-    backupCurrentBB->exit_false = afterIfBB; // on bind le bloc de base au bloc after
-    afterIfBB->exit_true = backupCurrentBB->exit_true; // on bind le bloc after if a l'ancien exit true du bloc de base
-    backupCurrentBB->exit_true = thenBB; // on bind le bloc de base au bloc then
-    thenBB->exit_true = afterIfBB; // on bind le bloc then au bloc after
-    cfg.current_bb = afterIfBB;
+
   }
   else // if contains else
   {
-    backupCurrentBB->exit_false = afterIfBB; // on bind le bloc de base au bloc after
-    cout << afterIfBB->label << " T-> " << backupCurrentBB->exit_true->label << endl;
-    afterIfBB->exit_true = backupCurrentBB->exit_true; // on bind le bloc after if a l'ancien exit true du bloc de base
-    cout << backupCurrentBB->label << " T-> " << thenBB->label << endl;
-    backupCurrentBB->exit_true = thenBB; // on bind le bloc de base au bloc then
-    cout << thenBB->label << " T-> " << afterIfBB->label << endl;
-    thenBB->exit_true = afterIfBB; // on bind le bloc then au bloc after
     cfg.current_bb = backupCurrentBB;
-    elseStatement->buildIR(cfg);
+    elseStatement->buildIR(cfg,afterIfBB);
   }
 
   cfg.current_bb = thenBB;
@@ -85,17 +85,53 @@ string IfInstr::buildIR(CFG & cfg){
   return "";
 }
 
+string WhileInstr::buildIR(CFG & cfg){
+  cout << "-= Building IR WhileInstr =-" << endl;
+  
+  BasicBlock* testBB = new BasicBlock(&cfg, cfg.new_BB_name());
+  cfg.add_bb(testBB);
+  testBB->exit_true = cfg.current_bb->exit_true;
+  cfg.current_bb->exit_true = testBB;
 
-string ElseSimple::buildIR(CFG & cfg)
+  cfg.current_bb = testBB;  
+
+  testBB->testResultVar = testExpression->buildIR(cfg);
+
+
+
+  BasicBlock* backupCurrentBB = cfg.current_bb;
+  BasicBlock* thenBB = new BasicBlock(&cfg, cfg.new_BB_name());
+  cfg.add_bb(thenBB);
+
+  BasicBlock* afterWhileBB = new BasicBlock(&cfg,cfg.new_BB_name());
+  cfg.add_bb(afterWhileBB);
+
+  backupCurrentBB->exit_false = afterWhileBB; // on bind le bloc de base au bloc after
+  afterWhileBB->exit_true = backupCurrentBB->exit_true; // on bind le bloc after if a l'ancien exit true du bloc de base
+  backupCurrentBB->exit_true = thenBB; // on bind le bloc de base au bloc then
+  thenBB->exit_true = backupCurrentBB; // on bind le bloc then au bloc after
+
+  cfg.current_bb = thenBB;
+  string thenRet = instruction->buildIR(cfg);
+  if(thenRet == "end")
+  {
+    cout << "Then contains a return -> exit_true re bind" << endl;
+  }
+
+  cfg.current_bb = afterWhileBB;
+  return "";
+}
+
+
+string ElseSimple::buildIR(CFG & cfg, BasicBlock* afterBB)
 {
   BasicBlock* elseBB = new BasicBlock(&cfg, cfg.new_BB_name());
   cfg.add_bb(elseBB);
   BasicBlock* backupCurrentBB = cfg.current_bb;
-  cout << backupCurrentBB->label << " F-> " << elseBB->label << endl;
   backupCurrentBB->exit_false = elseBB; // on bind le bloc de base au bloc else
   BasicBlock* afterElseBB = backupCurrentBB->exit_false;
-  cout << elseBB->label << " T-> " << afterElseBB->label << endl;
   elseBB->exit_true = afterElseBB; // on bind le bloc else au bloc after
+  afterElseBB->exit_true = afterBB;
 
 
 
@@ -112,8 +148,17 @@ string ElseSimple::buildIR(CFG & cfg)
   return "";
 }
 
-string ElseIf::buildIR(CFG & cfg)
+string ElseIf::buildIR(CFG & cfg, BasicBlock* afterBB)
 {
+  BasicBlock* elseBB = new BasicBlock(&cfg, cfg.new_BB_name());
+  cfg.add_bb(elseBB);
+  BasicBlock* backupCurrentBB = cfg.current_bb;
+  backupCurrentBB->exit_false = elseBB; // on bind le bloc de base au bloc else
+  BasicBlock* afterElseBB = backupCurrentBB->exit_false;
+  elseBB->exit_true = afterElseBB; // on bind le bloc else au bloc after
+  afterElseBB->exit_true = afterBB;
+
+  cfg.current_bb = elseBB;
   return ifStatement->buildIR(cfg);
 }
 

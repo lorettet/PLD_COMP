@@ -190,11 +190,18 @@ class IfStatement : public Instruction {
 		string virtual buildIR(CFG & cfg){}
 };
 
+class WhileStatement : public Instruction {
+	public:
+		WhileStatement(){}
+		~WhileStatement(){}
+		string virtual buildIR(CFG & cfg){}
+};
+
 class ElseStatement : public IfStatement {
 	public:
 		ElseStatement(){}
 		~ElseStatement(){}
-		string virtual buildIR(CFG & cfg){}
+		string virtual buildIR(CFG & cfg, BasicBlock* afterBB){}
 };
 
 class TestExpression {
@@ -215,6 +222,16 @@ class IfInstr: public IfStatement {
 		ElseStatement* elseStatement;
 };
 
+class WhileInstr: public WhileStatement {
+	public:
+		WhileInstr(TestExpression* tE, Instruction* instr): testExpression(tE), instruction(instr) {}
+		~WhileInstr() {}
+		string virtual buildIR(CFG& cfg);
+	protected:
+		TestExpression* testExpression;
+		Instruction* instruction;
+};
+
 class IfSimpleDecl: public IfStatement {
 	public:
 		IfSimpleDecl(TestExpression* tE, Declaration* decl, ElseStatement* els): testExpression(tE), declaration(decl), elseStatement(els) {}
@@ -230,7 +247,7 @@ class ElseSimple : public ElseStatement {
 	public:
 		ElseSimple(Instruction * i) : instruction(i) {}
 		~ElseSimple(){}
-		string virtual buildIR(CFG & cfg);
+		string virtual buildIR(CFG & cfg, BasicBlock* afterBB);
 	protected:
 		Instruction* instruction;
 };
@@ -239,7 +256,7 @@ class ElseIf : public ElseStatement {
 	public:
 		ElseIf(IfStatement* ifS) : ifStatement(ifS) {}
 		~ElseIf(){}
-		string virtual buildIR(CFG & cfg);
+		string virtual buildIR(CFG & cfg, BasicBlock* afterBB);
 	protected:
 		IfStatement* ifStatement;
 };
@@ -286,6 +303,16 @@ class TestExprPar: public TestExpression {
 
 	protected:
 		TestExpression * expression;
+};
+
+class TestExpressionSimple: public TestExpression {
+	public:
+		TestExpressionSimple(Expression * e1) : expression(e1) {}
+		~TestExpressionSimple() {}
+		string buildIR(CFG & cfg);
+
+	protected:
+		Expression * expression;
 };
 
 class Return : public Instruction {

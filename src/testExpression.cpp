@@ -41,3 +41,8 @@ string TestExprCompar::buildIR(CFG & cfg)
       return res;
   }
 }
+
+string TestExpressionSimple::buildIR(CFG & cfg){
+	cout << "-= Building IR TestExpressionSImple =-" << endl;
+	return expression->buildIR(cfg);
+}

@@ -15,10 +15,11 @@ declarations :
 			TYPE ID';' 					#declarationSimple
 			| TYPE ID '=' expression';'			#declarationAvecAffectation;
 
-instructions : expression';'					#expressionSeule
+instructions : expression';'				#expressionSeule
 			| ID '=' expression';'			#affectation
 			| 'return' expression';'		#return
 			| ifStatement					#instrIF
+			| whileStatement				#instrWHILE
 			| bloc							#blocSimple;
 
 
@@ -31,12 +32,16 @@ elseStatement:
 	'else' ifStatement						#elseIF
 	| 'else' instructions 					#elseSimple;
 
+whileStatement:
+	'while' '(' testExpression ')' instructions		#whileInstr;
+
 
 testExpression:
 	'!' testExpression									#not
 	| '(' testExpression ')'							#testExprPar
 	| expression SIGNECOMPARAISON expression			#testExprCompar
-	| testExpression SIGNELOGIQUE testExpression		#testExprLogique;
+	| testExpression SIGNELOGIQUE testExpression		#testExprLogique
+	| expression										#testExpressionSimple;
 
 	
 expression : ADDSOUS expression					#expressionUnaire
