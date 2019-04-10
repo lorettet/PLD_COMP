@@ -20,14 +20,14 @@ int maxOccurring(int x) {
    int result = 0; 
    int max_count = 1; 
   
-	 int d = 0;
+   int d = 0;
 	 
 	 
    if (x < 0) 
       x = -x; 
       
-   while(d <= 9) {
-         int count = countOccurrences(x, d); 
+   while(d <= 3) {
+      int count = countOccurrences(x, d); 
   
 
       if (count >= max_count) 
