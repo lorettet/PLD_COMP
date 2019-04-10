@@ -18,6 +18,7 @@ class Expression {
 		string virtual buildIR(CFG & cfg){}
 };
 
+
 class Addition : public Expression {
 	public:
 		Addition(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
@@ -169,6 +170,22 @@ class ExpressionSeule : public Instruction {
 		string buildIR(CFG & cfg);
 	protected:
 		Expression* expression;
+};
+
+class ExpressionTab : public Expression {
+	public:
+		ExpressionTab(Valeur* tv[], int t) : taille(t) {
+			for(int i=0; i<sizeof(tv)/sizeof(Valeur*); i++) {
+				tabValeurs[i] = tv[i];
+			}
+		}
+		virtual ~ExpressionTab(){}
+		string virtual buildIR(CFG & cfg){}
+		
+		void ajouterValeur(Valeur* v, int i){tabValeurs[i] = v;}
+		
+		int taille;
+		Valeur* tabValeurs[];
 };
 
 class Affectation : public Instruction {
@@ -348,6 +365,26 @@ class DeclarationAvecAffectation : public Declaration {
 		string buildIR(CFG & cfg);
 	protected:
 		Expression* expression;
+};
+
+class DeclarationTabSimple : public Declaration {
+	public:
+		DeclarationTabSimple(Variable* v, int t) { variable = v; taille = t;}
+		virtual ~DeclarationTabSimple() {cout << "== DESTRUCTING DECLARATION TAB SIMPLE ==" << endl;}
+		string buildIR(CFG & cfg);
+		
+		int taille;
+};
+
+class DeclarationTabAvecAffectation : public Declaration {
+	public:
+		DeclarationTabAvecAffectation(Variable* v, int t, ExpressionTab* expr): expression(expr) { variable = v; taille = t;}
+		virtual ~DeclarationTabAvecAffectation() {cout << "== DESTRUCTING DECLARATION TAB AVEC AFF ==" << endl;}
+		string buildIR(CFG & cfg);
+		
+		int taille;
+	protected:
+		ExpressionTab* expression;
 };
 
 class Bloc: public Instruction {

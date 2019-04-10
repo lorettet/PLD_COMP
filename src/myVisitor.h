@@ -35,14 +35,14 @@ public:
 		return pf;
   }
 
-  virtual antlrcpp::Any visitParametresEffectifs(exprParser::ParametresEffectifsContext *ctx) override {
+  	virtual antlrcpp::Any visitParametresEffectifs(exprParser::ParametresEffectifsContext *ctx) override {
 	  ParametresEffectifs* pe = new ParametresEffectifs();
 
 	  for (auto expression : ctx->expression()){
 		  pe->ajouterExpression((Expression*) visit(expression));
 	  }
 	  return pe;
-  }
+  	}
 
 	virtual antlrcpp::Any visitBloc(exprParser::BlocContext *ctx) override {
 		Bloc* b = new Bloc();
@@ -54,10 +54,18 @@ public:
 		}
 		return b;
 	}
+	
+    	virtual antlrcpp::Any visitDeclarationTabSimple(exprParser::DeclarationTabSimpleContext *ctx) override {
+    		return (Declaration*) new DeclarationTabSimple(new Variable(ctx->ID()->getText()), atoi(ctx->INT()->getText().c_str()));
+    	}
 
-  virtual antlrcpp::Any visitExpressionSeule(exprParser::ExpressionSeuleContext *ctx) override {
-    return (Instruction*) new ExpressionSeule((Expression*) visit(ctx->expression()));
-  }
+    	virtual antlrcpp::Any visitDeclarationTabAvecAffectation(exprParser::DeclarationTabAvecAffectationContext *ctx) override {
+    		return (Declaration*) new DeclarationTabAvecAffectation(new Variable(ctx->ID()->getText()), atoi(ctx->INT()->getText().c_str()), (Expression*) visit(ctx->expressionTab()));
+    	}
+
+  	virtual antlrcpp::Any visitExpressionSeule(exprParser::ExpressionSeuleContext *ctx) override {
+	    return (Instruction*) new ExpressionSeule((Expression*) visit(ctx->expression()));
+  	}
 
 	virtual antlrcpp::Any visitDeclarationSimple(exprParser::DeclarationSimpleContext *ctx) override {
 		return (Declaration*) new DeclarationSimple(new Variable(ctx->ID()->getText()));
@@ -176,6 +184,17 @@ public:
 
   virtual antlrcpp::Any visitParenthese(exprParser::ParentheseContext *ctx) override {
     return (Expression*) new Parenthese((Expression*) visit(ctx->expression()));
+  }
+  
+  virtual antlrcpp::Any visitExpressionTab(exprParser::ExpressionTabContext *ctx) override {
+	ExpressionTab* et = new ExpressionTab();
+	int i = 0;
+	
+    	for(auto valeur : ctx->valeur()) {
+		et->ajouterValeur(visit(valeur), i++);
+	}
+	
+	return (Expression*)et;
   }
 
   virtual antlrcpp::Any visitAppel(exprParser::AppelContext *ctx) override {
