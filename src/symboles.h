@@ -289,7 +289,7 @@ class Not: public TestExpression {
 	public:
 		Not(TestExpression * e1) : expression(e1) {}
 		~Not() {}
-		string buildIR(CFG & cfg){}
+		string buildIR(CFG & cfg);
 
 	protected:
 		TestExpression * expression;

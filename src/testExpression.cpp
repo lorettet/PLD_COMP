@@ -46,9 +46,10 @@ string TestExprCompar::buildIR(CFG & cfg)
 string Not::buildIR(CFG & cfg)
 {
   string var = expression->buildIR(cfg);
-  IRInstr_not instr = new IRInstr_not(cfg.current_bb, Type::Int32, cfg.current_bloc, var);
+  IRInstr_not* instr = new IRInstr_not(cfg.current_bb, Type::Int32, cfg.current_bloc, var);
   cfg.current_bb->add_IRInstr(instr);
   return var;
+}
 
 string TestExpressionSimple::buildIR(CFG & cfg){
 	cout << "-= Building IR TestExpressionSimple =-" << endl;
