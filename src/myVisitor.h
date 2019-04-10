@@ -13,10 +13,11 @@ public:
   virtual antlrcpp::Any visitProgramme(exprParser::ProgrammeContext *ctx) override {
     Programme* p = new Programme();
     for(auto fonction : ctx->fonction()) {
-	  p->ajouterFonction(visit(fonction));
-	}
-	return p;
+			p->ajouterFonction(visit(fonction));
+		}
+		return p;
   }
+
   virtual antlrcpp::Any visitFonction(exprParser::FonctionContext *ctx) override {
     return new Fonction((ParametresFormels*) visit(ctx->parametresFormels()), (Bloc*) visit(ctx->bloc()), ctx->ID()->getText());
   }
@@ -26,12 +27,12 @@ public:
   }
 
   virtual antlrcpp::Any visitParametresFormels(exprParser::ParametresFormelsContext *ctx) override {
-	ParametresFormels * pf = new ParametresFormels();
+		ParametresFormels * pf = new ParametresFormels();
 
-	for (auto parametre : ctx->parametre()){
-		pf->ajouterParametre((Parametre*)visit(parametre));
-	}
-    return pf;
+		for (auto parametre : ctx->parametre()){
+			pf->ajouterParametre((Parametre*)visit(parametre));
+		}
+		return pf;
   }
 
   virtual antlrcpp::Any visitParametresEffectifs(exprParser::ParametresEffectifsContext *ctx) override {
@@ -43,40 +44,44 @@ public:
 	  return pe;
   }
 
-    virtual antlrcpp::Any visitBloc(exprParser::BlocContext *ctx) override {
-	Bloc* b = new Bloc();
-	for(auto declaration : ctx->declarations()) {
-	  b->ajouterDeclaration(visit(declaration));
+	virtual antlrcpp::Any visitBloc(exprParser::BlocContext *ctx) override {
+		Bloc* b = new Bloc();
+		for(auto declaration : ctx->declarations()) {
+			b->ajouterDeclaration(visit(declaration));
+		}
+		for(auto instruction : ctx->instructions()) {
+			b->ajouterInstruction(visit(instruction));
+		}
+		return b;
 	}
-	for(auto instruction : ctx->instructions()) {
-	  b->ajouterInstruction(visit(instruction));
-	}
-	return b;
-    }
 
   virtual antlrcpp::Any visitExpressionSeule(exprParser::ExpressionSeuleContext *ctx) override {
     return (Instruction*) new ExpressionSeule((Expression*) visit(ctx->expression()));
   }
 
-    virtual antlrcpp::Any visitDeclarationSimple(exprParser::DeclarationSimpleContext *ctx) override {
+	virtual antlrcpp::Any visitDeclarationSimple(exprParser::DeclarationSimpleContext *ctx) override {
 		return (Declaration*) new DeclarationSimple(new Variable(ctx->ID()->getText()));
-  	}
+	}
 
-    virtual antlrcpp::Any visitDeclarationAvecAffectation(exprParser::DeclarationAvecAffectationContext *ctx) override {
+	virtual antlrcpp::Any visitDeclarationAvecAffectation(exprParser::DeclarationAvecAffectationContext *ctx) override {
 		return (Declaration*) new DeclarationAvecAffectation(new Variable(ctx->ID()->getText()), (Expression*) visit(ctx->expression()));
 	}
 
-    virtual antlrcpp::Any visitAffectation(exprParser::AffectationContext *ctx) override {
+	virtual antlrcpp::Any visitAffectation(exprParser::AffectationContext *ctx) override {
 		return (Instruction*) new Affectation(new Variable(ctx->ID()->getText()), (Expression*) visit(ctx->expression()));
 	}
 
 
-    virtual antlrcpp::Any visitReturn(exprParser::ReturnContext *ctx) override {
+	virtual antlrcpp::Any visitReturn(exprParser::ReturnContext *ctx) override {
 		return (Instruction*) new Return((Expression*) visit(ctx->expression()));
 	}
 
-    virtual antlrcpp::Any visitInstrIF(exprParser::InstrIFContext *ctx) override {
+	virtual antlrcpp::Any visitInstrIF(exprParser::InstrIFContext *ctx) override {
     	return (Instruction*) new InstrIF((IfStatement*) visit(ctx->ifStatement()));
+	}
+
+	virtual antlrcpp::Any visitInstrWHILE(exprParser::InstrWHILEContext *ctx) override {
+    	return (Instruction*) new InstrWHILE((WhileStatement*) visit(ctx->whileStatement()));
 	}
 
 
@@ -87,26 +92,30 @@ public:
 	  return (IfStatement*) new IfInstr(visit(ctx->testExpression()), visit(ctx->instructions()), nullptr);
 	}
 
-    virtual antlrcpp::Any visitIfSimpleDecl(exprParser::IfSimpleDeclContext *ctx) override {
+	virtual antlrcpp::Any visitWhileInstr(exprParser::WhileInstrContext *ctx) override {
+		return (WhileStatement*) new WhileInstr(visit(ctx->testExpression()), visit(ctx->instructions()));
+	}
+
+	virtual antlrcpp::Any visitIfSimpleDecl(exprParser::IfSimpleDeclContext *ctx) override {
 	    if (ctx->elseStatement()) {
     		return (IfStatement*) new IfSimpleDecl((TestExpression*) visit(ctx->testExpression()), visit(ctx->declarations()), visit(ctx->elseStatement()));
 	    }
 	    return (IfStatement*) new IfSimpleDecl((TestExpression*) visit(ctx->testExpression()), visit(ctx->declarations()), nullptr);
 	}
 
-    virtual antlrcpp::Any visitBlocSimple(exprParser::BlocSimpleContext *ctx) override {
+	virtual antlrcpp::Any visitBlocSimple(exprParser::BlocSimpleContext *ctx) override {
 		Bloc * bloc = visit(ctx->bloc());
 		Instruction * inst  = (Instruction*) bloc;
 		return (Instruction*) inst;
 	}
 
 
-    virtual antlrcpp::Any visitElseIF(exprParser::ElseIFContext *ctx) override {
-    	return (ElseStatement*) new ElseIf((IfStatement*)visit(ctx->ifStatement()));
+	virtual antlrcpp::Any visitElseIF(exprParser::ElseIFContext *ctx) override {
+		return (ElseStatement*) new ElseIf((IfStatement*)visit(ctx->ifStatement()));
 	}
 
-    virtual antlrcpp::Any visitElseSimple(exprParser::ElseSimpleContext *ctx) override {
-    	return (ElseStatement*) new ElseSimple((Instruction*)visit(ctx->instructions()));
+	virtual antlrcpp::Any visitElseSimple(exprParser::ElseSimpleContext *ctx) override {
+		return (ElseStatement*) new ElseSimple((Instruction*)visit(ctx->instructions()));
 	}
 
 

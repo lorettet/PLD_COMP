@@ -19,6 +19,7 @@ instructions : expression';'					#expressionSeule
 			| ID '=' expression';'			#affectation
 			| 'return' expression';'		#return
 			| ifStatement					#instrIF
+			| whileStatement				#instrWHILE
 			| bloc							#blocSimple;
 
 
@@ -30,6 +31,9 @@ ifStatement:
 elseStatement:
 	'else' ifStatement						#elseIF
 	| 'else' instructions 					#elseSimple;
+
+whileStatement:
+	'while' '(' testExpression ')' instructions		#whileInstr;
 
 
 testExpression:

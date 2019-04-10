@@ -199,6 +199,22 @@ class InstrIF : public Instruction {
 		IfStatement* ifStatement;
 };
 
+class WhileStatement : public Instruction {
+	public:
+		WhileStatement(){}
+		~WhileStatement(){}
+		string virtual buildIR(CFG & cfg){}
+};
+
+class InstrWHILE : public Instruction {
+	public:
+		InstrWHILE(WhileStatement* wS): whileStatement(wS){}
+		~InstrWHILE(){}
+		string virtual buildIR(CFG & cfg);
+	protected:
+		WhileStatement* whileStatement;
+};
+
 class ElseStatement : public IfStatement {
 	public:
 		ElseStatement(){}
@@ -223,6 +239,16 @@ class IfInstr: public IfStatement {
 		TestExpression* testExpression;
 		Instruction* instruction;
 		ElseStatement* elseStatement;
+};
+
+class WhileInstr: public WhileStatement {
+	public:
+		WhileInstr(TestExpression* tE, Instruction* instr): testExpression(tE), instruction(instr) {}
+		~WhileInstr() {}
+		string virtual buildIR(CFG& cfg);
+	protected:
+		TestExpression* testExpression;
+		Instruction* instruction;
 };
 
 class IfSimpleDecl: public IfStatement {
