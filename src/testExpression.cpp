@@ -41,3 +41,11 @@ string TestExprCompar::buildIR(CFG & cfg)
       return res;
   }
 }
+
+string Not::buildIR(CFG & cfg)
+{
+  string var = expression->buildIR(cfg);
+  IRInstr_not instr = new IRInstr_not(cfg.current_bb, Type::Int32, cfg.current_bloc, var);
+  cfg.current_bb->add_IRInstr(instr);
+  return var;
+}
