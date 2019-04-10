@@ -151,7 +151,7 @@ public:
 	}
 	
   virtual antlrcpp::Any visitTestExpressionSimple(exprParser::TestExpressionSimpleContext *ctx) override {
-    	return (TestExpression*) new TestExpressionSimple((Expression*)ctx->expression());
+    	return (TestExpression*) new TestExpressionSimple((Expression*)visit(ctx->expression()));
   }
 
   virtual antlrcpp::Any visitVal(exprParser::ValContext *ctx) override {
