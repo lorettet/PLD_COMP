@@ -76,14 +76,13 @@ public:
 		return (Instruction*) new Return((Expression*) visit(ctx->expression()));
 	}
 
-	virtual antlrcpp::Any visitInstrIF(exprParser::InstrIFContext *ctx) override {
-    	return (Instruction*) new InstrIF((IfStatement*) visit(ctx->ifStatement()));
+    virtual antlrcpp::Any visitInstrIF(exprParser::InstrIFContext *ctx) override {
+    	return (Instruction*) ((IfStatement*) visit(ctx->ifStatement()));
 	}
 
 	virtual antlrcpp::Any visitInstrWHILE(exprParser::InstrWHILEContext *ctx) override {
-    	return (Instruction*) new InstrWHILE((WhileStatement*) visit(ctx->whileStatement()));
+    	return (Instruction*) ((WhileStatement*) visit(ctx->whileStatement()));
 	}
-
 
  	virtual antlrcpp::Any visitIfInstr(exprParser::IfInstrContext *ctx) override {
 	  if (ctx->elseStatement()) {
@@ -150,6 +149,10 @@ public:
   virtual antlrcpp::Any visitNot(exprParser::NotContext *ctx) override {
     	return (TestExpression*) new Not((TestExpression*) ctx->testExpression());
 	}
+	
+  virtual antlrcpp::Any visitTestExpressionSimple(exprParser::TestExpressionSimpleContext *ctx) override {
+    	return (TestExpression*) new TestExpressionSimple((Expression*)visit(ctx->expression()));
+  }
 
   virtual antlrcpp::Any visitVal(exprParser::ValContext *ctx) override {
     return visit(ctx->valeur());
