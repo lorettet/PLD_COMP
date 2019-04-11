@@ -356,3 +356,13 @@ void IRInstr_neg::gen_asm(ASMWriter& asmb)
     int addrVar = bb->cfg->get_var_index(var, context);
     asmb.addNeg(addrVar,t);
 }
+
+// IRInstr_not::IRInstr_not(BasicBlock* bb_, Type t,Bloc* b_, string var) : IRInstr(bb_,t,b_),var(var)
+// {}
+
+// void IRInstr_not::gen_asm(ASMWriter& asmb)
+// {
+//     cout << "gen ASM neg" << endl;
+//     int addrVar = bb->cfg->get_var_index(var, context);
+//     asmb.addNot(addrVar,t);
+// }
