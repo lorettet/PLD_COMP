@@ -59,6 +59,10 @@ public:
     		return (Declaration*) new DeclarationTabSimple(new Variable(ctx->ID()->getText()), atoi(ctx->INT()->getText().c_str()));
     	}
 
+  virtual antlrcpp::Any visitValCaseTab(exprParser::ValCaseTabContext *ctx) override {
+    return (Expression*) new ValCaseTab(ctx->ID()->getText(), (Expression*) visit(ctx->expression()));
+  }
+
     	virtual antlrcpp::Any visitDeclarationTabAvecAffectation(exprParser::DeclarationTabAvecAffectationContext *ctx) override {
     		return (Declaration*) new DeclarationTabAvecAffectation(new Variable(ctx->ID()->getText()), atoi(ctx->INT()->getText().c_str()), (ExpressionTab*) visit(ctx->expressionTab()));
     	}
@@ -193,11 +197,11 @@ public:
 	ExpressionTab* et = new ExpressionTab();
 	int i = 0;
 	
-    	for(auto valeur : ctx->valeur()) {
-		et->ajouterValeur(visit(valeur), i++);
+    	for(auto expression : ctx->expression()) {
+		et->ajouterExpression(visit(expression));
 	}
 	
-	return (Expression*)et;
+	return et;
   }
 
   virtual antlrcpp::Any visitAppel(exprParser::AppelContext *ctx) override {

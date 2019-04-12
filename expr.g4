@@ -52,11 +52,12 @@ expression : ADDSOUS expression					#expressionUnaire
 			| '('expression')'			#parenthese
 			| ADDSOUS? valeur 			#val;
 
-expressionTab :		'{'(INT(','INT)*)*'}';
+expressionTab :		'{'(expression(','expression)*)*'}';
 valeur : 
 	 ID'('parametresEffectifs')'					#appel	
 	|ID 								#variable
-	|INT								#int;
+	|INT								#int
+	|ID'['expression']'						#valCaseTab;
 
 
 ESPACE : [ \n\t\r] -> skip;

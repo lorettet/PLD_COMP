@@ -111,6 +111,18 @@ class Variable : public Valeur {
 		string nom;
 };
 
+class ValCaseTab: public Valeur {
+	public:
+		ValCaseTab(string s, Expression* expr) : nom(s), expression(expr) {}
+		~ValCaseTab() {}
+		string getNomVariable();
+		Expression * getExpression() { return expression; }
+		string buildIR(CFG & cfg) {}
+	protected:
+		string nom;
+		Expression* expression;
+};
+
 class Parametre {
 	public:
 		Parametre(string n, string t) : nom(n), type(t) {}
@@ -174,18 +186,14 @@ class ExpressionSeule : public Instruction {
 
 class ExpressionTab : public Expression {
 	public:
-		ExpressionTab(Valeur* tv[], int t) : taille(t) {
-			for(int i=0; i<sizeof(tv)/sizeof(Valeur*); i++) {
-				tabValeurs[i] = tv[i];
-			}
-		}
+		ExpressionTab(){}
 		virtual ~ExpressionTab(){}
 		string virtual buildIR(CFG & cfg){}
 		
-		void ajouterValeur(Valeur* v, int i){tabValeurs[i] = v;}
+		void ajouterExpression(Expression* e){tabExpressions.push_back(e);}
 		
-		int taille;
-		Valeur* tabValeurs[];
+	protected:
+		vector<Expression*> tabExpressions;
 };
 
 class Affectation : public Instruction {
@@ -362,16 +370,16 @@ class DeclarationTabSimple : public Declaration {
 	public:
 		DeclarationTabSimple(Variable* v, int t) { variable = v; taille = t;}
 		virtual ~DeclarationTabSimple() {cout << "== DESTRUCTING DECLARATION TAB SIMPLE ==" << endl;}
-		string buildIR(CFG & cfg);
+		string buildIR(CFG & cfg) {}
 		
 		int taille;
 };
 
 class DeclarationTabAvecAffectation : public Declaration {
 	public:
-		DeclarationTabAvecAffectation(Variable* v, int t, ExpressionTab* expr): expression(expr) { variable = v; taille = t;}
+		DeclarationTabAvecAffectation(Variable* v, int t, ExpressionTab* expr) {expression = expr; variable = v; taille = t;}
 		virtual ~DeclarationTabAvecAffectation() {cout << "== DESTRUCTING DECLARATION TAB AVEC AFF ==" << endl;}
-		string buildIR(CFG & cfg);
+		string buildIR(CFG & cfg) {}
 		
 		int taille;
 	protected:
