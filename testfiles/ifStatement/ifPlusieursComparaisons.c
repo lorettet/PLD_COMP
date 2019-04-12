@@ -1,6 +1,8 @@
 int main() {
-	if(4 > 5 || 3 != 2 && 6 <= 7) {
-		return 5;
+	int a = 4;
+	int b = 5;
+	if(a > b && a!= b || a <= b && a > 1) {
+		return 15;
 	}
-	return 4;
+	return 6;
 }

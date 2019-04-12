@@ -66,6 +66,11 @@ void ASMWriter_x86::addInstrNeg(string src)
 	addInstr("neg "+src);
 }
 
+// void ASMWriter_x86::addInstrNot(string src)
+// {
+// 	//addInstr("neg "+src);
+// }
+
 void ASMWriter_x86::addInstrJmp(string label)
 {
   addInstr("jmp "+label);

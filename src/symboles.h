@@ -18,6 +18,7 @@ class Expression {
 		string virtual buildIR(CFG & cfg){}
 };
 
+
 class Addition : public Expression {
 	public:
 		Addition(Expression* e1, Expression* e2) : exp1(e1), exp2(e2) {}
@@ -110,6 +111,18 @@ class Variable : public Valeur {
 		string nom;
 };
 
+class ValCaseTab: public Valeur {
+	public:
+		ValCaseTab(string s, Expression* expr) : nom(s), expression(expr) {}
+		~ValCaseTab() {}
+		string getNomVariable();
+		Expression * getExpression() { return expression; }
+		string buildIR(CFG & cfg) {}
+	protected:
+		string nom;
+		Expression* expression;
+};
+
 class Parametre {
 	public:
 		Parametre(string n, string t) : nom(n), type(t) {}
@@ -171,6 +184,18 @@ class ExpressionSeule : public Instruction {
 		Expression* expression;
 };
 
+class ExpressionTab : public Expression {
+	public:
+		ExpressionTab(){}
+		virtual ~ExpressionTab(){}
+		string virtual buildIR(CFG & cfg){}
+		
+		void ajouterExpression(Expression* e){tabExpressions.push_back(e);}
+		
+	protected:
+		vector<Expression*> tabExpressions;
+};
+
 class Affectation : public Instruction {
 	public:
 		Affectation(Variable* var, Expression* expr) : variable(var), expression(expr) { }
@@ -190,13 +215,11 @@ class IfStatement : public Instruction {
 		string virtual buildIR(CFG & cfg){}
 };
 
-class InstrIF : public Instruction {
+class WhileStatement : public Instruction {
 	public:
-		InstrIF(IfStatement* ifS): ifStatement(ifS){}
-		~InstrIF(){}
-		string virtual buildIR(CFG & cfg);
-	protected:
-		IfStatement* ifStatement;
+		WhileStatement(){}
+		~WhileStatement(){}
+		string virtual buildIR(CFG & cfg){}
 };
 
 class ElseStatement : public IfStatement {
@@ -211,7 +234,6 @@ class TestExpression {
 		TestExpression(){}
 		~TestExpression(){}
 		string virtual buildIR(CFG & cfg){}
-
 };
 
 class IfInstr: public IfStatement {
@@ -223,6 +245,16 @@ class IfInstr: public IfStatement {
 		TestExpression* testExpression;
 		Instruction* instruction;
 		ElseStatement* elseStatement;
+};
+
+class WhileInstr: public WhileStatement {
+	public:
+		WhileInstr(TestExpression* tE, Instruction* instr): testExpression(tE), instruction(instr) {}
+		~WhileInstr() {}
+		string virtual buildIR(CFG& cfg);
+	protected:
+		TestExpression* testExpression;
+		Instruction* instruction;
 };
 
 class IfSimpleDecl: public IfStatement {
@@ -282,7 +314,7 @@ class Not: public TestExpression {
 	public:
 		Not(TestExpression * e1) : expression(e1) {}
 		~Not() {}
-		string buildIR(CFG & cfg){}
+		string buildIR(CFG & cfg);
 
 	protected:
 		TestExpression * expression;
@@ -296,6 +328,16 @@ class TestExprPar: public TestExpression {
 
 	protected:
 		TestExpression * expression;
+};
+
+class TestExpressionSimple: public TestExpression {
+	public:
+		TestExpressionSimple(Expression * e1) : expression(e1) {}
+		~TestExpressionSimple() {}
+		string buildIR(CFG & cfg);
+
+	protected:
+		Expression * expression;
 };
 
 class Return : public Instruction {
@@ -322,6 +364,26 @@ class DeclarationAvecAffectation : public Declaration {
 		string buildIR(CFG & cfg);
 	protected:
 		Expression* expression;
+};
+
+class DeclarationTabSimple : public Declaration {
+	public:
+		DeclarationTabSimple(Variable* v, int t) { variable = v; taille = t;}
+		virtual ~DeclarationTabSimple() {cout << "== DESTRUCTING DECLARATION TAB SIMPLE ==" << endl;}
+		string buildIR(CFG & cfg) {}
+		
+		int taille;
+};
+
+class DeclarationTabAvecAffectation : public Declaration {
+	public:
+		DeclarationTabAvecAffectation(Variable* v, int t, ExpressionTab* expr) {expression = expr; variable = v; taille = t;}
+		virtual ~DeclarationTabAvecAffectation() {cout << "== DESTRUCTING DECLARATION TAB AVEC AFF ==" << endl;}
+		string buildIR(CFG & cfg) {}
+		
+		int taille;
+	protected:
+		ExpressionTab* expression;
 };
 
 class Bloc: public Instruction {

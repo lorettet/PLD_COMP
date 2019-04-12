@@ -317,4 +317,15 @@ class IRInstr_neg : public IRInstr {
         string var;
 };
 
+// class IRInstr_not : public IRInstr {
+
+//     public:
+//         IRInstr_not(BasicBlock* bb_, Type t, Bloc* b_, string var);
+//         virtual ~IRInstr_not(){}
+//         void gen_asm(ASMWriter& asmb);
+
+//     private:
+//         string var;
+// };
+
 #endif
