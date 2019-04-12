@@ -206,6 +206,18 @@ class Affectation : public Instruction {
 		Expression* expression;
 };
 
+class AffectationCaseTab: public Instruction {
+	public:
+		AffectationCaseTab(Variable* var, Expression* expr1, Expression* expr2) : variable(var), expressionIndice(expr1), expression(expr2) {}
+		virtual ~AffectationCaseTab() { }
+		string buildIR(CFG & cfg) {}
+	
+	protected:
+		Variable* variable;
+		Expression* expressionIndice;
+		Expression* expression;		
+};
+
 
 
 class IfStatement : public Instruction {

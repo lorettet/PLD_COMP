@@ -18,7 +18,8 @@ declarations :
 			| TYPE ID'['INT']' '=' expressionTab';'		#declarationTabAvecAffectation;
 
 instructions : expression';'				#expressionSeule
-			| ID '=' expression';'			#affectation
+			| ID '=' expression';'			#affectation			
+			| ID'['expression']' '=' expression';'	#affectationCaseTab
 			| 'return' expression';'		#return
 			| ifStatement					#instrIF
 			| whileStatement				#instrWHILE
