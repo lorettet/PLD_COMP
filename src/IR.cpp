@@ -316,14 +316,14 @@ void IRInstr_call::gen_asm(ASMWriter& asmb)
     asmb.addCall(label, addrDest, t, addrs);
 }
 
-IRInstr_rmem::IRInstr_rmem(BasicBlock* bb_, Type t,Bloc* b_, string dest, int addr) : IRInstr(bb_,t,b_),dest(dest),addr(addr)
+IRInstr_rmem::IRInstr_rmem(BasicBlock* bb_, Type t,Bloc* b_, string dest, int addr, uint i) : IRInstr(bb_,t,b_),dest(dest),addr(addr),index(i)
 {}
 
 void IRInstr_rmem::gen_asm(ASMWriter& asmb)
 {
     cout << "gen ASM rmem" << endl;
     int addrDest = bb->cfg->get_var_index(dest, context);
-    asmb.addReadMem(addrDest, addr, t);
+    asmb.addReadMem(addrDest, addr,index, t);
 }
 
 IRInstr_wmem::IRInstr_wmem(BasicBlock* bb_, Type t, Bloc* b_, int addr, string var) : IRInstr(bb_,t,b_),addr(addr),var(var)

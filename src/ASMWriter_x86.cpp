@@ -303,13 +303,13 @@ int ASMWriter_x86::addCall(string label, int addrRes, uint size, vector<int> par
   return addrRes;
 }
 
-int ASMWriter_x86::addReadMem(int addrDest, int addrMem, uint size){
-  addInstrMov(to_string(addrMem)+string("(%rbp)"),string("%edx"),size);
+int ASMWriter_x86::addReadMem(int addrDest, int addrMem, uint index, uint size){
+  addInstrMov(to_string(addrMem-index*size)+string("(%rbp)"),string("%edx"),size);
   addInstrMov(string("%edx"),to_string(addrDest)+string("(%rbp)"),size);
 }
 
-int ASMWriter_x86::addWriteMem(int addrMem, int addrSrc, uint size){
-  addInstrMov(to_string(addrSrc)+string("(%rbp)"),string("%edx"),size);
+int ASMWriter_x86::addWriteMem(int addrMem, int addrSrc, uint index, uint size){
+  addInstrMov(to_string(addrSrc-index*size)+string("(%rbp)"),string("%edx"),size);
   addInstrMov(string("%edx"),to_string(addrMem)+string("(%rbp)"),size);
 }
 

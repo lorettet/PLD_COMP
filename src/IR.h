@@ -273,13 +273,14 @@ class IRInstr_call : public IRInstr {
 class IRInstr_rmem : public IRInstr {
 
     public:
-        IRInstr_rmem(BasicBlock* bb_, Type t, Bloc* b_, string dest, int addr);
+        IRInstr_rmem(BasicBlock* bb_, Type t, Bloc* b_, string dest, int addr, uint i = 0);
         virtual ~IRInstr_rmem(){}
         void gen_asm(ASMWriter& asmb);
 
     private:
         string dest;
         int addr;
+        uint index;
 };
 
 class IRInstr_wmem : public IRInstr {
