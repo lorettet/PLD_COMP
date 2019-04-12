@@ -233,7 +233,7 @@ void IRInstr_cmp_eq::gen_asm(ASMWriter& asmb)
     int addry = bb->cfg->get_var_index(y, context);
     string labelModifier = bb->label+"_";
 
-    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::eq, labelModifier, t);  
+    asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::eq, labelModifier, t);
 }
 
 IRInstr_cmp_gt::IRInstr_cmp_gt(BasicBlock* bb_, Type t, Bloc* b_, string dest, string x, string y) : IRInstr(bb_,t,b_),dest(dest),x(x),y(y)
@@ -245,7 +245,7 @@ void IRInstr_cmp_gt::gen_asm(ASMWriter& asmb)
     int addrx = bb->cfg->get_var_index(x, context);
     int addry = bb->cfg->get_var_index(y, context);
     string labelModifier = bb->label+"_";
-    
+
     asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::gt, labelModifier, t);
 }
 
@@ -258,7 +258,7 @@ void IRInstr_cmp_ge::gen_asm(ASMWriter& asmb)
     int addrx = bb->cfg->get_var_index(x, context);
     int addry = bb->cfg->get_var_index(y, context);
     string labelModifier = bb->label+"_";
-    
+
     asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::ge, labelModifier, t);
 }
 
@@ -271,7 +271,7 @@ void IRInstr_cmp_neq::gen_asm(ASMWriter& asmb)
     int addrx = bb->cfg->get_var_index(x, context);
     int addry = bb->cfg->get_var_index(y, context);
     string labelModifier = bb->label+"_";
-    
+
     asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::neq, labelModifier, t);
 }
 
@@ -284,7 +284,7 @@ void IRInstr_cmp_lt::gen_asm(ASMWriter& asmb)
     int addrx = bb->cfg->get_var_index(x, context);
     int addry = bb->cfg->get_var_index(y, context);
     string labelModifier = bb->label+"_";
-    
+
     asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::lt, labelModifier, t);
 }
 
@@ -297,7 +297,7 @@ void IRInstr_cmp_le::gen_asm(ASMWriter& asmb)
     int addrx = bb->cfg->get_var_index(x, context);
     int addry = bb->cfg->get_var_index(y, context);
     string labelModifier = bb->label+"_";
-    
+
     asmb.addComparison(addrRes, addrx, addry, ASMWriter::cmp::le, labelModifier, t);
 }
 
@@ -356,3 +356,13 @@ void IRInstr_neg::gen_asm(ASMWriter& asmb)
     int addrVar = bb->cfg->get_var_index(var, context);
     asmb.addNeg(addrVar,t);
 }
+
+// IRInstr_not::IRInstr_not(BasicBlock* bb_, Type t,Bloc* b_, string var) : IRInstr(bb_,t,b_),var(var)
+// {}
+
+// void IRInstr_not::gen_asm(ASMWriter& asmb)
+// {
+//     cout << "gen ASM not" << endl;
+//     int addrVar = bb->cfg->get_var_index(var, context);
+//     asmb.addNot(addrVar,t);
+// }

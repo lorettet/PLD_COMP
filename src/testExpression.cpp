@@ -41,3 +41,35 @@ string TestExprCompar::buildIR(CFG & cfg)
       return res;
   }
 }
+
+
+string Not::buildIR(CFG & cfg)
+{
+  // string var = expression->buildIR(cfg);
+  // IRInstr_not* instr = new IRInstr_not(cfg.current_bb, Type::Int32, cfg.current_bloc, var);
+  // cfg.current_bb->add_IRInstr(instr);
+  // return var;
+
+  cout << "-= Building IR Not =-" << endl;
+	string res = cfg.create_new_tempvar(Type::Int32);
+	string var = expression->buildIR(cfg);
+	string temp_var = cfg.create_new_tempvar(Type::Int32);
+	IRInstr* instr_temp_var = new IRInstr_ldconst(cfg.current_bb, Type::Int32, cfg.current_bloc, temp_var, 0);
+	IRInstr* instr_test_eq = new IRInstr_cmp_eq(cfg.current_bb, Type::Int32, cfg.current_bloc, res, var, temp_var);
+	cfg.current_bb->add_IRInstr(instr_temp_var);
+  cfg.current_bb->add_IRInstr(instr_test_eq);
+	return res;
+}
+
+string TestExpressionSimple::buildIR(CFG & cfg){
+	cout << "-= Building IR TestExpressionSimple =-" << endl;
+	string res = cfg.create_new_tempvar(Type::Int32);
+	string var = expression->buildIR(cfg);
+	string temp_var = cfg.create_new_tempvar(Type::Int32);
+	IRInstr* instr_temp_var = new IRInstr_ldconst(cfg.current_bb, Type::Int32, cfg.current_bloc, temp_var, 0);
+	IRInstr* instr_test_neq = new IRInstr_cmp_neq(cfg.current_bb, Type::Int32, cfg.current_bloc, res, var, temp_var);
+	cfg.current_bb->add_IRInstr(instr_temp_var);
+  cfg.current_bb->add_IRInstr(instr_test_neq);
+	return res;
+
+}

@@ -207,29 +207,11 @@ class IfStatement : public Instruction {
 		string virtual buildIR(CFG & cfg){}
 };
 
-class InstrIF : public Instruction {
-	public:
-		InstrIF(IfStatement* ifS): ifStatement(ifS){}
-		~InstrIF(){}
-		string virtual buildIR(CFG & cfg);
-	protected:
-		IfStatement* ifStatement;
-};
-
 class WhileStatement : public Instruction {
 	public:
 		WhileStatement(){}
 		~WhileStatement(){}
 		string virtual buildIR(CFG & cfg){}
-};
-
-class InstrWHILE : public Instruction {
-	public:
-		InstrWHILE(WhileStatement* wS): whileStatement(wS){}
-		~InstrWHILE(){}
-		string virtual buildIR(CFG & cfg);
-	protected:
-		WhileStatement* whileStatement;
 };
 
 class ElseStatement : public IfStatement {
@@ -244,7 +226,6 @@ class TestExpression {
 		TestExpression(){}
 		~TestExpression(){}
 		string virtual buildIR(CFG & cfg){}
-
 };
 
 class IfInstr: public IfStatement {
@@ -325,7 +306,7 @@ class Not: public TestExpression {
 	public:
 		Not(TestExpression * e1) : expression(e1) {}
 		~Not() {}
-		string buildIR(CFG & cfg){}
+		string buildIR(CFG & cfg);
 
 	protected:
 		TestExpression * expression;
@@ -339,6 +320,16 @@ class TestExprPar: public TestExpression {
 
 	protected:
 		TestExpression * expression;
+};
+
+class TestExpressionSimple: public TestExpression {
+	public:
+		TestExpressionSimple(Expression * e1) : expression(e1) {}
+		~TestExpressionSimple() {}
+		string buildIR(CFG & cfg);
+
+	protected:
+		Expression * expression;
 };
 
 class Return : public Instruction {

@@ -17,7 +17,7 @@ declarations :
 			| TYPE ID'['INT']'';'				#declarationTabSimple
 			| TYPE ID'['INT']' '=' expressionTab';'		#declarationTabAvecAffectation;
 
-instructions : expression';'					#expressionSeule
+instructions : expression';'				#expressionSeule
 			| ID '=' expression';'			#affectation
 			| 'return' expression';'		#return
 			| ifStatement					#instrIF
@@ -42,7 +42,8 @@ testExpression:
 	'!' testExpression									#not
 	| '(' testExpression ')'							#testExprPar
 	| expression SIGNECOMPARAISON expression			#testExprCompar
-	| testExpression SIGNELOGIQUE testExpression		#testExprLogique;
+	| testExpression SIGNELOGIQUE testExpression		#testExprLogique
+	| expression										#testExpressionSimple;
 
 	
 expression : ADDSOUS expression					#expressionUnaire
