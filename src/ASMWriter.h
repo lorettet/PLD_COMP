@@ -59,8 +59,10 @@ public:
   virtual int addComparisonInfStrict(int addrRes, int addr1, int addr2, string labelModifier, uint size) = 0;
 
   virtual int addReadMem(int addrDest, int addrMem, uint index, uint size = 4) = 0;
+  virtual int addReadMemIndex(int addrDest, int addrMem, int index, uint size = 4) = 0;
 
   virtual int addWriteMem(int addrMem, int addrSrc, uint index, uint size = 4) = 0;
+  virtual int addWriteMemIndex(int addrMem, int addrSrc, int index, uint size = 4) = 0;
 
   virtual int addJmp(string label) = 0;
 

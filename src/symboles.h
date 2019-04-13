@@ -196,7 +196,6 @@ class ExpressionTab : public Expression {
 
 		void ajouterExpression(Expression* e){tabExpressions.push_back(e);}
 
-	protected:
 		vector<Expression*> tabExpressions;
 };
 
@@ -214,12 +213,12 @@ class AffectationCaseTab: public Instruction {
 	public:
 		AffectationCaseTab(Variable* var, Expression* expr1, Expression* expr2) : variable(var), expressionIndice(expr1), expression(expr2) {}
 		virtual ~AffectationCaseTab() { }
-		string buildIR(CFG & cfg) {}
-	
+		string buildIR(CFG & cfg);
+
 	protected:
 		Variable* variable;
 		Expression* expressionIndice;
-		Expression* expression;		
+		Expression* expression;
 };
 
 
@@ -384,16 +383,16 @@ class DeclarationAvecAffectation : public Declaration {
 
 class DeclarationTabSimple : public Declaration {
 	public:
-		DeclarationTabSimple(Variable* v, int t) { variable = v; size = t;}
+		DeclarationTabSimple(Variable* v, int t) { variable = v; size = t*4;}
 		virtual ~DeclarationTabSimple() {}
 		string buildIR(CFG & cfg) ;
 };
 
 class DeclarationTabAvecAffectation : public Declaration {
 	public:
-		DeclarationTabAvecAffectation(Variable* v, int t, ExpressionTab* expr) {expression = expr; variable = v; size = t;}
+		DeclarationTabAvecAffectation(Variable* v, int t, ExpressionTab* expr) {expression = expr; variable = v; size = t*4;}
 		virtual ~DeclarationTabAvecAffectation() {}
-		string buildIR(CFG & cfg) {}
+		string buildIR(CFG & cfg);
 
 	protected:
 		ExpressionTab* expression;

@@ -39,7 +39,7 @@ string ValCaseTab::buildIR(CFG & cfg)
   cout << "-= Building IR ValCaseTab : " << getNomVariable() <<"=-" << endl;
   string index = expression->buildIR(cfg);
   string temp = cfg.create_new_tempvar(Type::Int32);
-  IRInstr_rmem* instr = new IRInstr_rmem(cfg.current_bb, Type::Int32, cfg.current_bloc, temp, cfg.get_var_index(nom, cfg.current_bloc));
+  IRInstr_rmem* instr = new IRInstr_rmem(cfg.current_bb, Type::Int32, cfg.current_bloc, temp, cfg.get_var_index(nom, cfg.current_bloc),index);
   cfg.current_bb->add_IRInstr(instr);
   return temp;
 

@@ -182,7 +182,6 @@ string Bloc::buildIR(CFG & cfg)
   for(vector<Instruction*>::iterator pObj = instructions.begin(); pObj != instructions.end(); ++pObj)
   {
     cout << "Building instr" << endl;
-    cout << typeid(**pObj).name() << endl;
     ret = (*pObj)->buildIR(cfg);
     if(ret == "end")
     {
@@ -213,4 +212,19 @@ string Bloc::hasLocalVariable(string var)
     return parent->hasLocalVariable(var);
   }
   return "";
+}
+
+string AffectationCaseTab::buildIR(CFG & cfg)
+{
+  cout << "-= Building IR Affect Tab case =-" << endl;
+  cout << "Getting right" << endl;
+  string right = expression->buildIR(cfg);
+  cout << "Getting left" << endl;
+  string left = variable->buildIR(cfg);
+  cout << "Getting index" << endl;
+  string index = expressionIndice->buildIR(cfg);
+  IRInstr_wmem* instr = new IRInstr_wmem(cfg.current_bb,Type::Int32,cfg.current_bloc,cfg.get_var_index(left,cfg.current_bloc),right,index);
+  cout << "Adding IR Affec Tab Case" << endl;
+  cfg.current_bb->add_IRInstr(instr);
+  return right;
 }

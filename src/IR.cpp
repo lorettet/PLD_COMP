@@ -48,9 +48,6 @@ string CFG::new_BB_name()
 
 void CFG::add_to_symbol_table(string name, int size)
 {
-    cout << "Adding " << name << " at " <<  nextFreeSymbolIndex-size << endl;
-    cout << " next " <<  nextFreeSymbolIndex << endl;
-    cout << " size   " <<  size << endl;
   nextFreeSymbolIndex -= size;
   SymbolIndex[name] = nextFreeSymbolIndex;
   SymbolType[name] = size;
@@ -321,22 +318,45 @@ void IRInstr_call::gen_asm(ASMWriter& asmb)
 IRInstr_rmem::IRInstr_rmem(BasicBlock* bb_, Type t,Bloc* b_, string dest, int addr, uint i) : IRInstr(bb_,t,b_),dest(dest),addr(addr),index(i)
 {}
 
+IRInstr_rmem::IRInstr_rmem(BasicBlock* bb_, Type t,Bloc* b_, string dest, int addr, string addrIndex_) : IRInstr(bb_,t,b_),dest(dest),addr(addr), addrIndex(addrIndex_)
+{}
+
 void IRInstr_rmem::gen_asm(ASMWriter& asmb)
 {
     cout << "gen ASM rmem" << endl;
-    int addrDest = bb->cfg->get_var_index(dest, context);
-    asmb.addReadMem(addrDest, addr,index, t);
+    if(addrIndex == "")
+    {
+      int addrDest = bb->cfg->get_var_index(dest, context);
+      asmb.addReadMem(addrDest, addr,index, t);
+    }
+    else
+    {
+      int addrDest = bb->cfg->get_var_index(dest, context);
+      asmb.addReadMemIndex(addrDest, addr,bb->cfg->get_var_index(addrIndex,context), t);
+    }
 }
 
 IRInstr_wmem::IRInstr_wmem(BasicBlock* bb_, Type t, Bloc* b_, int addr, string var, uint i) : IRInstr(bb_,t,b_),addr(addr),var(var),index(i)
 {
 }
 
+IRInstr_wmem::IRInstr_wmem(BasicBlock* bb_, Type t, Bloc* b_, int addr, string var, string addrIndex_) : IRInstr(bb_,t,b_),addr(addr),var(var),addrIndex(addrIndex_)
+{
+}
+
 void IRInstr_wmem::gen_asm(ASMWriter& asmb)
 {
     cout << "gen ASM wmem" << endl;
-    int addrVar = bb->cfg->get_var_index(var, context);
-    asmb.addWriteMem(addr, addrVar, index, t);
+    if(addrIndex == "")
+    {
+      int addrVar = bb->cfg->get_var_index(var, context);
+      asmb.addWriteMem(addr, addrVar, index, t);
+    }
+    else
+    {
+      int addrVar = bb->cfg->get_var_index(var, context);
+      asmb.addWriteMemIndex(addr, addrVar, bb->cfg->get_var_index(addrIndex,context), t);
+    }
 }
 
 IRInstr_ret::IRInstr_ret(BasicBlock* bb_, Type t, Bloc* b_, string var) : IRInstr(bb_,t,b_),var(var)

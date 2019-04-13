@@ -310,22 +310,28 @@ int ASMWriter_x86::addCall(string label, int addrRes, uint size, vector<int> par
 
 int ASMWriter_x86::addReadMem(int addrDest, int addrMem, uint index, uint size){
   int offset = index*size;
-  cout << addrMem << endl;
-  cout << addrDest << endl;
-  cout << offset << endl;
-  cout << addrMem-offset << endl;
-  addInstrMov(to_string(addrMem-offset)+string("(%rbp)"),string("%edx"),size);
+  addInstrMov(to_string(addrMem+offset)+string("(%rbp)"),string("%edx"),size);
+  addInstrMov(string("%edx"),to_string(addrDest)+string("(%rbp)"),size);
+}
+
+int ASMWriter_x86::addReadMemIndex(int addrDest, int addrMem, int index, uint size){
+  addInstrMov(to_string(index)+string("(%rbp)"),string("%eax"),4);
+  addInstr("cltq");
+  addInstrMov(to_string(addrMem)+string("(%rbp,%rax,4)"),string("%edx"),size);
   addInstrMov(string("%edx"),to_string(addrDest)+string("(%rbp)"),size);
 }
 
 int ASMWriter_x86::addWriteMem(int addrMem, int addrSrc, uint index, uint size){
   int offset = index*size;
-  cout << addrMem << endl;
-  cout << addrSrc << endl;
-  cout << offset << endl;
-  cout << addrMem-offset << endl;
-  addInstrMov(to_string(addrSrc-offset)+string("(%rbp)"),string("%edx"),size);
-  addInstrMov(string("%edx"),to_string(addrMem)+string("(%rbp)"),size);
+  addInstrMov(to_string(addrSrc)+string("(%rbp)"),string("%edx"),size);
+  addInstrMov(string("%edx"),to_string(addrMem+offset)+string("(%rbp)"),size);
+}
+
+int ASMWriter_x86::addWriteMemIndex(int addrMem, int addrSrc, int index, uint size){
+  addInstrMov(to_string(addrSrc)+string("(%rbp)"),string("%edx"),size);
+  addInstrMov(to_string(index)+string("(%rbp)"),string("%eax"),size);
+  addInstr("cltq");
+  addInstrMov(string("%edx"),to_string(addrMem)+string("(%rbp,%rax,4)"),size);
 }
 
 void ASMWriter_x86::addReturnVar(int addr, string fctName, uint size)

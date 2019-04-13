@@ -274,6 +274,7 @@ class IRInstr_rmem : public IRInstr {
 
     public:
         IRInstr_rmem(BasicBlock* bb_, Type t, Bloc* b_, string dest, int addr, uint i = 0);
+        IRInstr_rmem(BasicBlock* bb_, Type t, Bloc* b_, string dest, int addr, string addIndex_);
         virtual ~IRInstr_rmem(){}
         void gen_asm(ASMWriter& asmb);
 
@@ -281,12 +282,14 @@ class IRInstr_rmem : public IRInstr {
         string dest;
         int addr;
         uint index;
+        string addrIndex = "";
 };
 
 class IRInstr_wmem : public IRInstr {
 
     public:
         IRInstr_wmem(BasicBlock* bb_, Type t, Bloc* b_, int addr, string var, uint i = 0);
+        IRInstr_wmem(BasicBlock* bb_, Type t, Bloc* b_, int addr, string var, string addrIndex_);
         virtual ~IRInstr_wmem(){}
         void gen_asm(ASMWriter& asmb);
 
@@ -294,6 +297,7 @@ class IRInstr_wmem : public IRInstr {
         int addr;
         string var;
         uint index;
+        string addrIndex = "";
 };
 
 class IRInstr_ret : public IRInstr {
