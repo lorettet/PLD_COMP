@@ -83,6 +83,9 @@ public:
 		return (Instruction*) new Affectation(new Variable(ctx->ID()->getText()), (Expression*) visit(ctx->expression()));
 	}
 
+  virtual antlrcpp::Any visitAffectationCaseTab(exprParser::AffectationCaseTabContext *ctx) override {
+    return (Instruction*) new AffectationCaseTab(new Variable(ctx->ID()->getText()), (Expression*) visit(ctx->expression(0)), (Expression*) visit(ctx->expression(1)));
+  }
 
 	virtual antlrcpp::Any visitReturn(exprParser::ReturnContext *ctx) override {
 		return (Instruction*) new Return((Expression*) visit(ctx->expression()));
