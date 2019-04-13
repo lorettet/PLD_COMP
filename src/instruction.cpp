@@ -87,13 +87,13 @@ string IfInstr::buildIR(CFG & cfg){
 
 string WhileInstr::buildIR(CFG & cfg){
   cout << "-= Building IR WhileInstr =-" << endl;
-  
+
   BasicBlock* testBB = new BasicBlock(&cfg, cfg.new_BB_name());
   cfg.add_bb(testBB);
   testBB->exit_true = cfg.current_bb->exit_true;
   cfg.current_bb->exit_true = testBB;
 
-  cfg.current_bb = testBB;  
+  cfg.current_bb = testBB;
 
   testBB->testResultVar = testExpression->buildIR(cfg);
 
@@ -174,7 +174,8 @@ string Bloc::buildIR(CFG & cfg)
   string pointerString = ss.str();
   for(vector<Declaration*>::iterator pObj = declarations.begin(); pObj != declarations.end(); ++pObj)
   {
-    cfg.add_to_symbol_table((*pObj)->getNomVariable()+pointerString, Type::Int32);
+    cout << "======== size = "<< (*pObj)->getSize() << endl;
+    cfg.add_to_symbol_table((*pObj)->getNomVariable()+pointerString, (*pObj)->getSize());
     (*pObj)->buildIR(cfg);
   }
   string ret = "";

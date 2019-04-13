@@ -31,7 +31,7 @@ int CFG::get_var_index(string name,Bloc* context)
   throw UndefindedVarException(name,ast->nom);
 }
 
-Type CFG::get_var_type(string name)
+uint CFG::get_var_type(string name)
 {
   return SymbolType[name];
 }
@@ -46,12 +46,14 @@ string CFG::new_BB_name()
   return ast->nom+"_bblock"+to_string(bbs.size());
 }
 
-void CFG::add_to_symbol_table(string name, Type t)
+void CFG::add_to_symbol_table(string name, int size)
 {
-  cout << "Adding " << name << " at " <<  nextFreeSymbolIndex-t << endl;
-  nextFreeSymbolIndex -= t;
+    cout << "Adding " << name << " at " <<  nextFreeSymbolIndex-size << endl;
+    cout << " next " <<  nextFreeSymbolIndex << endl;
+    cout << " size   " <<  size << endl;
+  nextFreeSymbolIndex -= size;
   SymbolIndex[name] = nextFreeSymbolIndex;
-  SymbolType[name] = t;
+  SymbolType[name] = size;
 }
 
 string CFG::create_new_tempvar(Type t)
@@ -326,7 +328,7 @@ void IRInstr_rmem::gen_asm(ASMWriter& asmb)
     asmb.addReadMem(addrDest, addr,index, t);
 }
 
-IRInstr_wmem::IRInstr_wmem(BasicBlock* bb_, Type t, Bloc* b_, int addr, string var) : IRInstr(bb_,t,b_),addr(addr),var(var)
+IRInstr_wmem::IRInstr_wmem(BasicBlock* bb_, Type t, Bloc* b_, int addr, string var, uint i) : IRInstr(bb_,t,b_),addr(addr),var(var),index(i)
 {
 }
 
@@ -334,7 +336,7 @@ void IRInstr_wmem::gen_asm(ASMWriter& asmb)
 {
     cout << "gen ASM wmem" << endl;
     int addrVar = bb->cfg->get_var_index(var, context);
-    asmb.addWriteMem(addr, addrVar, t);
+    asmb.addWriteMem(addr, addrVar, index, t);
 }
 
 IRInstr_ret::IRInstr_ret(BasicBlock* bb_, Type t, Bloc* b_, string var) : IRInstr(bb_,t,b_),var(var)

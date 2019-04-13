@@ -54,9 +54,9 @@ public:
 		}
 		return b;
 	}
-	
+
     	virtual antlrcpp::Any visitDeclarationTabSimple(exprParser::DeclarationTabSimpleContext *ctx) override {
-    		return (Declaration*) new DeclarationTabSimple(new Variable(ctx->ID()->getText()), atoi(ctx->INT()->getText().c_str()));
+    		return (Declaration*) new DeclarationTabSimple(new Variable(ctx->ID()->getText(),atoi(ctx->INT()->getText().c_str())), atoi(ctx->INT()->getText().c_str()));
     	}
 
   virtual antlrcpp::Any visitValCaseTab(exprParser::ValCaseTabContext *ctx) override {
@@ -64,7 +64,7 @@ public:
   }
 
     	virtual antlrcpp::Any visitDeclarationTabAvecAffectation(exprParser::DeclarationTabAvecAffectationContext *ctx) override {
-    		return (Declaration*) new DeclarationTabAvecAffectation(new Variable(ctx->ID()->getText()), atoi(ctx->INT()->getText().c_str()), (ExpressionTab*) visit(ctx->expressionTab()));
+    		return (Declaration*) new DeclarationTabAvecAffectation(new Variable(ctx->ID()->getText(),atoi(ctx->INT()->getText().c_str())), atoi(ctx->INT()->getText().c_str()), (ExpressionTab*) visit(ctx->expressionTab()));
     	}
 
   	virtual antlrcpp::Any visitExpressionSeule(exprParser::ExpressionSeuleContext *ctx) override {
@@ -139,8 +139,8 @@ public:
 
   virtual antlrcpp::Any visitTestExprPar(exprParser::TestExprParContext *ctx) override {
     	return (TestExpression*) new TestExprPar((TestExpression*) visit(ctx->testExpression()));
-	}	
-	
+	}
+
     virtual antlrcpp::Any visitTestExprCompar(exprParser::TestExprComparContext *ctx) override {
 	    string signe = ctx->SIGNECOMPARAISON()->getText();
 			if(signe == "<=") {
@@ -157,11 +157,11 @@ public:
 			}
 			return (TestExpression*) new TestExprCompar(visit(ctx->expression(0)), visit(ctx->expression(1)), INFSTRICT);
 	}
-	
+
   virtual antlrcpp::Any visitNot(exprParser::NotContext *ctx) override {
     	return (TestExpression*) new Not((TestExpression*) ctx->testExpression());
 	}
-	
+
   virtual antlrcpp::Any visitTestExpressionSimple(exprParser::TestExpressionSimpleContext *ctx) override {
     	return (TestExpression*) new TestExpressionSimple((Expression*)visit(ctx->expression()));
   }
@@ -192,15 +192,15 @@ public:
   virtual antlrcpp::Any visitParenthese(exprParser::ParentheseContext *ctx) override {
     return (Expression*) new Parenthese((Expression*) visit(ctx->expression()));
   }
-  
+
   virtual antlrcpp::Any visitExpressionTab(exprParser::ExpressionTabContext *ctx) override {
 	ExpressionTab* et = new ExpressionTab();
 	int i = 0;
-	
+
     	for(auto expression : ctx->expression()) {
 		et->ajouterExpression(visit(expression));
 	}
-	
+
 	return et;
   }
 

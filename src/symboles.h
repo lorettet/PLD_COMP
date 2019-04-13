@@ -103,21 +103,23 @@ class Int : public Valeur{
 
 class Variable : public Valeur {
 	public:
-		Variable(string s) : nom(s) { }
+		Variable(string s, int size_ = 4) : nom(s), size(size_) { }
 		~Variable() { }
 		string getNomVariable();
+		int getSize(){return size;}
 		string buildIR(CFG & cfg);
 	protected:
 		string nom;
+		int size;
 };
 
 class ValCaseTab: public Valeur {
 	public:
 		ValCaseTab(string s, Expression* expr) : nom(s), expression(expr) {}
 		~ValCaseTab() {}
-		string getNomVariable();
+		string getNomVariable() {return nom;}
 		Expression * getExpression() { return expression; }
-		string buildIR(CFG & cfg) {}
+		string buildIR(CFG & cfg);
 	protected:
 		string nom;
 		Expression* expression;
@@ -168,11 +170,13 @@ class Instruction {
 
 class Declaration {
 	public:
-		virtual ~Declaration() {cout << "== DESTRUCTING DECLARATION ==" << endl;}
+		virtual ~Declaration() {}
 		string getNomVariable();
 		string virtual buildIR(CFG & cfg){}
+		int getSize(){return size;}
 	protected:
 		Variable* variable;
+		int size;
 };
 
 class ExpressionSeule : public Instruction {
@@ -189,9 +193,9 @@ class ExpressionTab : public Expression {
 		ExpressionTab(){}
 		virtual ~ExpressionTab(){}
 		string virtual buildIR(CFG & cfg){}
-		
+
 		void ajouterExpression(Expression* e){tabExpressions.push_back(e);}
-		
+
 	protected:
 		vector<Expression*> tabExpressions;
 };
@@ -352,15 +356,15 @@ class Return : public Instruction {
 
 class DeclarationSimple : public Declaration {
 	public:
-		DeclarationSimple(Variable* v) { variable = v; }
-		virtual ~DeclarationSimple() {cout << "== DESTRUCTING DECLARATION SIMPLE ==" << endl;}
+		DeclarationSimple(Variable* v) { variable = v; size = 4; }
+		virtual ~DeclarationSimple() {}
 		string buildIR(CFG & cfg);
 };
 
 class DeclarationAvecAffectation : public Declaration {
 	public:
-		DeclarationAvecAffectation(Variable* v, Expression* expr): expression(expr) { variable = v; }
-		virtual ~DeclarationAvecAffectation() {cout << "== DESTRUCTING DECLARATION AVEC AFF ==" << endl;}
+		DeclarationAvecAffectation(Variable* v, Expression* expr): expression(expr) { variable = v; size = 4;}
+		virtual ~DeclarationAvecAffectation() {}
 		string buildIR(CFG & cfg);
 	protected:
 		Expression* expression;
@@ -368,20 +372,17 @@ class DeclarationAvecAffectation : public Declaration {
 
 class DeclarationTabSimple : public Declaration {
 	public:
-		DeclarationTabSimple(Variable* v, int t) { variable = v; taille = t;}
-		virtual ~DeclarationTabSimple() {cout << "== DESTRUCTING DECLARATION TAB SIMPLE ==" << endl;}
-		string buildIR(CFG & cfg) {}
-		
-		int taille;
+		DeclarationTabSimple(Variable* v, int t) { variable = v; size = t;}
+		virtual ~DeclarationTabSimple() {}
+		string buildIR(CFG & cfg) ;
 };
 
 class DeclarationTabAvecAffectation : public Declaration {
 	public:
-		DeclarationTabAvecAffectation(Variable* v, int t, ExpressionTab* expr) {expression = expr; variable = v; taille = t;}
-		virtual ~DeclarationTabAvecAffectation() {cout << "== DESTRUCTING DECLARATION TAB AVEC AFF ==" << endl;}
+		DeclarationTabAvecAffectation(Variable* v, int t, ExpressionTab* expr) {expression = expr; variable = v; size = t;}
+		virtual ~DeclarationTabAvecAffectation() {}
 		string buildIR(CFG & cfg) {}
-		
-		int taille;
+
 	protected:
 		ExpressionTab* expression;
 };

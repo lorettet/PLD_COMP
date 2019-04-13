@@ -29,7 +29,7 @@ int main (int argc, char *argv[]) {
     assert(tree);
     MyVisitor visitor;
     Programme* p = visitor.visit(tree);
-		/*try {
+		try {
 			ASMWriter_x86 asmb("main.s");
 			vector<CFG*> cfgs = p->buildIR();
 			for(auto cfg : cfgs)
@@ -43,7 +43,7 @@ int main (int argc, char *argv[]) {
 		{
 			cerr << "[ERROR] " <<e.what() << endl;
 			return 1;
-		}*/
+		}
 
 		return 0;
 }

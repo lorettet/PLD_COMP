@@ -25,3 +25,9 @@ string DeclarationAvecAffectation::buildIR(CFG & cfg)
 	cfg.current_bb->add_IRInstr(instr);
 	return right;
 }
+
+string DeclarationTabSimple::buildIR(CFG & cfg)
+{
+	cout << "Simple Tab Declaration" << endl;
+	return "";
+}

@@ -79,10 +79,10 @@ class CFG {
 	void gen_asm_epilogue(ASMWriter & asmb);
 
 	// symbol table methods
-	void add_to_symbol_table(string name, Type t);
+	void add_to_symbol_table(string name, int size);
 	string create_new_tempvar(Type t);
 	int get_var_index(string name, Bloc* context);
-	Type get_var_type(string name);
+	uint get_var_type(string name);
 
 	// basic block management
 	string new_BB_name();
@@ -94,7 +94,7 @@ class CFG {
 
 
  protected:
-	map <string, Type> SymbolType; /**< part of the symbol table  */
+	map <string, int> SymbolType; /**< part of the symbol table  */
 	map <string, int> SymbolIndex; /**< part of the symbol table  */
 	int nextFreeSymbolIndex = 0; /**< to allocate new symbols in the symbol table */
   int lastTempVar = 0;
@@ -286,13 +286,14 @@ class IRInstr_rmem : public IRInstr {
 class IRInstr_wmem : public IRInstr {
 
     public:
-        IRInstr_wmem(BasicBlock* bb_, Type t, Bloc* b_, int addr, string var);
+        IRInstr_wmem(BasicBlock* bb_, Type t, Bloc* b_, int addr, string var, uint i = 0);
         virtual ~IRInstr_wmem(){}
         void gen_asm(ASMWriter& asmb);
 
     private:
         int addr;
         string var;
+        uint index;
 };
 
 class IRInstr_ret : public IRInstr {
