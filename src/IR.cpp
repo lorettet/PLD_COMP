@@ -20,7 +20,7 @@ CFG::~CFG()
 
 int CFG::get_var_index(string name,Bloc* context)
 {
-  cout << "===== getting " << name << endl;
+  cout << "getting " << name << endl;
   if(name.at(0) == '!')
   {
     return SymbolIndex[name];

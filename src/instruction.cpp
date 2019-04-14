@@ -172,14 +172,13 @@ string Bloc::buildIR(CFG & cfg)
   stringstream ss;
   ss << this;
   string pointerString = ss.str();
-  for(vector<Declaration*>::iterator pObj = declarations.begin(); pObj != declarations.end(); ++pObj)
+  for(vector<Declaration*>::iterator pObj = declarations.begin(); pObj != declarations.end(); ++pObj) // genere l'IR de chaque declaration
   {
-    cout << "======== size = "<< (*pObj)->getSize() << endl;
     cfg.add_to_symbol_table((*pObj)->getNomVariable()+pointerString, (*pObj)->getSize());
     (*pObj)->buildIR(cfg);
   }
   string ret = "";
-  for(vector<Instruction*>::iterator pObj = instructions.begin(); pObj != instructions.end(); ++pObj)
+  for(vector<Instruction*>::iterator pObj = instructions.begin(); pObj != instructions.end(); ++pObj) // genre l'IR de chaque instruction
   {
     cout << "Building instr" << endl;
     ret = (*pObj)->buildIR(cfg);

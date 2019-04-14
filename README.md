@@ -1,7 +1,45 @@
 # PLD_COMP
 
-On va faire un compilo, en C++, et c'est trop bien ...
+L'équipe projet H4311 est fier de vous presenter sont tout nouveau compilateur, surpassant de loin clang et g++ : g--
 
+Lien du git : https://github.com/lorettet/PLD_COMP.git
+
+#Makefile
+## Cibles
+- make clean : nettoie les dossiers bin
+- make g4 : construit les fichiers antlr à partir de expr.g4
+- make : compile le projet. Si la grammaire a changé, penser à faire make g4
+- make test : clean, compile le projet et exécute le jeu de tests
+- make quicktest : compile le projet et exécute le jeu de tests
+
+L'executable est bin/exe
+## Utilisation
+Pour tester le projet il suffi de simplement exécuter make test. Un compte rendu des tests va alors s'afficher.
+
+#Travail réalisé
+Notre compilateur gère :
+- les entiers de type int
+- les déclarations simples et les declarations avec affectation
+- les tableaux d'entiers
+- Les opérations arythmetiques +, -, * et /
+- Les afféctations
+- Les return
+- les if, if/else, if/else if/else
+- les entiers/variables en temps qu'expression logique (sans ==, <, >...)
+- les while
+- les operations negative (-b, -f())
+- les bloc, avec la porté des variables
+
+Notre compilateur ne gère pas :
+- les déclarations de type : int a, b,c;
+- les opérateurs &, |, && et ||
+- les for
+- les not (!)
+
+NB : les déclarations doivent être fait en debut de bloc, avant les instructions.
+
+#Erreurs dans les tests
+Notre jeu de test renvoi deux erreurs. Ce sont des partie du compilateur dont la grammaire a été implementée mais n'aboutissant à aucune règle dans l'IR ni en assembleur. Ce sont les operteur && et || ainsi que les if(expression) int a =4;. Nous n'avons pas pris le temps d'implémenter les opérateurs logiques, et le if/declaration ne releve d'aucun interet, nous avons donc preféré passer à coter.
 
 ---
 ---

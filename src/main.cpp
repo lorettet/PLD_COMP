@@ -28,16 +28,16 @@ int main (int argc, char *argv[]) {
     tree::ParseTree* tree = parser.programme();
     assert(tree);
     MyVisitor visitor;
-    Programme* p = visitor.visit(tree);
+    Programme* p = visitor.visit(tree); // construit l'AST
 		try {
 			ASMWriter_x86 asmb("main.s");
-			vector<CFG*> cfgs = p->buildIR();
+			vector<CFG*> cfgs = p->buildIR(); //construit un CFG par fonction et genere l'IR : appel recursif sur chaque element de chaque fonction : CFG->buildIR() appelle fonction->buildIR() qui appelle declaration->buildIR() et instruction->buildIR() pour chaque instruction
 			for(auto cfg : cfgs)
 			{
-				cfg->gen_asm(asmb);
+				cfg->gen_asm(asmb); //Genere l'assembleur de chaque fonction
 			}
 			cout << "Writing ASM" << endl;
-			asmb.writeASM();
+			asmb.writeASM();// ecrit l'assembleur
 		}
 		catch(UndefindedVarException & e)
 		{
